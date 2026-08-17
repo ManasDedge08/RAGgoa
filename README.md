@@ -171,7 +171,9 @@ Full numbers: [reports/retrieval_eval.json](reports/retrieval_eval.json),
 
 ## Running it locally
 
-Requires Python 3.12+ and Node 20+.
+Requires **Python 3.12 or newer** and Node 20+. The floor is not arbitrary:
+numpy and scipy publish no Windows wheels below 3.12 at the versions used here,
+so pip would try to compile them from source.
 
 One command does all of it.
 

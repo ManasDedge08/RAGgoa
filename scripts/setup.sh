@@ -23,6 +23,14 @@ VENV=.venv
 step() { printf '\n\033[1m==> %s\033[0m\n' "$1"; }
 
 step "Python environment"
+PY_VERSION=$("$PYTHON" -c 'import sys; print("%d.%d" % sys.version_info[:2])')
+if [[ $(echo "$PY_VERSION" | cut -d. -f2) -lt 12 ]]; then
+  echo "Python $PY_VERSION is too old; 3.12 or newer is required." >&2
+  echo "numpy and scipy publish no wheels below 3.12 at the versions used here." >&2
+  exit 1
+fi
+echo "found Python $PY_VERSION"
+
 if [[ ! -d "$VENV" ]]; then
   "$PYTHON" -m venv "$VENV"
   echo "created $VENV"
@@ -30,7 +38,12 @@ else
   echo "reusing $VENV"
 fi
 "$VENV/bin/pip" -q install --upgrade pip
-"$VENV/bin/pip" -q install -r requirements.txt
+echo "installing dependencies (a few minutes on a first run)..."
+# Not -q: when this fails the error is the only useful thing on screen.
+if ! "$VENV/bin/pip" install -r requirements.txt; then
+  echo "Dependency installation failed - the pip output above says why." >&2
+  exit 1
+fi
 echo "dependencies installed"
 
 step "macOS OpenMP fix"

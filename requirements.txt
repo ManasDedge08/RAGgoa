@@ -1,18 +1,27 @@
-# Runtime dependencies. torch is pinned to the CPU wheel index in the Dockerfile
-# so the deployed image does not pull CUDA.
-faiss-cpu==1.15.0
-fastapi==0.141.1
-httpx==0.28.1
+# Floors rather than exact pins, so pip can resolve wheels that exist for the
+# host's Python and platform. Exact pins resolved on macOS left Windows with no
+# installable numpy or scipy below Python 3.12, which fails as a source build.
+#
+# Versions the reported benchmarks were produced with, on Python 3.13/macOS:
+#   torch 2.13.0, faiss-cpu 1.15.0, sentence-transformers 5.7.0,
+#   transformers 5.15.0, numpy 2.5.2, scipy 1.18.0, pyarrow 25.0.1
+#
+# torch is installed from the CPU wheel index in the Dockerfile so deployments
+# do not pull CUDA.
+
+faiss-cpu>=1.9
+fastapi>=0.115
+httpx>=0.27
 huggingface-hub>=0.25
-numpy==2.5.2
-orjson==3.12.0
-pyarrow==25.0.1
-pydantic==2.13.4
-python-multipart==0.0.32
-scikit-learn==1.9.0
-scipy==1.18.0
-sentence-transformers==5.7.0
-torch==2.13.0
-transformers==5.15.0
-uvicorn[standard]==0.52.3
+numpy>=1.26
+orjson>=3.10
+pyarrow>=17
+pydantic>=2.8
+python-multipart>=0.0.9
 regex>=2024.0.0
+scikit-learn>=1.5
+scipy>=1.13
+sentence-transformers>=3.0
+torch>=2.4
+transformers>=4.44
+uvicorn[standard]>=0.30

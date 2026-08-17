@@ -39,8 +39,18 @@ if (-not $python) {
 
 $version = & $python.Source -c "import sys; print('%d.%d' % sys.version_info[:2])"
 Write-Host "found Python $version"
-if ([version]$version -lt [version]"3.10") {
-    throw "Python $version is too old; 3.10 or newer is required."
+if ([version]$version -lt [version]"3.12") {
+    Write-Host ""
+    Write-Host "Python $version is too old." -ForegroundColor Red
+    Write-Host "Windows wheels for numpy and scipy at the versions this project needs"
+    Write-Host "start at Python 3.12. On $version pip would try to build them from"
+    Write-Host "source and fail without a C compiler."
+    Write-Host ""
+    Write-Host "Install Python 3.12 or 3.13 from python.org, then run this again."
+    Write-Host "If several versions are installed, pick one explicitly:"
+    Write-Host "  py -3.13 -m venv .venv"
+    Write-Host "  .\scripts\setup.ps1"
+    throw "Python $version is too old; 3.12 or newer is required."
 }
 
 if (-not (Test-Path $venvPython)) {
@@ -50,8 +60,18 @@ if (-not (Test-Path $venvPython)) {
     Write-Host "reusing .venv"
 }
 & $venvPip install --quiet --upgrade pip
-& $venvPip install --quiet -r requirements.txt
-if ($LASTEXITCODE -ne 0) { throw "dependency installation failed" }
+Write-Host "installing dependencies (a few minutes on a first run)..."
+# Not --quiet: when this fails the error is the only useful thing on screen.
+& $venvPip install -r requirements.txt
+if ($LASTEXITCODE -ne 0) {
+    Write-Host ""
+    Write-Host "Dependency installation failed - the pip output above says why." -ForegroundColor Red
+    Write-Host "Most common causes on Windows:"
+    Write-Host "  * Python older than 3.12: numpy and scipy have no wheels and try to build."
+    Write-Host "  * A 32-bit Python: the wheels are win_amd64 only."
+    Write-Host "  * Corporate proxy or TLS interception blocking pypi.org."
+    throw "dependency installation failed"
+}
 Write-Host "dependencies installed"
 
 Step "OpenMP"
