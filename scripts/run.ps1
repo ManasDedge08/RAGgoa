@@ -84,10 +84,22 @@ try {
     # Stop-Process cannot reach when it is time to shut down.
     $viteJs = Join-Path $webDir "node_modules\vite\bin\vite.js"
     if (-not (Test-Path $viteJs)) {
+        $npm = Get-Command npm.cmd -ErrorAction SilentlyContinue
+        if (-not $npm) { $npm = Get-Command npm -ErrorAction SilentlyContinue }
+        if (-not $npm) {
+            throw ("Node.js is not installed, so the UI cannot be built. Install Node 20+ " +
+                   "from nodejs.org and run this again. The API alone is already usable at " +
+                   "http://127.0.0.1:$ApiPort/docs")
+        }
         Write-Host "web dependencies are missing. Installing them now..." -ForegroundColor Yellow
-        Push-Location $webDir
-        & npm.cmd install
-        Pop-Location
+        try {
+            Push-Location $webDir
+            & $npm.Source install
+        } finally {
+            # Without the finally, a failure here leaves the caller's shell
+            # sitting in web\ after the script exits.
+            Pop-Location
+        }
     }
     if (-not (Test-Path $viteJs)) {
         throw "vite not found at $viteJs - run 'npm install' inside the web folder."

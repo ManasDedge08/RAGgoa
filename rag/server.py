@@ -16,8 +16,11 @@ from typing import AsyncIterator
 import pyarrow.parquet as pq
 from fastapi import FastAPI, File, Form, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
+
+from pathlib import Path
 
 from .config import (
     ALLOW_UNSOURCED_DEFAULT,
@@ -192,3 +195,12 @@ async def race(request: RaceRequest) -> dict:
             "top": dumb["top"],
         },
     }
+
+
+# ---------------------------------------------------------------- static UI ---
+# Serving the built frontend from the API means the demo needs no Node on the
+# machine that runs it, and no CORS or second origin in deployment. Mounted last
+# so it never shadows an API route. Regenerate with `npm run build` in web/.
+_DIST = Path(__file__).resolve().parent.parent / "web" / "dist"
+if _DIST.is_dir():
+    app.mount("/", StaticFiles(directory=str(_DIST), html=True), name="ui")
