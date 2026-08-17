@@ -87,6 +87,7 @@ class Candidate:
     is_selected: int = 0
     variants: dict[str, str] = field(default_factory=dict)  # lang -> passage_id
     source_langs: list[str] = field(default_factory=list)  # langs that surfaced it
+    matched_lang: str | None = None  # language whose wording scored best
 
     def to_dict(self) -> dict:
         return {
@@ -103,6 +104,7 @@ class Candidate:
             "best_sentence": self.best_sentence,
             "available_langs": sorted(self.variants),
             "surfaced_by_langs": self.source_langs,
+            "matched_lang": self.matched_lang,
         }
 
 
@@ -372,8 +374,34 @@ class Retriever:
         if not cands:
             return
         q_tokens = set(tokenize(query))
-        rows = [self.store.passages.by_uid[c.passage_id].row for c in cands]
-        dense = self.store.passages.vectors[rows] @ qvec[0]
+
+        # Score each group by its best-matching language variant, not by the
+        # one being displayed. Translations of the same passage do not match a
+        # query equally well: asked "कॉर्पोरेशन क्या है", the Hindi text scores
+        # 0.861 because it renders the word as निगम, while the Marathi text of
+        # the same passage scores 0.923 by keeping the transliteration. Ranking
+        # by the displayed variant buried the correct passage at rank four.
+        # The asker still reads their own language; only the ranking changes.
+        dense = np.empty(len(cands), dtype=np.float32)
+        for i, cand in enumerate(cands):
+            rows = [
+                self.store.passages.by_uid[pid].row
+                for pid in cand.variants.values()
+                if pid in self.store.passages.by_uid
+            ]
+            if not rows:
+                dense[i] = 0.0
+                continue
+            scores = self.store.passages.vectors[rows] @ qvec[0]
+            best = int(np.argmax(scores))
+            dense[i] = float(scores[best])
+            cand.raw_scores["dense_best_lang"] = float(scores[best])
+            best_pid = list(cand.variants.values())[best]
+            best_unit = self.store.passages.by_uid.get(best_pid)
+            if best_unit is not None and best_unit.lang != cand.lang:
+                # Worth surfacing in the trace: the group won on another
+                # language's wording.
+                cand.matched_lang = best_unit.lang
 
         bm25_vals = np.array(
             [max(c.raw_scores.get("bm25_passage", 0.0), c.raw_scores.get("bm25_sentence", 0.0)) for c in cands],

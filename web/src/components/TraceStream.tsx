@@ -59,6 +59,12 @@ export function TraceStream({ candidates, queryLang, live, langLabel }: Props) {
             <p className="trace__snippet">{candidate.best_sentence || candidate.text.slice(0, 220)}</p>
             <p className="trace__langs">
               {langLabel(candidate.lang)}
+              {candidate.matched_lang && (
+                <span className="badge badge--cross">
+                  {" "}
+                  ranked on the {langLabel(candidate.matched_lang)} wording
+                </span>
+              )}
               {crossLingual && <span className="badge badge--cross"> cross-lingual</span>} · also in{" "}
               {candidate.available_langs
                 .filter((l) => l !== candidate.lang)

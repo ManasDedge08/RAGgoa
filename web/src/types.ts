@@ -19,6 +19,7 @@ export interface CandidateDto {
   best_sentence: string;
   available_langs: string[];
   surfaced_by_langs: string[];
+  matched_lang: string | null;
 }
 
 export interface ConfidenceDto {
