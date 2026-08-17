@@ -1,0 +1,79 @@
+{
+  "n_queries": 200,
+  "rerank_weights": {
+    "baseline": {
+      "recall@5": 37.5,
+      "precision@1": 18.5,
+      "mrr@5": 0.258,
+      "mean_ms": 10.42
+    },
+    "dense_heavy": {
+      "recall@5": 31.0,
+      "precision@1": 13.5,
+      "mrr@5": 0.203,
+      "mean_ms": 10.39
+    },
+    "lexical_heavy": {
+      "recall@5": 28.0,
+      "precision@1": 13.5,
+      "mrr@5": 0.185,
+      "mean_ms": 10.4
+    },
+    "fusion_heavy": {
+      "recall@5": 35.5,
+      "precision@1": 15.5,
+      "mrr@5": 0.229,
+      "mean_ms": 10.39
+    },
+    "dense_only": {
+      "recall@5": 38.5,
+      "precision@1": 19.0,
+      "mrr@5": 0.263,
+      "mean_ms": 10.31
+    },
+    "consensus": {
+      "recall@5": 32.5,
+      "precision@1": 13.0,
+      "mrr@5": 0.207,
+      "mean_ms": 10.34
+    }
+  },
+  "ablation": {
+    "dense_passage": {
+      "recall@5": 36.5,
+      "precision@1": 18.0,
+      "mrr@5": 0.258,
+      "mean_ms": 10.12
+    },
+    "dense_sentence": {
+      "recall@5": 39.0,
+      "precision@1": 18.5,
+      "mrr@5": 0.261,
+      "mean_ms": 10.12
+    },
+    "bm25_passage": {
+      "recall@5": 37.5,
+      "precision@1": 18.5,
+      "mrr@5": 0.258,
+      "mean_ms": 9.33
+    },
+    "bm25_sentence": {
+      "recall@5": 36.5,
+      "precision@1": 18.5,
+      "mrr@5": 0.255,
+      "mean_ms": 8.35
+    },
+    "cluster": {
+      "recall@5": 37.5,
+      "precision@1": 18.5,
+      "mrr@5": 0.257,
+      "mean_ms": 9.83
+    },
+    "none": {
+      "recall@5": 37.5,
+      "precision@1": 18.5,
+      "mrr@5": 0.258,
+      "mean_ms": 10.41
+    }
+  }
+}

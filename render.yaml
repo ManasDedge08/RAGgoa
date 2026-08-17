@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: measure-rag-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    # Free tier by explicit choice. Be aware of the measurement: serving the
+    # full 1,200-query corpus locally sits at ~2.2 GB RSS, and 800 query ids
+    # scales that to roughly 1.4 GB. The free instance caps at 512 MB, so this
+    # is expected to OOM once the encoder loads.
+    #
+    # Index vectors are memory-mapped, so a good share of that RSS is evictable
+    # page cache rather than a hard requirement — which is why it is worth
+    # trying rather than assuming. If it does get killed, the levers in order of
+    # effect are:
+    #   1. RAG_N_QUERY_IDS=250   - shrinks every index proportionally
+    #   2. plan: standard        - 2 GB, comfortable at 800
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: SARVAM_API_KEY
+        sync: false
+      - key: RAG_N_QUERY_IDS
+        value: "800"
+      - key: SARVAM_CHAT_MODEL
+        value: sarvam-105b-conversations
+      - key: SARVAM_STT_MODEL
+        value: saaras:v4
+      - key: SARVAM_TTS_MODEL
+        value: bulbul:v2
+      - key: SARVAM_REASONING_EFFORT
+        value: low

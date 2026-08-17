@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+
+# Build artefacts: regenerate with scripts/prepare_data.py and rag.index.build.
+# The index alone is ~780 MB.
+data/cache/
+data/corpus/
+data/index/
+
+node_modules/
+web/dist/

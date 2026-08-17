@@ -1,0 +1,42 @@
+{
+  "model": "cross-encoder/mmarco-mMiniLMv2-L12-H384-v1",
+  "n_queries": 120,
+  "depths": {
+    "no cross-encoder": {
+      "recall@5": 43.3,
+      "precision@1": 21.7,
+      "rerank_p50_ms": 0.0,
+      "rerank_p100_ms": 0.0,
+      "tier1_p50_ms_estimate": 10.5,
+      "tier1_p100_ms_estimate": 13.9,
+      "within_200ms": true
+    },
+    "top 5": {
+      "recall@5": 43.3,
+      "precision@1": 23.3,
+      "rerank_p50_ms": 39.8,
+      "rerank_p100_ms": 71.6,
+      "tier1_p50_ms_estimate": 50.3,
+      "tier1_p100_ms_estimate": 85.5,
+      "within_200ms": true
+    },
+    "top 10": {
+      "recall@5": 50.0,
+      "precision@1": 24.2,
+      "rerank_p50_ms": 81.3,
+      "rerank_p100_ms": 147.3,
+      "tier1_p50_ms_estimate": 91.8,
+      "tier1_p100_ms_estimate": 161.2,
+      "within_200ms": true
+    },
+    "top 20": {
+      "recall@5": 50.0,
+      "precision@1": 24.2,
+      "rerank_p50_ms": 176.4,
+      "rerank_p100_ms": 293.3,
+      "tier1_p50_ms_estimate": 186.9,
+      "tier1_p100_ms_estimate": 307.2,
+      "within_200ms": false
+    }
+  }
+}

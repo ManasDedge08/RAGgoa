@@ -1,0 +1,16 @@
+{
+  "domain_floor": 0.8498,
+  "in_domain": {
+    "n": 200,
+    "p5": 0.8597,
+    "p50": 0.9054
+  },
+  "off_topic": {
+    "n": 15,
+    "p50": 0.8904,
+    "p95": 0.9257
+  },
+  "false_reject_pct": 1.0,
+  "off_topic_caught_pct": 6.7,
+  "note": "Pre-retrieval domain similarity separates weakly on this corpus: an off-topic question is still a well-formed question. This stage catches the egregious cases cheaply; the evidence-based refusal is the confidence tier, calibrated in confidence.json."
+}

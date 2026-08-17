@@ -1,0 +1,23 @@
+{
+  "thresholds": {
+    "high": 0.614,
+    "low": 0.455
+  },
+  "base_rates": {
+    "top1_accuracy": 0.205,
+    "top5_accuracy": 0.415
+  },
+  "accuracy_by_tier": {
+    "high_top1": 0.314,
+    "answered_top5": 0.465,
+    "refused_top5": 0.133
+  },
+  "refused_pct": 15.0,
+  "high_pct": 52.5,
+  "score_distribution": {
+    "p10": 0.431,
+    "p50": 0.621,
+    "p90": 0.729
+  },
+  "n": 200
+}
