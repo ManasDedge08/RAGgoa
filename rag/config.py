@@ -19,7 +19,10 @@ def _load_dotenv() -> None:
     env_file = ROOT / ".env"
     if not env_file.exists():
         return
-    for line in env_file.read_text(encoding="utf-8").splitlines():
+    # utf-8-sig, not utf-8: PowerShell's Set-Content and Notepad both write a
+    # byte-order mark, which would otherwise make the first key parse as
+    # "\ufeffSARVAM_API_KEY" and silently leave the system in stub mode.
+    for line in env_file.read_text(encoding="utf-8-sig").splitlines():
         line = line.strip()
         if not line or line.startswith("#") or "=" not in line:
             continue
