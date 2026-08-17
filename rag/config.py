@@ -5,6 +5,8 @@ from __future__ import annotations
 import os
 from pathlib import Path
 
+from .languages import REGISTRY as _REGISTRY
+
 ROOT = Path(__file__).resolve().parent.parent
 
 
@@ -47,19 +49,50 @@ DATASET_DIR = os.getenv("RAG_DATASET_DIR", "")
 # "validation" (97,941 queries per language) or "train" (~980k, ~3.8 GB each).
 DATASET_SPLIT = os.getenv("RAG_DATASET_SPLIT", "validation")
 
-# Languages carried end to end. Each entry maps the dataset's language code to
-# the Sarvam speech-to-text locale and a display name.
+# Languages carried end to end. Selected from the registry in rag/languages.py,
+# which records what Sarvam actually supports per language. Override with
+# RAG_LANGUAGES as a comma-separated list of dataset codes; "all" enables every
+# language in the dataset.
+#
+# The default is the ten with a full voice loop plus English. Assamese, Nepali,
+# Sanskrit and Urdu are excluded by default because they have no voice to answer
+# with — add them explicitly if text-only answering is wanted.
+_DEFAULT_LANGUAGES = [
+    "eng_Latn", "hin_Deva", "ben_Beng", "tam_Taml", "tel_Telu", "mar_Deva",
+    "guj_Gujr", "kan_Knda", "mal_Mlym", "pan_Guru", "ori_Orya",
+]
+
+
+def _selected_languages() -> list[str]:
+    raw = os.getenv("RAG_LANGUAGES", "").strip()
+    if not raw:
+        return _DEFAULT_LANGUAGES
+    if raw.lower() == "all":
+        return list(_REGISTRY)
+    codes = [c.strip() for c in raw.split(",") if c.strip()]
+    unknown = [c for c in codes if c not in _REGISTRY]
+    if unknown:
+        raise ValueError(f"unknown language codes in RAG_LANGUAGES: {unknown}")
+    if "eng_Latn" not in codes:
+        # English is free — it rides along in every language slice — and the
+        # cross-lingual demo is much weaker without it.
+        codes.insert(0, "eng_Latn")
+    return codes
+
+
+LANGUAGE_CODES = _selected_languages()
 LANGUAGES = {
-    "eng_Latn": {"sarvam": "en-IN", "name": "English", "file": None},
-    "hin_Deva": {"sarvam": "hi-IN", "name": "Hindi", "file": "hin"},
-    "tam_Taml": {"sarvam": "ta-IN", "name": "Tamil", "file": "tam"},
-    "ben_Beng": {"sarvam": "bn-IN", "name": "Bengali", "file": "ben"},
+    code: {
+        "sarvam": _REGISTRY[code].sarvam,
+        "name": _REGISTRY[code].name,
+        "file": _REGISTRY[code].file,
+        "voice": _REGISTRY[code].tts,
+    }
+    for code in LANGUAGE_CODES
 }
 # Languages that have their own parquet slice in the dataset.
 DATASET_LANGS = [k for k, v in LANGUAGES.items() if v["file"]]
 
-# Number of MS MARCO query ids sampled into the demo corpus. Every sampled id
-# is materialised in all four languages so cross-lingual retrieval is provable.
 N_QUERY_IDS = int(os.getenv("RAG_N_QUERY_IDS", "1200"))
 RANDOM_SEED = 20260822
 

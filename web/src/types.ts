@@ -41,6 +41,16 @@ export type StreamEvent =
   | { type: "state"; state: string; turn_id: string }
   | { type: "transcript"; text: string; language_code: string | null; latency_ms: number; mocked: boolean }
   | { type: "trace"; stage: string; [k: string]: unknown }
+  | {
+      type: "detection";
+      detection: {
+        lang: string;
+        confidence: number;
+        script: string;
+        alternatives: string[];
+        ambiguous: boolean;
+      };
+    }
   | { type: "guardrail"; allowed: boolean; reason: string; domain_similarity: number; latency_ms: number }
   | { type: "refusal"; text: string }
   | {
@@ -77,7 +87,14 @@ export type StreamEvent =
       first_token_ms?: number;
       error?: string | null;
     }
-  | { type: "audio"; label: string; audio_b64: string; mocked: boolean; latency_ms: number }
+  | {
+      type: "audio";
+      label: string;
+      audio_b64: string;
+      mocked: boolean;
+      latency_ms: number;
+      unavailable?: string;
+    }
   | { type: "error"; stage: string; message: string }
   | { type: "done"; turn: TurnDto };
 
@@ -108,7 +125,8 @@ export interface RaceResult {
 
 export interface MetaDto {
   corpus: Record<string, number | string>;
-  languages: { code: string; name: string; sarvam: string }[];
+  languages: { code: string; name: string; sarvam: string; voice: boolean }[];
+  voice_languages: string[];
   tier1_target_ms: number;
   mock_voice: boolean;
 }

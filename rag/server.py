@@ -88,12 +88,13 @@ async def meta() -> dict:
     return {
         "corpus": store.stats,
         "languages": [
-            {"code": code, "name": info["name"], "sarvam": info["sarvam"]}
+            {"code": code, "name": info["name"], "sarvam": info["sarvam"], "voice": info["voice"]}
             for code, info in LANGUAGES.items()
         ],
         "tier1_target_ms": TIER1_TARGET_MS,
         "mock_voice": pipeline().client.mock,
         "cross_encoder_default": CROSS_ENCODER_DEFAULT,
+        "voice_languages": [c for c, i in LANGUAGES.items() if i["voice"]],
     }
 
 

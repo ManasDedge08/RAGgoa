@@ -16,20 +16,15 @@ const STRATEGY_LABEL: Record<Strategy, string> = {
   cluster: "cluster",
 };
 
-const LANG_LABEL: Record<string, string> = {
-  eng_Latn: "English",
-  hin_Deva: "Hindi",
-  tam_Taml: "Tamil",
-  ben_Beng: "Bengali",
-};
-
 interface Props {
   candidates: CandidateDto[];
   queryLang: string;
   live: boolean;
+  /** Display names keyed by dataset code, served by /meta. */
+  langLabel: (code: string) => string;
 }
 
-export function TraceStream({ candidates, queryLang, live }: Props) {
+export function TraceStream({ candidates, queryLang, live, langLabel }: Props) {
   if (candidates.length === 0) {
     return (
       <p className="trace__empty">
@@ -63,11 +58,11 @@ export function TraceStream({ candidates, queryLang, live }: Props) {
             </div>
             <p className="trace__snippet">{candidate.best_sentence || candidate.text.slice(0, 220)}</p>
             <p className="trace__langs">
-              {LANG_LABEL[candidate.lang] ?? candidate.lang}
+              {langLabel(candidate.lang)}
               {crossLingual && <span className="badge badge--cross"> cross-lingual</span>} · also in{" "}
               {candidate.available_langs
                 .filter((l) => l !== candidate.lang)
-                .map((l) => LANG_LABEL[l] ?? l)
+                .map((l) => langLabel(l))
                 .join(", ") || "no other language"}
             </p>
           </article>

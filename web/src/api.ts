@@ -31,7 +31,7 @@ async function* readEvents(response: Response): AsyncGenerator<StreamEvent> {
 
 export async function* askText(
   query: string,
-  options: { langMode: string; speak: boolean; crossEncode: boolean },
+  options: { langMode: string; speak: boolean; crossEncode: boolean; languageCode?: string },
 ): AsyncGenerator<StreamEvent> {
   const response = await fetch(`${API_BASE}/ask`, {
     method: "POST",
@@ -41,6 +41,7 @@ export async function* askText(
       lang_mode: options.langMode,
       speak: options.speak,
       cross_encode: options.crossEncode,
+      language_code: options.languageCode ?? null,
     }),
   });
   if (!response.ok) throw new Error(`ask failed: ${response.status}`);

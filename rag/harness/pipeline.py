@@ -31,7 +31,7 @@ from ..generation import tier1 as tier1_mod
 from ..generation import tier2 as tier2_mod
 from ..generation.confidence import score_retrieval
 from ..generation.templates import off_topic_for
-from ..retrieval.lang import detect_lang, from_sarvam_code, sarvam_code
+from ..retrieval.lang import detect, from_sarvam_code, has_voice, sarvam_code
 from ..retrieval.retriever import LangMode, Retriever
 from ..voice.sarvam import SarvamClient
 from .guardrail import check_query
@@ -145,6 +145,7 @@ class Pipeline:
         Tier 2 one. Tier 1 is shown instantly and spoken only when asked for.
         """
         turn = Turn(turn_id=uuid.uuid4().hex[:12])
+        pending_detection: dict | None = None
         yield {"type": "state", "state": State.RECEIVED.value, "turn_id": turn.turn_id}
 
         # ---- transcribe -----------------------------------------------------
@@ -169,7 +170,16 @@ class Pipeline:
             yield {"type": "transcript", **turn.payload["transcript"]}
         else:
             turn.query = (text or "").strip()
-            turn.lang = from_sarvam_code(language_code) if language_code else detect_lang(turn.query)[0]
+            if language_code:
+                turn.lang = from_sarvam_code(language_code)
+            else:
+                detection = detect(turn.query)
+                turn.lang = detection.lang
+                turn.payload["detection"] = detection.to_dict()
+                pending_detection = detection.to_dict()
+
+        if pending_detection is not None:
+            yield {"type": "detection", "detection": pending_detection}
 
         # ---- embed once, shared by guardrail and retrieval -------------------
         embed_start = time.perf_counter()
@@ -337,6 +347,18 @@ class Pipeline:
 
     # -------------------------------------------------------------- speech ---
     async def _speak(self, turn: Turn, text: str, label: str = "final") -> dict | None:
+        if not has_voice(turn.lang):
+            # Sarvam has speech-to-text but no Bulbul voice for this language.
+            # Say so rather than emitting nothing and looking broken.
+            return {
+                "type": "audio",
+                "label": label,
+                "audio_b64": "",
+                "mocked": False,
+                "latency_ms": 0.0,
+                "unavailable": f"no voice available for {turn.lang}",
+            }
+
         async def _tts():
             return await self.client.synthesize(text, sarvam_code(turn.lang))
 

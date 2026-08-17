@@ -21,16 +21,10 @@ const LANG_MODES = [
   { mode: "pivot", label: "other languages", hint: "Answer only from sources in a different language" },
 ] as const;
 
-const LANG_LABEL: Record<string, string> = {
-  eng_Latn: "English",
-  hin_Deva: "Hindi",
-  tam_Taml: "Tamil",
-  ben_Beng: "Bengali",
-};
-
 interface TurnView {
   transcript: string;
   queryLang: string;
+  detection: { script: string; alternatives: string[]; ambiguous: boolean } | null;
   guardrail: { allowed: boolean; reason: string; latency_ms: number } | null;
   candidates: CandidateDto[];
   stages: Record<string, number>;
@@ -39,6 +33,7 @@ interface TurnView {
   tier2: string;
   tier2Done: { grounding: GroundingDto | null; usedFallback: boolean; latency: number; error?: string | null } | null;
   refusal: string | null;
+  noVoice: boolean;
   state: string;
   errors: string[];
 }
@@ -46,6 +41,7 @@ interface TurnView {
 const EMPTY: TurnView = {
   transcript: "",
   queryLang: "eng_Latn",
+  detection: null,
   guardrail: null,
   candidates: [],
   stages: {},
@@ -54,6 +50,7 @@ const EMPTY: TurnView = {
   tier2: "",
   tier2Done: null,
   refusal: null,
+  noVoice: false,
   state: "",
   errors: [],
 };
@@ -72,6 +69,13 @@ export default function App() {
   const [lastQuery, setLastQuery] = useState("");
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const recorder = useRecorder();
+
+  // Display names come from /meta so adding a language to the corpus needs no
+  // frontend change.
+  const langLabel = useCallback(
+    (code: string) => meta?.languages.find((l) => l.code === code)?.name ?? code,
+    [meta],
+  );
 
   useEffect(() => {
     fetchMeta().then(setMeta).catch(() => setMeta(null));
@@ -103,11 +107,11 @@ export default function App() {
   }, []);
 
   const submitText = useCallback(
-    (value: string) => {
+    (value: string, languageCode?: string) => {
       const query = value.trim();
       if (!query) return;
       setLastQuery(query);
-      void consume(askText(query, { langMode, speak, crossEncode }));
+      void consume(askText(query, { langMode, speak, crossEncode, languageCode }));
     },
     [consume, crossEncode, langMode, speak],
   );
@@ -181,6 +185,34 @@ export default function App() {
         <p className="notice">
           Voice services are stubbed: no Sarvam API key on the server. Retrieval, timing and the
           trace are real; speech in, speech out and Tier 2 text are placeholders.
+        </p>
+      )}
+      {turn.detection?.ambiguous && (
+        <p className="notice">
+          <strong>{turn.detection.script}</strong> is written by more than one language here, so
+          the script alone cannot say which you meant. Answering as{" "}
+          <strong>{langLabel(turn.queryLang)}</strong>. Ask again as:{" "}
+          {turn.detection.alternatives.map((code) => (
+            <button
+              key={code}
+              className="chip chip--inline"
+              onClick={() =>
+                submitText(
+                  turn.transcript || lastQuery,
+                  meta?.languages.find((l) => l.code === code)?.sarvam,
+                )
+              }
+            >
+              {langLabel(code)}
+            </button>
+          ))}{" "}
+          Speaking the question avoids the guess entirely — Sarvam returns the language.
+        </p>
+      )}
+      {turn.noVoice && (
+        <p className="notice">
+          {langLabel(turn.queryLang)} has speech recognition but no Sarvam voice, so this answer is
+          text only.
         </p>
       )}
       {recorder.error && <p className="notice notice--error">{recorder.error}</p>}
@@ -265,7 +297,7 @@ export default function App() {
         <section>
           <div className="column__head">
             <span>the answer</span>
-            <span>{turn.tier1 ? `${LANG_LABEL[turn.queryLang] ?? turn.queryLang}` : ""}</span>
+            <span>{turn.tier1 ? langLabel(turn.queryLang) : ""}</span>
           </div>
 
           <div className="turnstate">
@@ -303,7 +335,7 @@ export default function App() {
                 <span className={`badge badge--${turn.tier1.tier}`}>{turn.tier1.tier} confidence</span>
                 {turn.tier1.crossLingual && (
                   <span className="badge badge--cross">
-                    source: {LANG_LABEL[turn.tier1.sourceLang] ?? turn.tier1.sourceLang}
+                    source: {langLabel(turn.tier1.sourceLang)}
                   </span>
                 )}
               </div>
@@ -347,7 +379,12 @@ export default function App() {
                 : ""}
             </span>
           </div>
-          <TraceStream candidates={turn.candidates} queryLang={turn.queryLang} live={busy} />
+          <TraceStream
+            candidates={turn.candidates}
+            queryLang={turn.queryLang}
+            live={busy}
+            langLabel={langLabel}
+          />
         </section>
       </div>
 
@@ -377,6 +414,8 @@ function reduce(prev: TurnView, event: StreamEvent): TurnView {
       };
     case "refusal":
       return { ...prev, refusal: event.text, state: "refused" };
+    case "detection":
+      return { ...prev, detection: event.detection, queryLang: event.detection.lang };
     case "retrieval":
       return {
         ...prev,
@@ -411,6 +450,8 @@ function reduce(prev: TurnView, event: StreamEvent): TurnView {
           error: event.error ?? null,
         },
       };
+    case "audio":
+      return event.unavailable ? { ...prev, noVoice: true } : prev;
     case "error":
       return { ...prev, errors: [...prev.errors, `${event.stage}: ${event.message}`] };
     case "done":

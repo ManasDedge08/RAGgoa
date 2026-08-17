@@ -16,9 +16,13 @@ data/dataset/hinval.parquet                # or flat, same filenames
 ## Which files
 
 Filenames are `<code>val.parquet` for the validation split and
-`<code>train.parquet` for train. Only the languages listed in `LANGUAGES` in
-`rag/config.py` are read — adding a file here does nothing until that language
-is registered there too.
+`<code>train.parquet` for train. Which languages get read is controlled by
+`RAG_LANGUAGES`; the default is the ten with a full voice loop plus English.
+
+```bash
+RAG_LANGUAGES=all ./scripts/setup.sh --rebuild          # every language
+RAG_LANGUAGES=eng_Latn,hin_Deva,mar_Deva ./scripts/...  # a specific set
+```
 
 | Language | File | Size | Sarvam voice |
 | --- | --- | --- | --- |
@@ -32,10 +36,10 @@ is registered there too.
 | Telugu | `telval.parquet` | 474 MB | speech in + out |
 | Punjabi | `panval.parquet` | 460 MB | speech in + out |
 | Odia | `orival.parquet` | 467 MB | speech in + out |
-| Assamese | `asmval.parquet` | — | speech in only |
-| Nepali | `nepval.parquet` | — | speech in only |
-| Sanskrit | `sanval.parquet` | — | speech in only |
-| Urdu | `urdval.parquet` | — | speech in only |
+| Assamese | `asmval.parquet` | — | speech in only, English framing |
+| Nepali | `nepval.parquet` | — | speech in only, English framing |
+| Sanskrit | `sanval.parquet` | — | speech in only, English framing |
+| Urdu | `urdval.parquet` | — | speech in only, English framing |
 
 English needs no file: it comes from the `Eng_Query`, `Eng_Answer` and
 `English_passages` columns present inside every language slice.
@@ -64,3 +68,16 @@ python scripts/calibrate.py         # thresholds shift with the corpus
 ```
 
 Files in this directory are git-ignored.
+
+## Cost per language
+
+Roughly 11,945 passages, 36,000 sentences, 195 MB of index and 4 minutes of
+encoding per language at 1,200 query ids. All eleven default languages is
+therefore about 2.1 GB of index and 45 minutes.
+
+If that is too much for the machine, trade coverage for languages — the demo
+gains more from breadth of language than from breadth of question:
+
+```bash
+RAG_N_QUERY_IDS=400 RAG_LANGUAGES=all ./scripts/setup.sh --rebuild
+```
