@@ -32,6 +32,8 @@ interface TurnView {
   confidence: ConfidenceDto | null;
   tier2: string;
   tier2Done: { grounding: GroundingDto | null; usedFallback: boolean; latency: number; error?: string | null } | null;
+  unsourced: string;
+  unsourcedDone: boolean;
   refusal: string | null;
   noVoice: boolean;
   state: string;
@@ -49,6 +51,8 @@ const EMPTY: TurnView = {
   confidence: null,
   tier2: "",
   tier2Done: null,
+  unsourced: "",
+  unsourcedDone: false,
   refusal: null,
   noVoice: false,
   state: "",
@@ -62,6 +66,7 @@ export default function App() {
   const [langMode, setLangMode] = useState<"cross" | "strict" | "pivot">("cross");
   const [speak, setSpeak] = useState(true);
   const [crossEncode, setCrossEncode] = useState(false);
+  const [allowUnsourced, setAllowUnsourced] = useState(false);
   const [busy, setBusy] = useState(false);
   const [turn, setTurn] = useState<TurnView>(EMPTY);
   const [race, setRace] = useState<RaceResult | null>(null);
@@ -111,19 +116,19 @@ export default function App() {
       const query = value.trim();
       if (!query) return;
       setLastQuery(query);
-      void consume(askText(query, { langMode, speak, crossEncode, languageCode }));
+      void consume(askText(query, { langMode, speak, crossEncode, allowUnsourced, languageCode }));
     },
-    [consume, crossEncode, langMode, speak],
+    [allowUnsourced, consume, crossEncode, langMode, speak],
   );
 
   const toggleMic = useCallback(async () => {
     if (recorder.recording) {
       const blob = await recorder.stop();
-      if (blob) void consume(askAudio(blob, { langMode, speak, crossEncode }));
+      if (blob) void consume(askAudio(blob, { langMode, speak, crossEncode, allowUnsourced }));
       return;
     }
     await recorder.start();
-  }, [consume, crossEncode, langMode, recorder, speak]);
+  }, [allowUnsourced, consume, crossEncode, langMode, recorder, speak]);
 
   const onRace = useCallback(() => {
     if (!lastQuery) return;
@@ -266,6 +271,13 @@ export default function App() {
             {speak ? "voice on" : "voice off"}
           </button>
           <button
+            aria-pressed={allowUnsourced}
+            onClick={() => setAllowUnsourced((value) => !value)}
+            title="If the corpus has no answer, let the model answer from its own knowledge — clearly marked as unsourced"
+          >
+            general knowledge
+          </button>
+          <button
             aria-pressed={crossEncode}
             onClick={() => setCrossEncode((value) => !value)}
             title="Re-score the top 10 with a cross-encoder: better ranking, ~70 ms more"
@@ -340,6 +352,16 @@ export default function App() {
                 )}
               </div>
               <p className="answer__body">{turn.tier1.text}</p>
+            </article>
+          )}
+
+          {(turn.unsourced || turn.unsourcedDone) && (
+            <article className="answer answer--unsourced">
+              <div className="answer__meta">
+                <span className="badge badge--unsourced">not from the corpus</span>
+                <span>the model's own knowledge — nothing was retrieved to check it against</span>
+              </div>
+              <p className="answer__body">{turn.unsourced}</p>
             </article>
           )}
 
@@ -439,6 +461,10 @@ function reduce(prev: TurnView, event: StreamEvent): TurnView {
       };
     case "tier2_delta":
       return { ...prev, tier2: prev.tier2 + event.text };
+    case "unsourced_delta":
+      return { ...prev, unsourced: prev.unsourced + event.text };
+    case "unsourced":
+      return { ...prev, unsourced: event.text, unsourcedDone: true };
     case "tier2":
       return {
         ...prev,

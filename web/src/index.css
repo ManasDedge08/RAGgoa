@@ -565,6 +565,19 @@ button {
   color: var(--madder);
 }
 
+/* Unsourced answers get the warning colour used for over-budget and refusal,
+   plus a hatched edge, so they never read as a grounded result. */
+.answer--unsourced {
+  border-left: 3px solid var(--madder);
+  padding-left: 0.85rem;
+  background: rgba(166, 64, 46, 0.06);
+}
+
+.badge--unsourced {
+  color: var(--madder);
+  font-weight: 600;
+}
+
 .badge--cross {
   color: var(--indigo);
 }

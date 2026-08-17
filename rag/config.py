@@ -134,6 +134,12 @@ SARVAM_RETRIES = int(os.getenv("SARVAM_RETRIES", "2"))
 # chat providers, so the retrieval demo is never blocked on credentials.
 MOCK_VOICE = os.getenv("RAG_MOCK_VOICE", "") == "1" or not SARVAM_API_KEY
 
+# When retrieval finds nothing, may the model answer from its own knowledge?
+# Off by default: refusing is the behaviour the guardrails are judged on, and an
+# unsourced answer is a different product promise. Callers opt in per request,
+# and the answer says so out loud. See rag/generation/unsourced.py.
+ALLOW_UNSOURCED_DEFAULT = os.getenv("RAG_ALLOW_UNSOURCED", "") == "1"
+
 # Pre-retrieval domain filtering is off by default. Calibration showed it
 # barely separates off-topic from in-corpus questions (both are well-formed
 # questions), and refusing before retrieval hides the reasoning trace that

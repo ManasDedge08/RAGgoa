@@ -155,3 +155,29 @@ def off_topic_for(lang: str) -> str:
 def cross_lingual_note(lang: str, source_name: str) -> str:
     template = CROSS_LINGUAL_NOTE.get(lang, CROSS_LINGUAL_NOTE["eng_Latn"])
     return template.format(source=source_name)
+
+# Spoken before an answer that did not come from the corpus at all. The point
+# of the wording is that a listener knows the provenance changed before they
+# hear the claim, not after. Languages Sarvam cannot translate fall back to
+# English, as they do everywhere else.
+UNSOURCED_PREFIX: dict[str, str] = {
+    "eng_Latn": "This isn't from my sources, but from general knowledge: ",
+    "hin_Deva": "यह मेरे स्रोतों से नहीं है, बल्कि सामान्य ज्ञान से हैः ",
+    "ben_Beng": "এটি আমার উৎস থেকে নয়, সাধারণ জ্ঞানের উপর ভিত্তি করে: ",
+    "tam_Taml": "இது எனது ஆதாரங்களிலிருந்து அல்ல, பொதுவான அறிவிலிருந்து: ",
+    "tel_Telu": "ఇది నా మూలాల నుండి కాదు, సాధారణ జ్ఞానం నుండి: ",
+    "mar_Deva": "हे माझ्या स्त्रोतांकडून नाही, तर सामान्य ज्ञानातून आहे: ",
+    "guj_Gujr": "આ મારા સ્રોતોમાંથી નથી, પરંતુ સામાન્ય જ્ઞાનમાંથી છેઃ ",
+    "kan_Knda": "ಇದು ನನ್ನ ಮೂಲಗಳಿಂದ ಅಲ್ಲ, ಆದರೆ ಸಾಮಾನ್ಯ ಜ್ಞಾನದಿಂದ: ",
+    "mal_Mlym": "ഇത് എന്‍റെ സ്രോതസ്സുകളിൽ നിന്നുള്ളതല്ല, മറിച്ച് പൊതുവായ അറിവില്‍ നിന്നാണ്: ",
+    "pan_Guru": "ਇਹ ਮੇਰੇ ਸਰੋਤਾਂ ਤੋਂ ਨਹੀਂ, ਸਗੋਂ ਆਮ ਗਿਆਨ ਤੋਂ ਹੈ: ",
+    "ori_Orya": "ଏହା ମୋର ଉତ୍ସରୁ ନୁହେଁ, ବରଂ ସାଧାରଣ ଜ୍ଞାନରୁ ଆସିଛି। ",
+    "asm_Beng": "This isn't from my sources, but from general knowledge: ",
+    "nep_Deva": "This isn't from my sources, but from general knowledge: ",
+    "san_Deva": "This isn't from my sources, but from general knowledge: ",
+    "urd_Arab": "This isn't from my sources, but from general knowledge: ",
+}
+
+
+def unsourced_prefix(lang: str) -> str:
+    return UNSOURCED_PREFIX.get(lang, UNSOURCED_PREFIX["eng_Latn"])

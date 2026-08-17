@@ -152,6 +152,29 @@ minister of India" and you see the closest thing the corpus had — *"India,
 officially the Republic of India, is a country in South Asia"* — followed by a
 decline. The system shows its work even when the work came up empty.
 
+### When the corpus has no answer
+
+The default is to refuse, because refusing what it cannot ground is the
+behaviour the guardrails exist to produce. But a retrieval demo over a fixed
+corpus that only ever says no reads as broken to anyone who asks it an ordinary
+question, so there is one deliberate escape hatch.
+
+**General-knowledge mode** — a toggle in the UI, `allow_unsourced` on the API,
+off by default. When retrieval finds nothing, the model answers from its own
+knowledge and the answer is labelled as such: a red-edged card in the UI, and,
+because a listener never sees the card, the provenance is spoken *before* the
+content — "This isn't from my sources, but from general knowledge: …". The turn
+ends in the `unsourced` state, which is distinct from both `done` and
+`refused`, so analytics never conflate them.
+
+Nothing about it is checked by the grounding check. There is no retrieved
+evidence to check against — that is the entire reason the mode has to announce
+itself.
+
+| Question | Default | With the toggle |
+| --- | --- | --- |
+| "who is the prime minister of india" | refuses, shows what it searched | "Narendra Modi… since 2014", marked unsourced |
+
 ### What the corpus can and cannot answer
 
 The corpus is 1,200 MS MARCO questions and the passages retrieved for them:
@@ -249,6 +272,7 @@ deliberate — the retrieval demo should never be blocked on credentials.
 | `SARVAM_CHAT_MODEL` | `sarvam-105b-conversations` | Tier 2 model. |
 | `SARVAM_STT_MODEL` | `saaras:v4` | Speech to text. |
 | `RAG_DOMAIN_FILTER` | _(off)_ | `1` enforces the pre-retrieval domain filter. |
+| `RAG_ALLOW_UNSOURCED` | _(off)_ | `1` makes general-knowledge fallback the default. |
 | `SARVAM_TTS_MODEL` | `bulbul:v2` | Text to speech (6x faster than v3 on answer-length text). |
 | `VITE_API_BASE` | `http://127.0.0.1:8000` | Where the UI finds the API. |
 

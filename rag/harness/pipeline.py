@@ -26,9 +26,10 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import AsyncIterator
 
-from ..config import CROSS_ENCODER_DEFAULT
+from ..config import ALLOW_UNSOURCED_DEFAULT, CROSS_ENCODER_DEFAULT
 from ..generation import tier1 as tier1_mod
 from ..generation import tier2 as tier2_mod
+from ..generation import unsourced as unsourced_mod
 from ..generation.confidence import score_retrieval
 from ..generation.templates import off_topic_for
 from ..retrieval.lang import detect, from_sarvam_code, has_voice, sarvam_code
@@ -47,6 +48,7 @@ class State(str, Enum):
     SPEAK = "speak"
     DONE = "done"
     REFUSED = "refused"
+    UNSOURCED = "unsourced"
     DEGRADED = "degraded"
     FAILED = "failed"
 
@@ -136,6 +138,7 @@ class Pipeline:
         speak: bool = True,
         speak_tier1: bool = False,
         cross_encode: bool = CROSS_ENCODER_DEFAULT,
+        allow_unsourced: bool = ALLOW_UNSOURCED_DEFAULT,
     ) -> AsyncIterator[dict]:
         """Drive one turn, yielding trace events as each stage completes.
 
@@ -270,9 +273,53 @@ class Pipeline:
             speak_tasks.append(asyncio.create_task(self._speak(turn, answer1.text, label="tier1")))
 
         if confidence.tier == "refuse":
-            turn.state = State.REFUSED
             for task in speak_tasks:
                 await task
+
+            if not allow_unsourced:
+                turn.state = State.REFUSED
+                yield {"type": "done", "turn": turn.to_dict()}
+                return
+
+            # Nothing in the corpus answers this, and the caller has allowed an
+            # unsourced answer. It is generated, labelled, and never grounded —
+            # there is no evidence to ground it against.
+            turn.state = State.UNSOURCED
+            turn.path.append(State.UNSOURCED.value)
+            unsourced_queue: asyncio.Queue[str] = asyncio.Queue()
+            unsourced_task = asyncio.create_task(
+                asyncio.wait_for(
+                    unsourced_mod.generate(
+                        turn.query, turn.lang, self.client,
+                        on_delta=lambda d: unsourced_queue.put_nowait(d),
+                    ),
+                    timeout=TIMEOUTS_S[State.TIER2],
+                )
+            )
+            while not unsourced_task.done() or not unsourced_queue.empty():
+                try:
+                    delta = await asyncio.wait_for(unsourced_queue.get(), timeout=0.1)
+                except asyncio.TimeoutError:
+                    continue
+                yield {"type": "unsourced_delta", "text": delta}
+
+            try:
+                answer3 = await unsourced_task
+            except (asyncio.TimeoutError, Exception) as exc:  # noqa: BLE001
+                turn.errors["unsourced"] = str(exc)
+                answer3 = None
+
+            if answer3 is None or not answer3.text:
+                turn.state = State.REFUSED
+                yield {"type": "done", "turn": turn.to_dict()}
+                return
+
+            turn.payload["unsourced"] = answer3.to_dict()
+            yield {"type": "unsourced", **answer3.to_dict()}
+            if speak:
+                audio_event = await self._speak(turn, answer3.spoken_text, label="unsourced")
+                if audio_event:
+                    yield audio_event
             yield {"type": "done", "turn": turn.to_dict()}
             return
 

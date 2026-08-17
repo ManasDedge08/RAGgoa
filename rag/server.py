@@ -19,7 +19,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 
-from .config import CORPUS_DIR, CROSS_ENCODER_DEFAULT, LANGUAGES, TIER1_TARGET_MS
+from .config import (
+    ALLOW_UNSOURCED_DEFAULT,
+    CORPUS_DIR,
+    CROSS_ENCODER_DEFAULT,
+    LANGUAGES,
+    TIER1_TARGET_MS,
+)
 from .harness.pipeline import Pipeline
 from .retrieval.retriever import Retriever
 from .retrieval.store import get_store
@@ -59,6 +65,7 @@ class AskRequest(BaseModel):
     speak: bool = True
     speak_tier1: bool = False
     cross_encode: bool = CROSS_ENCODER_DEFAULT
+    allow_unsourced: bool = ALLOW_UNSOURCED_DEFAULT
 
 
 def sse(event: dict) -> str:
@@ -94,6 +101,7 @@ async def meta() -> dict:
         "tier1_target_ms": TIER1_TARGET_MS,
         "mock_voice": pipeline().client.mock,
         "cross_encoder_default": CROSS_ENCODER_DEFAULT,
+        "allow_unsourced_default": ALLOW_UNSOURCED_DEFAULT,
         "voice_languages": [c for c, i in LANGUAGES.items() if i["voice"]],
     }
 
@@ -122,6 +130,7 @@ async def ask(request: AskRequest) -> StreamingResponse:
             speak=request.speak,
             speak_tier1=request.speak_tier1,
             cross_encode=request.cross_encode,
+            allow_unsourced=request.allow_unsourced,
         ),
         media_type="text/event-stream",
         headers=SSE_HEADERS,
@@ -135,6 +144,7 @@ async def ask_audio(
     lang_mode: str = Form("cross"),
     speak: bool = Form(True),
     cross_encode: bool = Form(CROSS_ENCODER_DEFAULT),
+    allow_unsourced: bool = Form(ALLOW_UNSOURCED_DEFAULT),
 ) -> StreamingResponse:
     audio = await file.read()
     return StreamingResponse(
@@ -145,6 +155,7 @@ async def ask_audio(
             lang_mode=lang_mode,
             speak=speak,
             cross_encode=cross_encode,
+            allow_unsourced=allow_unsourced,
         ),
         media_type="text/event-stream",
         headers=SSE_HEADERS,

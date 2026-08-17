@@ -77,6 +77,16 @@ export type StreamEvent =
       harness_ms: Record<string, number>;
     }
   | { type: "tier2_delta"; text: string }
+  | { type: "unsourced_delta"; text: string }
+  | {
+      type: "unsourced";
+      text: string;
+      spoken_text: string;
+      latency_ms: number;
+      first_token_ms: number;
+      error: string | null;
+      unsourced: true;
+    }
   | {
       type: "tier2";
       text?: string;

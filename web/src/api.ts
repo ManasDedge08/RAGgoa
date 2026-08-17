@@ -31,7 +31,7 @@ async function* readEvents(response: Response): AsyncGenerator<StreamEvent> {
 
 export async function* askText(
   query: string,
-  options: { langMode: string; speak: boolean; crossEncode: boolean; languageCode?: string },
+  options: { langMode: string; speak: boolean; crossEncode: boolean; allowUnsourced: boolean; languageCode?: string },
 ): AsyncGenerator<StreamEvent> {
   const response = await fetch(`${API_BASE}/ask`, {
     method: "POST",
@@ -41,6 +41,7 @@ export async function* askText(
       lang_mode: options.langMode,
       speak: options.speak,
       cross_encode: options.crossEncode,
+      allow_unsourced: options.allowUnsourced,
       language_code: options.languageCode ?? null,
     }),
   });
@@ -50,13 +51,14 @@ export async function* askText(
 
 export async function* askAudio(
   blob: Blob,
-  options: { langMode: string; speak: boolean; crossEncode: boolean; languageCode?: string },
+  options: { langMode: string; speak: boolean; crossEncode: boolean; allowUnsourced: boolean; languageCode?: string },
 ): AsyncGenerator<StreamEvent> {
   const form = new FormData();
   form.append("file", blob, "question.webm");
   form.append("lang_mode", options.langMode);
   form.append("speak", String(options.speak));
   form.append("cross_encode", String(options.crossEncode));
+  form.append("allow_unsourced", String(options.allowUnsourced));
   if (options.languageCode) form.append("language_code", options.languageCode);
 
   const response = await fetch(`${API_BASE}/ask-audio`, { method: "POST", body: form });
