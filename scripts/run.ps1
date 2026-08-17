@@ -46,7 +46,8 @@ try {
     $api = Start-Process -FilePath ".venv\Scripts\python.exe" `
         -ArgumentList "-m", "uvicorn", "rag.server:app", "--host", "127.0.0.1", "--port", "$ApiPort" `
         -NoNewWindow -PassThru `
-        -RedirectStandardOutput ".run\api.log" -RedirectStandardError ".run\api.err.log"
+        -RedirectStandardOutput (Join-Path (Get-Location).Path ".run\api.log") `
+        -RedirectStandardError (Join-Path (Get-Location).Path ".run\api.err.log")
 
     # The encoder and indexes load before the first request, so this is not instant.
     while ($true) {
@@ -67,15 +68,42 @@ try {
     Write-Host "  corpus  $($meta.corpus.passages) passages, $($meta.corpus.sentences) sentences"
     Write-Host "  voice   $voice"
     Write-Host "  langs   $($meta.languages.Count) - $names"
+    if ($meta.mock_voice) {
+        Write-Host ""
+        Write-Host "  No SARVAM_API_KEY, so speech in, speech out and Tier 2 are stubs." -ForegroundColor Yellow
+        Write-Host "  Retrieval, timings and the trace are real. Add the key to .env and restart." -ForegroundColor Yellow
+    }
 
     Write-Host "starting UI on :$UiPort ..."
     $env:VITE_API_BASE = "http://127.0.0.1:$ApiPort"
-    $npx = if (Get-Command npx.cmd -ErrorAction SilentlyContinue) { "npx.cmd" } else { "npx" }
-    $ui = Start-Process -FilePath $npx `
-        -ArgumentList "vite", "--port", "$UiPort", "--host", "127.0.0.1" `
-        -WorkingDirectory (Join-Path (Get-Location) "web") `
+
+    $root = (Get-Location).Path
+    $webDir = Join-Path $root "web"
+    # Call vite's own entry point through node. Start-Process does not resolve
+    # npx.cmd through PATH reliably, and going via a shim adds a process that
+    # Stop-Process cannot reach when it is time to shut down.
+    $viteJs = Join-Path $webDir "node_modules\vite\bin\vite.js"
+    if (-not (Test-Path $viteJs)) {
+        Write-Host "web dependencies are missing. Installing them now..." -ForegroundColor Yellow
+        Push-Location $webDir
+        & npm.cmd install
+        Pop-Location
+    }
+    if (-not (Test-Path $viteJs)) {
+        throw "vite not found at $viteJs - run 'npm install' inside the web folder."
+    }
+
+    $node = (Get-Command node -ErrorAction SilentlyContinue)
+    if (-not $node) { throw "node was not found on PATH. Install Node 20+ from nodejs.org." }
+
+    # Redirect paths are resolved against the caller's directory, not
+    # -WorkingDirectory, so they have to be absolute.
+    $ui = Start-Process -FilePath $node.Source `
+        -ArgumentList "`"$viteJs`"", "--port", "$UiPort", "--host", "127.0.0.1" `
+        -WorkingDirectory $webDir `
         -NoNewWindow -PassThru `
-        -RedirectStandardOutput "..\.run\ui.log" -RedirectStandardError "..\.run\ui.err.log"
+        -RedirectStandardOutput (Join-Path $root ".run\ui.log") `
+        -RedirectStandardError (Join-Path $root ".run\ui.err.log")
 
     while ($true) {
         if ($ui.HasExited) {
