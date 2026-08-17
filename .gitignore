@@ -16,3 +16,4 @@ web/dist/
 
 # macOS
 .DS_Store
+.run/
