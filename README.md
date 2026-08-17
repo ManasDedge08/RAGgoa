@@ -173,9 +173,19 @@ Full numbers: [reports/retrieval_eval.json](reports/retrieval_eval.json),
 
 Requires Python 3.12+ and Node 20+.
 
+One command does all of it:
+
+```bash
+./scripts/setup.sh            # venv, deps, corpus, index, calibration, tests
+```
+
+It is safe to re-run and reuses whatever already exists; `--rebuild` forces a
+regenerate. The steps individually:
+
 ```bash
 # 1. Environment
 python -m venv .venv && .venv/bin/pip install -r requirements.txt
+.venv/bin/python scripts/fix_macos_openmp.py   # macOS only, see rag/__init__.py
 cp .env.example .env          # add SARVAM_API_KEY (optional — see below)
 
 # 2. Corpus and indexes (~20 min: downloads 1.4 GB, encodes 190k units)
