@@ -32,6 +32,7 @@ from rag.config import (  # noqa: E402
     CACHE_DIR,
     CORPUS_DIR,
     DATASET_DIR,
+    DATASET_DIR_DEFAULT,
     DATASET_SPLIT,
     DATASET_LANGS,
     HF_DATASET,
@@ -61,30 +62,40 @@ def split_sentences(text: str) -> list[str]:
     return merged or [text.strip()]
 
 
-def load_language(code: str) -> pa.Table:
-    """Read one language's slice, from a local copy if one is configured.
+def local_candidates(code: str) -> list[Path]:
+    """Every path a hand-placed copy of one language slice may live at.
 
-    Set ``RAG_DATASET_DIR`` to a directory holding the dataset files and nothing
-    is fetched from the Hub. Both the repo layout (``validation/hinval.parquet``)
-    and a flat directory of the same files are accepted.
+    Checked in order, so dropping files into ``data/dataset/`` needs no
+    configuration at all. ``RAG_DATASET_DIR`` overrides the location, and both
+    the dataset repo's own layout (``validation/hinval.parquet``) and a flat
+    directory of the same files are accepted.
     """
     suffix = "val" if DATASET_SPLIT == "validation" else "train"
     filename = f"{code}{suffix}.parquet"
 
+    roots = [Path(DATASET_DIR).expanduser()] if DATASET_DIR else [DATASET_DIR_DEFAULT]
+    return [root / DATASET_SPLIT / filename for root in roots] + [root / filename for root in roots]
+
+
+def load_language(code: str) -> pa.Table:
+    """Read one language's slice: a hand-placed local copy first, else the Hub."""
+    for candidate in local_candidates(code):
+        if candidate.exists():
+            print(f"  local file: {candidate}", flush=True)
+            return pq.read_table(candidate)
+
     if DATASET_DIR:
-        root = Path(DATASET_DIR).expanduser()
-        for candidate in (root / DATASET_SPLIT / filename, root / filename):
-            if candidate.exists():
-                print(f"  local: {candidate}", flush=True)
-                return pq.read_table(candidate)
+        looked = "\n  ".join(str(c) for c in local_candidates(code))
         raise FileNotFoundError(
-            f"{filename} not found under {root} (looked in {root / DATASET_SPLIT} and {root}). "
+            f"RAG_DATASET_DIR is set but the file was not found. Looked in:\n  {looked}\n"
             "Unset RAG_DATASET_DIR to download from the Hub instead."
         )
 
+    suffix = "val" if DATASET_SPLIT == "validation" else "train"
+    print(f"  downloading {DATASET_SPLIT}/{code}{suffix}.parquet from the Hub", flush=True)
     path = hf_hub_download(
         HF_DATASET,
-        f"{DATASET_SPLIT}/{filename}",
+        f"{DATASET_SPLIT}/{code}{suffix}.parquet",
         repo_type="dataset",
         cache_dir=str(CACHE_DIR),
     )

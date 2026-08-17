@@ -6,6 +6,8 @@ __pycache__/
 # Build artefacts: regenerate with scripts/prepare_data.py and rag.index.build.
 # The index alone is ~780 MB.
 data/cache/
+data/dataset/*
+!data/dataset/README.md
 data/corpus/
 data/index/
 

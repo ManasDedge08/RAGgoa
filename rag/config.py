@@ -37,9 +37,12 @@ for _d in (CORPUS_DIR, INDEX_DIR, CACHE_DIR, REPORT_DIR):
 
 # ---------------------------------------------------------------- dataset ---
 HF_DATASET = "ai4bharat/MSMARCO-XI"
-# Point at a local copy of the dataset to skip the Hub entirely. Expects the
-# repo's own layout — validation/hinval.parquet, train/hintrain.parquet — or a
-# flat directory of those same files. Falls back to downloading when unset.
+# Drop dataset files into data/dataset/ and they are used automatically; no
+# configuration needed. Either the repo's own layout (validation/hinval.parquet)
+# or a flat directory of the same files works. RAG_DATASET_DIR overrides the
+# location. Anything not found locally is downloaded from the Hub.
+DATASET_DIR_DEFAULT = ROOT / "data" / "dataset"
+DATASET_DIR_DEFAULT.mkdir(parents=True, exist_ok=True)
 DATASET_DIR = os.getenv("RAG_DATASET_DIR", "")
 # "validation" (97,941 queries per language) or "train" (~980k, ~3.8 GB each).
 DATASET_SPLIT = os.getenv("RAG_DATASET_SPLIT", "validation")
