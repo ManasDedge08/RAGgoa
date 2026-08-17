@@ -31,6 +31,8 @@ from rag.index.text import tokenize  # noqa: E402
 from rag.config import (  # noqa: E402
     CACHE_DIR,
     CORPUS_DIR,
+    DATASET_DIR,
+    DATASET_SPLIT,
     DATASET_LANGS,
     HF_DATASET,
     LANGUAGES,
@@ -60,10 +62,29 @@ def split_sentences(text: str) -> list[str]:
 
 
 def load_language(code: str) -> pa.Table:
-    """Download (cached) and read one language's validation slice."""
+    """Read one language's slice, from a local copy if one is configured.
+
+    Set ``RAG_DATASET_DIR`` to a directory holding the dataset files and nothing
+    is fetched from the Hub. Both the repo layout (``validation/hinval.parquet``)
+    and a flat directory of the same files are accepted.
+    """
+    suffix = "val" if DATASET_SPLIT == "validation" else "train"
+    filename = f"{code}{suffix}.parquet"
+
+    if DATASET_DIR:
+        root = Path(DATASET_DIR).expanduser()
+        for candidate in (root / DATASET_SPLIT / filename, root / filename):
+            if candidate.exists():
+                print(f"  local: {candidate}", flush=True)
+                return pq.read_table(candidate)
+        raise FileNotFoundError(
+            f"{filename} not found under {root} (looked in {root / DATASET_SPLIT} and {root}). "
+            "Unset RAG_DATASET_DIR to download from the Hub instead."
+        )
+
     path = hf_hub_download(
         HF_DATASET,
-        f"validation/{code}val.parquet",
+        f"{DATASET_SPLIT}/{filename}",
         repo_type="dataset",
         cache_dir=str(CACHE_DIR),
     )

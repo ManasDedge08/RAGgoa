@@ -178,7 +178,8 @@ Requires Python 3.12+ and Node 20+.
 python -m venv .venv && .venv/bin/pip install -r requirements.txt
 cp .env.example .env          # add SARVAM_API_KEY (optional — see below)
 
-# 2. Corpus and indexes (~20 min: downloads 1.4 GB, encodes 188k units)
+# 2. Corpus and indexes (~20 min: downloads 1.4 GB, encodes 190k units)
+#    Already have the dataset? RAG_DATASET_DIR=/path/to/MSMARCO-XI skips the download.
 .venv/bin/python scripts/prepare_data.py
 .venv/bin/python -m rag.index.build
 .venv/bin/python -m rag.index.build_baseline     # the naive path, for the race
@@ -204,6 +205,8 @@ deliberate — the retrieval demo should never be blocked on credentials.
 | --- | --- | --- |
 | `SARVAM_API_KEY` | _(empty)_ | STT, TTS and Tier 2. Empty enables stub mode. |
 | `RAG_N_QUERY_IDS` | `1200` | Corpus size. Lower it to fit a smaller instance. |
+| `RAG_DATASET_DIR` | _(unset)_ | Path to a local copy of MSMARCO-XI; skips the Hub. |
+| `RAG_DATASET_SPLIT` | `validation` | `validation` (97,941 queries/language) or `train` (~980k). |
 | `RAG_EMBED_MODEL` | `intfloat/multilingual-e5-small` | Query and passage encoder. |
 | `SARVAM_CHAT_MODEL` | `sarvam-105b-conversations` | Tier 2 model. |
 | `SARVAM_STT_MODEL` | `saaras:v4` | Speech to text. |

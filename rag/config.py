@@ -37,6 +37,12 @@ for _d in (CORPUS_DIR, INDEX_DIR, CACHE_DIR, REPORT_DIR):
 
 # ---------------------------------------------------------------- dataset ---
 HF_DATASET = "ai4bharat/MSMARCO-XI"
+# Point at a local copy of the dataset to skip the Hub entirely. Expects the
+# repo's own layout — validation/hinval.parquet, train/hintrain.parquet — or a
+# flat directory of those same files. Falls back to downloading when unset.
+DATASET_DIR = os.getenv("RAG_DATASET_DIR", "")
+# "validation" (97,941 queries per language) or "train" (~980k, ~3.8 GB each).
+DATASET_SPLIT = os.getenv("RAG_DATASET_SPLIT", "validation")
 
 # Languages carried end to end. Each entry maps the dataset's language code to
 # the Sarvam speech-to-text locale and a display name.
