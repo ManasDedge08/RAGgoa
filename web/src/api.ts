@@ -53,11 +53,13 @@ export async function* askText(
 }
 
 export async function* askAudio(
-  blob: Blob,
+  recording: { blob: Blob; filename: string },
   options: { langMode: string; speak: boolean; crossEncode: boolean; allowUnsourced: boolean; languageCode?: string },
 ): AsyncGenerator<StreamEvent> {
   const form = new FormData();
-  form.append("file", blob, "question.webm");
+  // Safari records mp4, Chrome and Firefox webm; the extension has to match the
+  // real container or the transcriber guesses it wrong.
+  form.append("file", recording.blob, recording.filename);
   form.append("lang_mode", options.langMode);
   form.append("speak", String(options.speak));
   form.append("cross_encode", String(options.crossEncode));

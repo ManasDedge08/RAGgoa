@@ -123,8 +123,10 @@ export default function App() {
 
   const toggleMic = useCallback(async () => {
     if (recorder.recording) {
-      const blob = await recorder.stop();
-      if (blob) void consume(askAudio(blob, { langMode, speak, crossEncode, allowUnsourced }));
+      const recording = await recorder.stop();
+      if (recording) {
+        void consume(askAudio(recording, { langMode, speak, crossEncode, allowUnsourced }));
+      }
       return;
     }
     await recorder.start();

@@ -315,6 +315,24 @@ find out rather than assume. If it does get OOM-killed, in order of effect:
 2. `plan: standard` — 2 GB, comfortable at 800 ids
 
 **UI → Vercel.** Deploy `web/` with `VITE_API_BASE` pointing at the Render URL.
+Alternatively skip Vercel entirely: the API serves `web/dist` at `/` when it
+exists, which keeps everything on one origin and removes CORS from the picture.
+
+### Using the microphone from another machine
+
+Browsers expose microphone capture only in a secure context — HTTPS, or
+localhost. Opening the demo over plain HTTP from another machine's IP address
+means `navigator.mediaDevices` does not exist and only typed questions work.
+For a LAN demo, generate a certificate and serve over TLS:
+
+```bash
+python scripts/make_cert.py                       # writes .run/cert.pem, .run/key.pem
+uvicorn rag.server:app --host 0.0.0.0 --port 8443 \
+    --ssl-certfile .run/cert.pem --ssl-keyfile .run/key.pem
+```
+
+The browser warns once that the certificate is self-signed; the microphone stays
+blocked until that warning is accepted.
 
 ---
 
