@@ -1,6 +1,9 @@
 import type { MetaDto, RaceResult, StreamEvent } from "./types";
 
-export const API_BASE = import.meta.env.VITE_API_BASE ?? "http://127.0.0.1:8000";
+// Empty means same origin, which is what happens when the API serves the built
+// UI itself. The dev scripts set VITE_API_BASE because vite runs on its own
+// port. Baking in 127.0.0.1 broke access from any other machine.
+export const API_BASE = import.meta.env.VITE_API_BASE ?? "";
 
 /** Reads an SSE body from a POST response and hands back one event at a time. */
 async function* readEvents(response: Response): AsyncGenerator<StreamEvent> {

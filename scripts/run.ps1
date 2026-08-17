@@ -8,7 +8,11 @@
 [CmdletBinding()]
 param(
     [int]$ApiPort = 8000,
-    [int]$UiPort = 5173
+    [int]$UiPort = 5173,
+    # Bind to every interface so other machines on the LAN can reach it. Off by
+    # default: the API has no authentication, and neither does the microphone
+    # endpoint, so only do this on a network you trust.
+    [switch]$Lan
 )
 
 $ErrorActionPreference = "Stop"
@@ -42,9 +46,10 @@ function Stop-All {
 }
 
 try {
-    Write-Host "starting API on :$ApiPort ..."
+    $bindHost = if ($Lan) { "0.0.0.0" } else { "127.0.0.1" }
+    Write-Host "starting API on ${bindHost}:$ApiPort ..."
     $api = Start-Process -FilePath ".venv\Scripts\python.exe" `
-        -ArgumentList "-m", "uvicorn", "rag.server:app", "--host", "127.0.0.1", "--port", "$ApiPort" `
+        -ArgumentList "-m", "uvicorn", "rag.server:app", "--host", $bindHost, "--port", "$ApiPort" `
         -NoNewWindow -PassThru `
         -RedirectStandardOutput (Join-Path (Get-Location).Path ".run\api.log") `
         -RedirectStandardError (Join-Path (Get-Location).Path ".run\api.err.log")
@@ -131,6 +136,13 @@ try {
 
     Write-Host ""
     Write-Host "  Open  http://127.0.0.1:$UiPort" -ForegroundColor Green
+    if ($Lan) {
+        $ip = (Get-NetIPAddress -AddressFamily IPv4 |
+               Where-Object { $_.IPAddress -notlike "127.*" -and $_.PrefixOrigin -ne "WellKnown" } |
+               Select-Object -First 1).IPAddress
+        Write-Host "  LAN   http://${ip}:$ApiPort  (API, and the built UI if web/dist exists)" -ForegroundColor Green
+        Write-Host "        no authentication - only on a network you trust" -ForegroundColor Yellow
+    }
     Write-Host ""
     Write-Host "  The microphone needs localhost or HTTPS - 127.0.0.1 qualifies, so it works."
     Write-Host "  API docs at http://127.0.0.1:$ApiPort/docs"

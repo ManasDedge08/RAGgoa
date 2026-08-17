@@ -11,6 +11,9 @@ cd "$(dirname "$0")/.."
 
 API_PORT="${1:-8000}"
 UI_PORT="${2:-5173}"
+# LAN=1 binds every interface. No authentication on the API, so trusted
+# networks only.
+BIND_HOST=$([[ "${LAN:-0}" == "1" ]] && echo "0.0.0.0" || echo "127.0.0.1")
 mkdir -p .run
 
 if [[ ! -d .venv ]]; then
@@ -33,7 +36,7 @@ trap cleanup EXIT INT TERM
 
 echo "starting API on :$API_PORT ..."
 TOKENIZERS_PARALLELISM=false \
-  .venv/bin/uvicorn rag.server:app --host 127.0.0.1 --port "$API_PORT" \
+  .venv/bin/uvicorn rag.server:app --host "$BIND_HOST" --port "$API_PORT" \
   > .run/api.log 2>&1 &
 API_PID=$!
 
