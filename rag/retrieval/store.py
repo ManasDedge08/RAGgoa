@@ -107,7 +107,7 @@ class Store:
             if u.is_selected:
                 self.gold_by_query.setdefault(u.query_id, []).append(u.passage_id)
 
-        self.stats = json.loads((INDEX_DIR / "stats.json").read_text())
+        self.stats = json.loads((INDEX_DIR / "stats.json").read_text(encoding="utf-8"))
         self._model = None
         self._cross_encoder = None
         self._model_lock = threading.Lock()

@@ -120,7 +120,7 @@ def main() -> None:
             "confidence tier, calibrated in confidence.json."
         ),
     }
-    (REPORT_DIR / "guardrail.json").write_text(json.dumps(guardrail, indent=2))
+    (REPORT_DIR / "guardrail.json").write_text(json.dumps(guardrail, indent=2), encoding="utf-8")
     print(json.dumps(guardrail, indent=2))
 
     # ----------------------------------------------------------- confidence ---
@@ -199,7 +199,7 @@ def main() -> None:
         },
         "n": len(hits),
     }
-    (REPORT_DIR / "confidence.json").write_text(json.dumps(confidence_report, indent=2))
+    (REPORT_DIR / "confidence.json").write_text(json.dumps(confidence_report, indent=2), encoding="utf-8")
     print(json.dumps(confidence_report, indent=2))
 
 

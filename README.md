@@ -173,14 +173,39 @@ Full numbers: [reports/retrieval_eval.json](reports/retrieval_eval.json),
 
 Requires Python 3.12+ and Node 20+.
 
-One command does all of it:
+One command does all of it.
+
+**macOS / Linux**
 
 ```bash
 ./scripts/setup.sh            # venv, deps, corpus, index, calibration, tests
+./scripts/run.sh              # API on :8000, UI on :5173
 ```
 
-It is safe to re-run and reuses whatever already exists; `--rebuild` forces a
-regenerate. The steps individually:
+**Windows 11 (PowerShell)**
+
+```powershell
+.\scripts\setup.ps1          # same steps
+.\scripts\run.ps1            # API on :8000, UI on :5173
+```
+
+If PowerShell refuses to run the scripts, allow local ones for the session:
+
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
+
+Windows has no GPU acceleration here, so the index build runs on CPU and takes
+noticeably longer than the ~4 minutes per language quoted below. Two Windows
+specifics are handled in code rather than left to the user: console output is
+forced to UTF-8, because the legacy code page cannot encode Indic text and
+every script would otherwise crash on `print`; and `KMP_DUPLICATE_LIB_OK` is
+set before faiss loads, because torch and faiss bundle OpenMP DLLs that cannot
+be symlinked together the way they are on macOS.
+
+Both are safe to re-run and reuse whatever already exists; `--rebuild` (bash)
+or `-Rebuild` (PowerShell) forces a regenerate. The steps individually, on
+macOS or Linux:
 
 ```bash
 # 1. Environment

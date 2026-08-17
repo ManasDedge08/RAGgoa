@@ -109,7 +109,7 @@ def main() -> None:
               f"{entry['tier1_p100_ms_estimate']:7.1f} ms  {'fits' if entry['within_200ms'] else 'OVER BUDGET'}")
 
     out = REPORT_DIR / "cross_encoder_eval.json"
-    out.write_text(json.dumps(report, indent=2))
+    out.write_text(json.dumps(report, indent=2), encoding="utf-8")
     print(f"\nwrote {out}")
 
 

@@ -46,7 +46,7 @@ def _domain_floor() -> float:
     path = REPORT_DIR / "guardrail.json"
     if path.exists():
         try:
-            return float(json.loads(path.read_text())["domain_floor"])
+            return float(json.loads(path.read_text(encoding="utf-8"))["domain_floor"])
         except (KeyError, ValueError, json.JSONDecodeError):
             pass
     return DEFAULT_DOMAIN_FLOOR

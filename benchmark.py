@@ -335,7 +335,7 @@ def write_markdown(report: dict) -> None:
             f"{tier2['fallback_pct']}% fell back to the Tier 1 span.",
         ]
 
-    (REPORT_DIR / "latency_report.md").write_text("\n".join(lines) + "\n")
+    (REPORT_DIR / "latency_report.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
     _update_readme(report)
 
 
@@ -348,7 +348,7 @@ def _update_readme(report: dict) -> None:
     readme = REPORT_DIR.parent / "README.md"
     if not readme.exists():
         return
-    text = readme.read_text()
+    text = readme.read_text(encoding="utf-8")
     if README_BEGIN not in text or README_END not in text:
         return
 
@@ -383,7 +383,7 @@ def _update_readme(report: dict) -> None:
     ]
     head, _, rest = text.partition(README_BEGIN)
     _, _, tail = rest.partition(README_END)
-    readme.write_text(head + README_BEGIN + "\n".join(rows) + README_END + tail)
+    readme.write_text(head + README_BEGIN + "\n".join(rows) + README_END + tail, encoding="utf-8")
 
 
 async def main() -> None:
@@ -433,7 +433,7 @@ async def main() -> None:
         report["tier2"] = await run_tier2(retriever, sample[: args.tier2])
         print(f"  P50 {report['tier2']['total']['p50']} ms")
 
-    (REPORT_DIR / "latency_report.json").write_text(json.dumps(report, indent=2))
+    (REPORT_DIR / "latency_report.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
     write_markdown(report)
     print(f"\nwrote {REPORT_DIR / 'latency_report.json'} and latency_report.md")
 

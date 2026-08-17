@@ -110,7 +110,7 @@ def main() -> None:
     del original
 
     out = REPORT_DIR / "retrieval_eval.json"
-    out.write_text(json.dumps(report, indent=2))
+    out.write_text(json.dumps(report, indent=2), encoding="utf-8")
     print(f"\nwrote {out}")
 
 

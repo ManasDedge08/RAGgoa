@@ -175,7 +175,7 @@ def main() -> None:
     stats_path = INDEX_DIR / "stats.json"
     stats: dict[str, object] = {}
     if stats_path.exists():
-        stats = json.loads(stats_path.read_text())
+        stats = json.loads(stats_path.read_text(encoding="utf-8"))
     stats["embed_model"] = EMBED_MODEL
     stats["embed_dim"] = EMBED_DIM
 
@@ -188,7 +188,7 @@ def main() -> None:
         else:
             stats[stage] = build_level(stage, args.force)
 
-    stats_path.write_text(json.dumps(stats, indent=2))
+    stats_path.write_text(json.dumps(stats, indent=2), encoding="utf-8")
     print(f"\nindex written to {INDEX_DIR}")
     print(json.dumps(stats, indent=2))
 

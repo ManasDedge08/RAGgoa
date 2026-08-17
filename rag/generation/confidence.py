@@ -34,7 +34,7 @@ def _thresholds() -> dict[str, float]:
     path = REPORT_DIR / "confidence.json"
     if path.exists():
         try:
-            return json.loads(path.read_text())["thresholds"]
+            return json.loads(path.read_text(encoding="utf-8"))["thresholds"]
         except (KeyError, json.JSONDecodeError):
             pass
     return DEFAULT_THRESHOLDS
