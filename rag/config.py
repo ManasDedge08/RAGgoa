@@ -92,6 +92,13 @@ SARVAM_RETRIES = int(os.getenv("SARVAM_RETRIES", "2"))
 # chat providers, so the retrieval demo is never blocked on credentials.
 MOCK_VOICE = os.getenv("RAG_MOCK_VOICE", "") == "1" or not SARVAM_API_KEY
 
+# Pre-retrieval domain filtering is off by default. Calibration showed it
+# barely separates off-topic from in-corpus questions (both are well-formed
+# questions), and refusing before retrieval hides the reasoning trace that
+# makes a refusal legible. The evidence-based refusal in the confidence tier is
+# both stronger and explainable. Unsafe-pattern checks always run.
+DOMAIN_FILTER_ENABLED = os.getenv("RAG_DOMAIN_FILTER", "") == "1"
+
 # ---------------------------------------------------------------- indexing ---
 N_QUERY_CLUSTERS = int(os.getenv("RAG_N_CLUSTERS", "160"))
 # Fixed-width chunk size for the naive baseline index only.

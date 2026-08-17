@@ -15,10 +15,10 @@
 │  EMBED      │   multilingual-e5-small, CPU, ~5 ms
 └─────┬───────┘
       ▼
-┌─────────────┐   cosine against 160 query-cluster centroids + unsafe patterns
+┌─────────────┐   unsafe patterns; domain similarity scored, not enforced
 │  GUARD      │   ~0.1 ms
 └─────┬───────┘
-      │  ── off topic / unsafe ──▶ REFUSED (spoken refusal, not silence)
+      │  ── unsafe ──▶ REFUSED (spoken refusal, not silence)
       ▼
 ┌─────────────┐   five strategies → RRF → feature rerank
 │  RETRIEVE   │   emits a trace event per strategy as it completes
@@ -145,11 +145,14 @@ keeps the deployed container inside a small instance.
 
 Three, at different points, doing different jobs:
 
-1. **Query guardrail** (before retrieval) — cosine to the nearest query-cluster
-   centroid, plus a small unsafe-pattern list. This stage is weak and the
-   report says so: off-topic and in-corpus questions overlap almost completely
-   in that similarity, so the floor is set permissively (~1% false-reject) and
-   catches only egregious cases. See `reports/guardrail.json`.
+1. **Query guardrail** (before retrieval) — unsafe-pattern matching, plus a
+   domain-similarity score that is *reported rather than enforced* by default.
+   Calibration showed off-topic and in-corpus questions overlap almost
+   completely in that similarity, because an off-topic question is still a
+   well-formed question. Worse, rejecting before retrieval hides the reasoning
+   trace, so the user sees a dead end with no explanation. The score is shown
+   in the trace and `RAG_DOMAIN_FILTER=1` turns enforcement back on. See
+   `reports/guardrail.json`.
 2. **Grounding check** (after Tier 2, before speech) — lexical overlap and
    semantic similarity against the retrieved passages. Failing both floors sends
    the turn back to the Tier 1 span. Either signal alone can carry an answer,

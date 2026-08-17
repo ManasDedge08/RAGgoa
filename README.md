@@ -140,10 +140,28 @@ the 5th percentile. The distributions overlap because an off-topic question is
 still a well-formed question. Setting a floor tight enough to catch it would
 reject real queries.
 
-So the pre-filter is set permissively (~1% false-reject) to catch egregious
-cases at 0.1 ms, and the real refusal happens *after* retrieval, where there is
-evidence to judge. That gate works: the refused band runs at 13.3% top-5
-accuracy against a 41.5% base rate, and "book me a cab" is refused there.
+So the pre-filter no longer rejects anything by default. It scores the query,
+shows the number in the trace, and lets it through; the real refusal happens
+*after* retrieval, where there is evidence to judge. That gate works: the
+refused band runs at 13.3% top-5 accuracy against a 41.5% base rate, and "book
+me a cab" is refused there. Set `RAG_DOMAIN_FILTER=1` to enforce the pre-filter
+instead.
+
+Refusing after retrieval also makes the refusal legible. Ask "who is the prime
+minister of India" and you see the closest thing the corpus had — *"India,
+officially the Republic of India, is a country in South Asia"* — followed by a
+decline. The system shows its work even when the work came up empty.
+
+### What the corpus can and cannot answer
+
+The corpus is 1,200 MS MARCO questions and the passages retrieved for them:
+brake rotors, HSA premiums, legal definitions, NFL records. General-knowledge
+questions are declined, and that is a property of the dataset rather than the
+sample size — the full 97,941-query split contains two questions mentioning a
+prime minister (neither asking who one is) and none about the capital of India.
+Indexing all of it would cost roughly 18 hours of encoding and 64 GB of index
+and still decline the question. The interface says so up front, and the example
+questions are drawn from the corpus itself.
 
 Full numbers: [reports/retrieval_eval.json](reports/retrieval_eval.json),
 [reports/guardrail.json](reports/guardrail.json),
@@ -189,6 +207,7 @@ deliberate — the retrieval demo should never be blocked on credentials.
 | `RAG_EMBED_MODEL` | `intfloat/multilingual-e5-small` | Query and passage encoder. |
 | `SARVAM_CHAT_MODEL` | `sarvam-105b-conversations` | Tier 2 model. |
 | `SARVAM_STT_MODEL` | `saaras:v4` | Speech to text. |
+| `RAG_DOMAIN_FILTER` | _(off)_ | `1` enforces the pre-retrieval domain filter. |
 | `SARVAM_TTS_MODEL` | `bulbul:v2` | Text to speech (6x faster than v3 on answer-length text). |
 | `VITE_API_BASE` | `http://127.0.0.1:8000` | Where the UI finds the API. |
 

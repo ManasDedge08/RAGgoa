@@ -161,6 +161,13 @@ export default function App() {
           milliseconds and is measured against a 200 ms budget on the line below. The spoken,
           synthesised answer follows after — separately timed, never folded into that number.
         </p>
+        <p className="masthead__scope">
+          <strong>What it knows:</strong> 1,200 questions from MS MARCO and the web passages
+          retrieved for them — brake rotors, HSA premiums, legal definitions, NFL records. It is a
+          retrieval demo, not an encyclopedia, so it will decline general-knowledge questions like
+          who runs a country rather than guess at them. The examples below are drawn from the
+          corpus itself.
+        </p>
       </header>
 
       <Measure
@@ -238,7 +245,7 @@ export default function App() {
 
       {sampleChips.length > 0 && (
         <div className="samples">
-          <span className="samples__label">try</span>
+          <span className="samples__label">real questions from the corpus</span>
           {sampleChips.map((chip) => (
             <button
               className="chip"

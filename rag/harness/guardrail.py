@@ -26,7 +26,7 @@ from dataclasses import dataclass
 
 import numpy as np
 
-from ..config import REPORT_DIR
+from ..config import DOMAIN_FILTER_ENABLED, REPORT_DIR
 from ..retrieval.store import get_store
 
 DEFAULT_DOMAIN_FLOOR = 0.70
@@ -86,6 +86,17 @@ def check_query(query: str, qvec: np.ndarray) -> GuardrailVerdict:
     centroids = get_store().clusters.centroids
     similarity = float(np.max(centroids @ qvec[0]))
     floor = _domain_floor()
+
+    if not DOMAIN_FILTER_ENABLED:
+        # Score it anyway — the number is shown in the trace — but let the query
+        # through so the user sees what was searched before anything is refused.
+        return GuardrailVerdict(
+            allowed=True,
+            reason=f"domain similarity {similarity:.3f} (pre-filter reporting only)",
+            domain_similarity=similarity,
+            latency_ms=(time.perf_counter() - start) * 1000,
+        )
+
     allowed = similarity >= floor
     return GuardrailVerdict(
         allowed=allowed,
