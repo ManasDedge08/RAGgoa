@@ -25,7 +25,9 @@
   --hair: 1px solid rgba(22, 33, 58, 0.22);
 
   --display: "Anek Latin", system-ui, sans-serif;
-  --indic: "Anek Devanagari", "Anek Tamil", "Anek Bangla", "Anek Latin", sans-serif;
+  --indic: "Anek Devanagari", "Anek Tamil", "Anek Bangla", "Anek Gujarati",
+    "Anek Kannada", "Anek Malayalam", "Anek Odia", "Anek Telugu", "Anek Gurmukhi",
+    "Noto Sans", "Anek Latin", sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, monospace;
 
   --gap: clamp(1rem, 2.2vw, 2rem);
@@ -102,12 +104,21 @@ button {
 
 .masthead__scripts {
   font-family: var(--indic);
-  font-size: clamp(1.1rem, 2.6vw, 1.7rem);
+  font-size: clamp(1rem, 2.2vw, 1.45rem);
   color: var(--ink-soft);
   margin: 0.6rem 0 1.4rem;
   display: flex;
   flex-wrap: wrap;
-  gap: 0 1.1rem;
+  align-items: baseline;
+  gap: 0.35rem 0.9rem;
+}
+
+/* A separator between phrases, so scripts the reader cannot parse still read
+   as a list of invitations rather than one run-on string. */
+.masthead__scripts span + span::before {
+  content: "·";
+  color: var(--indigo);
+  margin-right: 0.9rem;
 }
 
 .masthead__standfirst {

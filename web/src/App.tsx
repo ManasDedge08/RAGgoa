@@ -16,6 +16,32 @@ import type {
 } from "./types";
 
 const STATES = ["received", "transcribe", "guard", "retrieve", "tier1", "tier2", "speak", "done"];
+/**
+ * "Ask" in each language, as an imperative — the invitation, not a label.
+ *
+ * Machine translation was not usable here: it returned infinitives ("to ask by
+ * speaking") and, for Odia, a word meaning "to call". These are the plain
+ * imperative forms. Hindi, Tamil and Bengali were verified earlier against the
+ * corpus; the rest are worth a native speaker's glance before the final cut.
+ */
+const ASK_PHRASE: Record<string, string> = {
+  eng_Latn: "Ask out loud",
+  hin_Deva: "प्रश्न पूछिए",
+  mar_Deva: "प्रश्न विचारा",
+  ben_Beng: "জিজ্ঞাসা করুন",
+  tam_Taml: "கேளுங்கள்",
+  tel_Telu: "అడగండి",
+  guj_Gujr: "પૂછો",
+  kan_Knda: "ಕೇಳಿ",
+  mal_Mlym: "ചോദിക്കൂ",
+  pan_Guru: "ਪੁੱਛੋ",
+  ori_Orya: "ପଚାରନ୍ତୁ",
+  asm_Beng: "সোধক",
+  nep_Deva: "सोध्नुहोस्",
+  san_Deva: "पृच्छतु",
+  urd_Arab: "پوچھیں",
+};
+
 /** Routing modes, named by what they do rather than by their internal keys. */
 const LANG_MODES = [
   { mode: "cross", label: "any language", hint: "Retrieve from all four languages" },
@@ -184,10 +210,11 @@ export default function App() {
           The Measure<em>.</em>
         </h1>
         <p className="masthead__scripts">
-          <span>प्रश्न पूछिए</span>
-          <span>கேளுங்கள்</span>
-          <span>জিজ্ঞাসা করুন</span>
-          <span>Ask out loud</span>
+          {(meta?.languages ?? []).map((language) => (
+            <span key={language.code} title={language.name}>
+              {ASK_PHRASE[language.code] ?? language.name}
+            </span>
+          ))}
         </p>
         <p className="masthead__standfirst">
           Speak a question in Hindi, Tamil, Bengali or English. The extractive answer lands in
@@ -195,11 +222,11 @@ export default function App() {
           synthesised answer follows after — separately timed, never folded into that number.
         </p>
         <p className="masthead__scope">
-          <strong>What it knows:</strong> 1,200 questions from MS MARCO and the web passages
-          retrieved for them — brake rotors, HSA premiums, legal definitions, NFL records. It is a
-          retrieval demo, not an encyclopedia, so it will decline general-knowledge questions like
-          who runs a country rather than guess at them. The examples below are drawn from the
-          corpus itself.
+          <strong>What it knows:</strong> {meta ? meta.corpus.passages.toLocaleString() : "—"} passages
+          from MS MARCO, in {meta?.languages.length ?? "several"} languages — brake rotors, HSA
+          premiums, legal definitions, NFL records. It is a retrieval demo, not an encyclopedia: a
+          cross-encoder checks whether anything retrieved actually answers you, and when nothing
+          does it says so instead of guessing. The examples below come from the corpus itself.
         </p>
       </header>
 
