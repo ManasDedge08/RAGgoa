@@ -14,7 +14,7 @@ from typing import AsyncIterator, Callable
 
 from ..retrieval.lang import display_name
 from ..retrieval.retriever import RetrievalResult
-from ..voice.sarvam import SarvamClient, SarvamError
+from ..voice.sarvam import SarvamClient, SarvamError, describe
 from .confidence import Confidence
 from .grounding import GroundingVerdict, check
 from .templates import prefix_for
@@ -89,7 +89,7 @@ async def generate(
             if on_delta:
                 on_delta(delta)
     except SarvamError as exc:
-        error = str(exc)
+        error = describe(exc)
 
     text = "".join(chunks).strip()
     elapsed = (time.perf_counter() - start) * 1000

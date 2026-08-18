@@ -30,6 +30,8 @@ from ..config import (
     SARVAM_API_KEY,
     SARVAM_BASE,
     SARVAM_CHAT_MODEL,
+    SARVAM_CONNECT_TIMEOUT_S,
+    SARVAM_READ_TIMEOUT_S,
     SARVAM_REASONING_EFFORT,
     SARVAM_RETRIES,
     SARVAM_STT_MODEL,
@@ -41,6 +43,19 @@ from ..config import (
 
 class SarvamError(RuntimeError):
     """Raised when a Sarvam call fails after all retries."""
+
+
+def describe(exc: BaseException | None) -> str:
+    """A message that survives exceptions carrying no message of their own.
+
+    httpx timeout and connect errors stringify to "", so reporting str(exc) put
+    an empty string in the error field and left nothing to debug from. The type
+    name is the entire useful content in exactly those cases.
+    """
+    if exc is None:
+        return "unknown failure"
+    text = str(exc).strip()
+    return f"{type(exc).__name__}: {text}" if text else type(exc).__name__
 
 
 @dataclass
@@ -75,7 +90,10 @@ class SarvamClient:
 
     async def _http(self) -> httpx.AsyncClient:
         if self._client is None:
-            self._client = httpx.AsyncClient(base_url=SARVAM_BASE, timeout=SARVAM_TIMEOUT_S)
+            self._client = httpx.AsyncClient(
+                base_url=SARVAM_BASE,
+                timeout=httpx.Timeout(SARVAM_READ_TIMEOUT_S, connect=SARVAM_CONNECT_TIMEOUT_S),
+            )
         return self._client
 
     async def aclose(self) -> None:
@@ -99,7 +117,7 @@ class SarvamClient:
                 last = exc
                 if attempt < SARVAM_RETRIES:
                     await asyncio.sleep(0.25 * (2**attempt))
-        raise SarvamError(str(last))
+        raise SarvamError(describe(last))
 
     # ---------------------------------------------------------------- STT ---
     async def transcribe(

@@ -62,6 +62,8 @@ print(f"  langs   {len(m['languages'])} — {names}")
 PY
 
 echo "starting UI on :$UI_PORT ..."
+# VITE_API_BASE here is the proxy target for the dev server, not a value
+# baked into the client bundle.
 (cd web && VITE_API_BASE="http://127.0.0.1:$API_PORT" \
   npx vite --port "$UI_PORT" --host 127.0.0.1 > ../.run/ui.log 2>&1) &
 UI_PID=$!

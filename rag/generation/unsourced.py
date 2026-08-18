@@ -27,7 +27,7 @@ from dataclasses import dataclass
 from typing import Callable
 
 from ..retrieval.lang import display_name
-from ..voice.sarvam import SarvamClient, SarvamError
+from ..voice.sarvam import SarvamClient, SarvamError, describe
 from .templates import unsourced_prefix
 
 SYSTEM_PROMPT = (
@@ -83,7 +83,7 @@ async def generate(
             if on_delta:
                 on_delta(delta)
     except SarvamError as exc:
-        error = str(exc)
+        error = describe(exc)
 
     text = "".join(chunks).strip()
     return UnsourcedAnswer(

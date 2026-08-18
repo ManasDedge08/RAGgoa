@@ -34,7 +34,7 @@ from ..generation.confidence import score_retrieval
 from ..generation.templates import off_topic_for
 from ..retrieval.lang import detect, from_sarvam_code, has_voice, sarvam_code
 from ..retrieval.retriever import LangMode, Retriever
-from ..voice.sarvam import SarvamClient
+from ..voice.sarvam import SarvamClient, describe
 from .guardrail import check_query
 
 
@@ -56,12 +56,12 @@ class State(str, Enum):
 # Per-stage wall-clock ceilings. Retrieval's is generous relative to its
 # measured cost so a cold page-in cannot fail a request outright.
 TIMEOUTS_S = {
-    State.TRANSCRIBE: 25.0,
+    State.TRANSCRIBE: 60.0,
     State.GUARD: 2.0,
     State.RETRIEVE: 5.0,
     State.TIER1: 2.0,
-    State.TIER2: 30.0,
-    State.SPEAK: 20.0,
+    State.TIER2: 100.0,
+    State.SPEAK: 60.0,
 }
 RETRIES = {State.TRANSCRIBE: 1, State.SPEAK: 1}
 
@@ -123,7 +123,7 @@ class Pipeline:
                 await asyncio.sleep(0.2 * (2**attempt))
 
         turn.stage_ms[state.value] = (time.perf_counter() - start) * 1000
-        turn.errors[state.value] = str(last_error)
+        turn.errors[state.value] = describe(last_error)
         return default, last_error
 
     # ---------------------------------------------------------------- run ---
@@ -306,7 +306,7 @@ class Pipeline:
             try:
                 answer3 = await unsourced_task
             except (asyncio.TimeoutError, Exception) as exc:  # noqa: BLE001
-                turn.errors["unsourced"] = str(exc)
+                turn.errors["unsourced"] = describe(exc)
                 answer3 = None
 
             if answer3 is None or not answer3.text:

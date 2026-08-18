@@ -131,7 +131,13 @@ SARVAM_CHAT_MODEL = os.getenv("SARVAM_CHAT_MODEL", "sarvam-105b-conversations")
 # Tier 2 reads three passages and speaks two sentences; extra reasoning effort
 # buys nothing here and costs first-token latency.
 SARVAM_REASONING_EFFORT = os.getenv("SARVAM_REASONING_EFFORT", "low")
-SARVAM_TIMEOUT_S = float(os.getenv("SARVAM_TIMEOUT_S", "20"))
+# Split, rather than one number for everything. Connecting should be quick or
+# not at all, but a streamed generation on a slow link legitimately takes a
+# while: a single 20 s budget killed Tier 2 mid-stream on a phone hotspot and
+# degraded every turn, while the same request over good wifi finished in 3 s.
+SARVAM_CONNECT_TIMEOUT_S = float(os.getenv("SARVAM_CONNECT_TIMEOUT_S", "15"))
+SARVAM_READ_TIMEOUT_S = float(os.getenv("SARVAM_READ_TIMEOUT_S", "90"))
+SARVAM_TIMEOUT_S = float(os.getenv("SARVAM_TIMEOUT_S", "90"))
 SARVAM_RETRIES = int(os.getenv("SARVAM_RETRIES", "2"))
 # With no key present the pipeline still runs end to end against stub voice and
 # chat providers, so the retrieval demo is never blocked on credentials.
