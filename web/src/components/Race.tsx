@@ -11,9 +11,11 @@ interface Props {
   running: boolean;
   onRun: () => void;
   canRun: boolean;
+  error: string | null;
+  query: string;
 }
 
-export function Race({ result, running, onRun, canRun }: Props) {
+export function Race({ result, running, onRun, canRun, error, query }: Props) {
   const max = result
     ? Math.max(result.multi_strategy.total_ms, result.naive.total_ms) * 1.05
     : 1;
@@ -37,8 +39,14 @@ export function Race({ result, running, onRun, canRun }: Props) {
         sentence-level index, no fusion, no rerank. Same corpus, same encoder, same machine.
       </p>
 
-      {!result && !running && (
-        <p className="race__empty">Ask something first, then race it.</p>
+      {error && <p className="notice notice--error">Race failed: {error}</p>}
+
+      {!result && !running && !error && (
+        <p className="race__empty">
+          {canRun
+            ? `Ready to race: "${query.slice(0, 60)}"`
+            : "Ask something first — by voice or text — then race it."}
+        </p>
       )}
 
       {result && (

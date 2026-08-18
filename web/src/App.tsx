@@ -72,6 +72,7 @@ export default function App() {
   const [turn, setTurn] = useState<TurnView>(EMPTY);
   const [race, setRace] = useState<RaceResult | null>(null);
   const [racing, setRacing] = useState(false);
+  const [raceError, setRaceError] = useState<string | null>(null);
   const [lastQuery, setLastQuery] = useState("");
   const recorder = useRecorder();
   const player = useAudioPlayer();
@@ -97,6 +98,11 @@ export default function App() {
         setTurn((prev) => reduce(prev, event));
         if (event.type === "audio" && event.audio_b64) {
           player.play(event.audio_b64);
+        }
+        if (event.type === "transcript" && event.text) {
+          // Spoken questions have to reach the race too; the transcript is the
+          // only place the text exists.
+          setLastQuery(event.text);
         }
       }
     } catch (err) {
@@ -137,9 +143,13 @@ export default function App() {
   const onRace = useCallback(() => {
     if (!lastQuery) return;
     setRacing(true);
+    setRaceError(null);
     runRace(lastQuery)
       .then(setRace)
-      .catch(() => setRace(null))
+      .catch((err: unknown) => {
+        setRace(null);
+        setRaceError(err instanceof Error ? err.message : String(err));
+      })
       .finally(() => setRacing(false));
   }, [lastQuery]);
 
@@ -422,7 +432,14 @@ export default function App() {
         </section>
       </div>
 
-      <Race result={race} running={racing} onRun={onRace} canRun={Boolean(lastQuery)} />
+      <Race
+        result={race}
+        running={racing}
+        onRun={onRace}
+        canRun={Boolean(lastQuery)}
+        error={raceError}
+        query={lastQuery}
+      />
 
       <footer className="colophon">
         <span>corpus: ai4bharat/MSMARCO-XI</span>
