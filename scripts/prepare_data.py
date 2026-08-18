@@ -22,6 +22,7 @@ import sys
 from pathlib import Path
 
 import pyarrow as pa
+import pyarrow.compute as pc
 import pyarrow.parquet as pq
 from huggingface_hub import hf_hub_download
 
@@ -41,6 +42,15 @@ from rag.config import (  # noqa: E402
     N_QUERY_IDS,
     RANDOM_SEED,
 )
+
+# Only the columns the corpus is built from: the slices also carry source_lang,
+# target_lang and meta, which are dead weight in every batch decoded.
+SLICE_COLUMNS = [
+    "query_id", "query_type", "passages", "query", "Answer", "Eng_Query", "Eng_Answer",
+]
+# Rows per decoded batch. Bounds peak memory; the slices are one row group, so
+# without this the whole nested passages column is decoded at once.
+BATCH_ROWS = 256
 
 # Sentence boundaries for Latin, Devanagari (danda), and generic CJK-style stops.
 _SENT_SPLIT = re.compile(r"(?<=[.!?।॥])\s+|\n+")
@@ -77,12 +87,16 @@ def local_candidates(code: str) -> list[Path]:
     return [root / DATASET_SPLIT / filename for root in roots] + [root / filename for root in roots]
 
 
-def load_language(code: str) -> pa.Table:
-    """Read one language's slice: a hand-placed local copy first, else the Hub."""
+def language_path(code: str) -> Path:
+    """Where one language's slice lives: a hand-placed copy first, else the Hub.
+
+    Downloads are cached by ``huggingface_hub``, so calling this twice for the
+    same language costs one filesystem check rather than a second download.
+    """
     for candidate in local_candidates(code):
         if candidate.exists():
             print(f"  local file: {candidate}", flush=True)
-            return pq.read_table(candidate)
+            return candidate
 
     if DATASET_DIR:
         looked = "\n  ".join(str(c) for c in local_candidates(code))
@@ -93,25 +107,37 @@ def load_language(code: str) -> pa.Table:
 
     suffix = "val" if DATASET_SPLIT == "validation" else "train"
     print(f"  downloading {DATASET_SPLIT}/{code}{suffix}.parquet from the Hub", flush=True)
-    path = hf_hub_download(
-        HF_DATASET,
-        f"{DATASET_SPLIT}/{code}{suffix}.parquet",
-        repo_type="dataset",
-        cache_dir=str(CACHE_DIR),
+    return Path(
+        hf_hub_download(
+            HF_DATASET,
+            f"{DATASET_SPLIT}/{code}{suffix}.parquet",
+            repo_type="dataset",
+            cache_dir=str(CACHE_DIR),
+        )
     )
-    return pq.read_table(path)
+
+
+def load_language(code: str) -> pa.Table:
+    """Read one language's slice in full."""
+    return pq.read_table(language_path(code))
 
 
 def main() -> None:
-    tables = {}
-    for lang, meta in LANGUAGES.items():
-        if meta["file"]:
-            print(f"reading {meta['name']} ...", flush=True)
-            tables[lang] = load_language(meta["file"])
+    slices = {lang: meta["file"] for lang, meta in LANGUAGES.items() if meta["file"]}
+
+    # Pass one: the query ids only. Reading the single column keeps this to a
+    # few megabytes per language, where the full slice is gigabytes once Arrow
+    # decompresses it.
+    id_sets = []
+    for lang, code in slices.items():
+        print(f"reading query ids for {LANGUAGES[lang]['name']} ...", flush=True)
+        ids = pq.read_table(language_path(code), columns=["query_id"])
+        id_sets.append(set(ids.column("query_id").to_pylist()))
+        del ids
 
     # Every language slice covers the same query ids; intersect to be safe.
-    id_sets = [set(t.column("query_id").to_pylist()) for t in tables.values()]
     shared = sorted(set.intersection(*id_sets))
+    del id_sets
     print(f"shared query_ids: {len(shared)}")
 
     rng = random.Random(RANDOM_SEED)
@@ -126,70 +152,32 @@ def main() -> None:
     # identical across slices. Emit it exactly once.
     english_done: set[int] = set()
 
-    for lang, table in tables.items():
-        cols = table.to_pydict()
-        for i, qid in enumerate(cols["query_id"]):
-            if qid not in sampled:
+    # Pass two: one language at a time, streamed in batches, filtered to the
+    # sample before anything becomes a Python object.
+    #
+    # Holding every slice and calling to_pydict() on each is what needed 8 GB —
+    # all 97,941 rows of all eleven languages, nested passage structs included,
+    # resident at once. Measured on one Hindi slice: 5.2 GB read whole, 3.3 GB
+    # with predicate pushdown, 1.0 GB streamed like this. The slices are a
+    # single row group, so pushdown still has to decode the whole passages
+    # column chunk; only batching bounds it.
+    keep = pa.array(sorted(sampled))
+    for lang, code in slices.items():
+        print(f"reading {LANGUAGES[lang]['name']} ...", flush=True)
+        reader = pq.ParquetFile(language_path(code))
+        for batch in reader.iter_batches(batch_size=BATCH_ROWS, columns=SLICE_COLUMNS):
+            batch = pa.Table.from_batches([batch])
+            batch = batch.filter(pc.is_in(batch.column("query_id"), value_set=keep))
+            if batch.num_rows == 0:
                 continue
-            qtype = cols["query_type"][i]
-            passages = cols["passages"][i]
-            translated = passages.get("Translated_passages") or []
-            english = passages.get("English_passages") or []
-            selected = passages.get("is_selected") or []
-
-            query_rows.append(
-                {
-                    "query_id": qid,
-                    "lang": lang,
-                    "text": cols["query"][i],
-                    "answer": cols["Answer"][i],
-                    "query_type": qtype,
-                }
+            cols = batch.to_pydict()
+            del batch
+            _emit_rows(
+                cols, lang, sampled, english_done,
+                query_rows, passage_rows, sentence_rows, seen_passage_text,
             )
-
-            emit_english = qid not in english_done
-            if emit_english:
-                english_done.add(qid)
-                query_rows.append(
-                    {
-                        "query_id": qid,
-                        "lang": "eng_Latn",
-                        "text": cols["Eng_Query"][i],
-                        "answer": cols["Eng_Answer"][i],
-                        "query_type": qtype,
-                    }
-                )
-
-            for p_idx, text in enumerate(translated):
-                if not text or not text.strip():
-                    continue
-                is_sel = int(selected[p_idx]) if p_idx < len(selected) else 0
-                _add_passage(
-                    passage_rows,
-                    sentence_rows,
-                    seen_passage_text,
-                    qid,
-                    p_idx,
-                    lang,
-                    text,
-                    is_sel,
-                )
-
-            if emit_english:
-                for p_idx, text in enumerate(english):
-                    if not text or not text.strip():
-                        continue
-                    is_sel = int(selected[p_idx]) if p_idx < len(selected) else 0
-                    _add_passage(
-                        passage_rows,
-                        sentence_rows,
-                        seen_passage_text,
-                        qid,
-                        p_idx,
-                        "eng_Latn",
-                        text,
-                        is_sel,
-                    )
+            del cols
+        del reader
 
     _write("queries", query_rows)
     _write("passages", passage_rows)
@@ -200,6 +188,79 @@ def main() -> None:
     print(f"queries:   {len(query_rows)}")
     print(f"passages:  {len(passage_rows)}")
     print(f"sentences: {len(sentence_rows)}")
+
+
+def _emit_rows(
+    cols: dict,
+    lang: str,
+    sampled: set,
+    english_done: set,
+    query_rows: list[dict],
+    passage_rows: list[dict],
+    sentence_rows: list[dict],
+    seen_passage_text: dict[str, str],
+) -> None:
+    """Turn one filtered batch into query, passage and sentence rows."""
+    for i, qid in enumerate(cols["query_id"]):
+        qtype = cols["query_type"][i]
+        passages = cols["passages"][i]
+        translated = passages.get("Translated_passages") or []
+        english = passages.get("English_passages") or []
+        selected = passages.get("is_selected") or []
+
+        query_rows.append(
+            {
+                "query_id": qid,
+                "lang": lang,
+                "text": cols["query"][i],
+                "answer": cols["Answer"][i],
+                "query_type": qtype,
+            }
+        )
+
+        emit_english = qid not in english_done
+        if emit_english:
+            english_done.add(qid)
+            query_rows.append(
+                {
+                    "query_id": qid,
+                    "lang": "eng_Latn",
+                    "text": cols["Eng_Query"][i],
+                    "answer": cols["Eng_Answer"][i],
+                    "query_type": qtype,
+                }
+            )
+
+        for p_idx, text in enumerate(translated):
+            if not text or not text.strip():
+                continue
+            is_sel = int(selected[p_idx]) if p_idx < len(selected) else 0
+            _add_passage(
+                passage_rows,
+                sentence_rows,
+                seen_passage_text,
+                qid,
+                p_idx,
+                lang,
+                text,
+                is_sel,
+            )
+
+        if emit_english:
+            for p_idx, text in enumerate(english):
+                if not text or not text.strip():
+                    continue
+                is_sel = int(selected[p_idx]) if p_idx < len(selected) else 0
+                _add_passage(
+                    passage_rows,
+                    sentence_rows,
+                    seen_passage_text,
+                    qid,
+                    p_idx,
+                    "eng_Latn",
+                    text,
+                    is_sel,
+                )
 
 
 def _add_passage(
