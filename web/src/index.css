@@ -102,25 +102,6 @@ button {
   color: var(--indigo);
 }
 
-.masthead__scripts {
-  font-family: var(--indic);
-  font-size: clamp(1rem, 2.2vw, 1.45rem);
-  color: var(--ink-soft);
-  margin: 0.6rem 0 1.4rem;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.35rem 0.9rem;
-}
-
-/* A separator between phrases, so scripts the reader cannot parse still read
-   as a list of invitations rather than one run-on string. */
-.masthead__scripts span + span::before {
-  content: "·";
-  color: var(--indigo);
-  margin-right: 0.9rem;
-}
-
 .masthead__standfirst {
   max-width: 62ch;
   font-size: 1.02rem;
@@ -192,21 +173,6 @@ button {
 
 /* ----------------------------------------------------------------- measure */
 /* The signature element: one 0-200 ms scale. Everything below hangs from it. */
-
-.masthead__scope {
-  max-width: 62ch;
-  font-size: 0.88rem;
-  line-height: 1.55;
-  color: var(--ink-soft);
-  margin: 0 0 1.6rem;
-  padding-left: 0.85rem;
-  border-left: 2px solid var(--turmeric);
-}
-
-.masthead__scope strong {
-  color: var(--ink);
-  font-weight: 600;
-}
 
 .measure {
   position: sticky;

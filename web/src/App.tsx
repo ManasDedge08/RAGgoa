@@ -16,32 +16,6 @@ import type {
 } from "./types";
 
 const STATES = ["received", "transcribe", "guard", "retrieve", "tier1", "tier2", "speak", "done"];
-/**
- * "Ask" in each language, as an imperative — the invitation, not a label.
- *
- * Machine translation was not usable here: it returned infinitives ("to ask by
- * speaking") and, for Odia, a word meaning "to call". These are the plain
- * imperative forms. Hindi, Tamil and Bengali were verified earlier against the
- * corpus; the rest are worth a native speaker's glance before the final cut.
- */
-const ASK_PHRASE: Record<string, string> = {
-  eng_Latn: "Ask out loud",
-  hin_Deva: "प्रश्न पूछिए",
-  mar_Deva: "प्रश्न विचारा",
-  ben_Beng: "জিজ্ঞাসা করুন",
-  tam_Taml: "கேளுங்கள்",
-  tel_Telu: "అడగండి",
-  guj_Gujr: "પૂછો",
-  kan_Knda: "ಕೇಳಿ",
-  mal_Mlym: "ചോദിക്കൂ",
-  pan_Guru: "ਪੁੱਛੋ",
-  ori_Orya: "ପଚାରନ୍ତୁ",
-  asm_Beng: "সোধক",
-  nep_Deva: "सोध्नुहोस्",
-  san_Deva: "पृच्छतु",
-  urd_Arab: "پوچھیں",
-};
-
 /** Routing modes, named by what they do rather than by their internal keys. */
 const LANG_MODES = [
   { mode: "cross", label: "any language", hint: "Retrieve from all four languages" },
@@ -189,6 +163,17 @@ export default function App() {
       .finally(() => setRacing(false));
   }, [lastQuery]);
 
+  const languageSentence = useMemo(() => {
+    const names = (meta?.languages ?? []).map((l) => l.name);
+    if (names.length === 0) return "any indexed language";
+    if (names.length <= 4) {
+      return names.length === 1
+        ? names[0]
+        : `${names.slice(0, -1).join(", ")} or ${names[names.length - 1]}`;
+    }
+    return `${names.slice(0, 3).join(", ")} or ${names.length - 3} other languages`;
+  }, [meta]);
+
   const activeState = turn.state || "";
   const sampleChips = useMemo(
     () =>
@@ -203,30 +188,20 @@ export default function App() {
       <header className="masthead">
         <div className="masthead__eyebrow">
           <span>voice RAG · MS MARCO-XI</span>
-          <span>four languages, one index</span>
-          <span>{meta ? `${meta.corpus.passages} passages · ${meta.corpus.sentences} sentences` : "loading corpus…"}</span>
+          <span>{meta ? `${meta.languages.length} languages, one index` : "one index"}</span>
+          <span>
+            {meta
+              ? `${meta.corpus.passages.toLocaleString()} passages · ${meta.corpus.sentences.toLocaleString()} sentences`
+              : "loading corpus…"}
+          </span>
         </div>
         <h1 className="masthead__title">
           The Measure<em>.</em>
         </h1>
-        <p className="masthead__scripts">
-          {(meta?.languages ?? []).map((language) => (
-            <span key={language.code} title={language.name}>
-              {ASK_PHRASE[language.code] ?? language.name}
-            </span>
-          ))}
-        </p>
         <p className="masthead__standfirst">
-          Speak a question in Hindi, Tamil, Bengali or English. The extractive answer lands in
-          milliseconds and is measured against a 200 ms budget on the line below. The spoken,
-          synthesised answer follows after — separately timed, never folded into that number.
-        </p>
-        <p className="masthead__scope">
-          <strong>What it knows:</strong> {meta ? meta.corpus.passages.toLocaleString() : "—"} passages
-          from MS MARCO, in {meta?.languages.length ?? "several"} languages — brake rotors, HSA
-          premiums, legal definitions, NFL records. It is a retrieval demo, not an encyclopedia: a
-          cross-encoder checks whether anything retrieved actually answers you, and when nothing
-          does it says so instead of guessing. The examples below come from the corpus itself.
+          Speak a question in {languageSentence}. The extractive answer lands in milliseconds and is
+          measured against a 200 ms budget on the line below. The spoken, synthesised answer follows
+          after — separately timed, never folded into that number.
         </p>
       </header>
 
