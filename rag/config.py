@@ -117,6 +117,15 @@ CROSS_ENCODER_DEPTH = int(os.getenv("RAG_CROSS_ENCODER_DEPTH", "10"))
 CROSS_ENCODER_MAX_CHARS = 500
 CROSS_ENCODER_DEFAULT = os.getenv("RAG_CROSS_ENCODER", "") == "1"
 
+# The relevance gate reuses that cross-encoder for a different job: deciding
+# whether anything retrieved answers the question at all, so that declining is
+# reachable. On by default and cheap (top 3 only, about 24 ms) because a
+# confident wrong answer is worse than an admitted miss. See
+# rag/generation/relevance.py for the measurement behind the floor.
+RELEVANCE_GATE_ENABLED = os.getenv("RAG_RELEVANCE_GATE", "1") == "1"
+RELEVANCE_GATE_FLOOR = float(os.getenv("RAG_RELEVANCE_FLOOR", "-2.0"))
+RELEVANCE_GATE_DEPTH = int(os.getenv("RAG_RELEVANCE_DEPTH", "3"))
+
 # ------------------------------------------------------------------ sarvam ---
 SARVAM_API_KEY = os.getenv("SARVAM_API_KEY", "")
 SARVAM_BASE = "https://api.sarvam.ai"

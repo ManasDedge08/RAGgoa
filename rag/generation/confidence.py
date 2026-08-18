@@ -40,7 +40,7 @@ def _thresholds() -> dict[str, float]:
     return DEFAULT_THRESHOLDS
 
 
-@dataclass
+@dataclass(frozen=True)
 class Confidence:
     score: float
     tier: str  # "high" | "low" | "refuse"

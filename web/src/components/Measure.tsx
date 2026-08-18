@@ -15,6 +15,7 @@ const SEGMENTS: { key: string; label: string; color: string }[] = [
   { key: "cluster", label: "cluster", color: "#7f92dd" },
   { key: "fusion", label: "fusion", color: "#2e7d6b" },
   { key: "rerank", label: "rerank", color: "#4a9e88" },
+  { key: "relevance", label: "relevance gate", color: "#2e7d6b" },
   { key: "cross_encoder", label: "cross-encoder", color: "#a6402e" },
   { key: "extract", label: "extract", color: "#d99a1f" },
 ];

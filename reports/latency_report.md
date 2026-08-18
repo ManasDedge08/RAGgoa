@@ -1,6 +1,6 @@
 # Latency report
 
-Generated 2026-08-17T06:48:12+00:00 on arm64 Darwin py3.13.7.
+Generated 2026-08-18T05:41:14+00:00 on arm64 Darwin py3.13.7.
 
 Two tiers are measured, and they are never averaged together.
 
@@ -16,11 +16,11 @@ Query set: 300 queries, stratified across 4 languages.
 
 | Metric | ms |
 | --- | --- |
-| P50 | 10.12 |
-| P70 | 10.31 |
-| P90 | 10.68 |
-| P100 | 11.67 |
-| mean | 10.15 |
+| P50 | 11.64 |
+| P70 | 12.4 |
+| P90 | 13.65 |
+| P100 | 25.62 |
+| mean | 11.97 |
 
 Within 200 ms: **100.0%** of queries; P100 inside target.
 
@@ -28,25 +28,25 @@ Within 200 ms: **100.0%** of queries; P100 inside target.
 
 | Stage | mean | P100 |
 | --- | --- | --- |
-| embed | 5.47 | 6.76 |
-| guardrail | 0.11 | 0.19 |
-| detect | 0.02 | 0.07 |
-| dense | 0.57 | 0.82 |
-| bm25 | 2.91 | 3.48 |
-| cluster | 0.49 | 1.01 |
+| embed | 5.85 | 9.3 |
+| guardrail | 0.11 | 0.32 |
+| detect | 0.04 | 0.14 |
+| dense | 0.58 | 1.1 |
+| bm25 | 2.81 | 5.25 |
+| cluster | 0.52 | 4.13 |
 | fusion | 0.03 | 0.03 |
-| rerank | 0.51 | 1.24 |
-| retrieval_subtotal | 4.57 | 5.67 |
+| rerank | 1.44 | 4.67 |
+| retrieval_subtotal | 6.01 | 15.99 |
 | extract | 0.0 | 0.01 |
 
 ### Per language (ms)
 
 | Language | P50 | P70 | P100 |
 | --- | --- | --- | --- |
-| ben_Beng | 10.04 | 10.32 | 11.67 |
-| tam_Taml | 10.23 | 10.44 | 11.31 |
-| eng_Latn | 9.99 | 10.14 | 11.35 |
-| hin_Deva | 10.18 | 10.5 | 11.17 |
+| ben_Beng | 11.73 | 12.28 | 25.62 |
+| tam_Taml | 12.08 | 12.78 | 17.18 |
+| eng_Latn | 11.14 | 11.52 | 14.55 |
+| hin_Deva | 11.93 | 12.5 | 15.7 |
 
 ## Against the naive baseline
 
@@ -58,11 +58,11 @@ are scored on retrieval quality too.
 
 | | P50 ms | P100 ms | query hit@5 |
 | --- | --- | --- | --- |
-| Multi-strategy | 10.12 | 11.67 | 91.3% |
-| Naive | 6.14 | 7.34 | 84.3% |
+| Multi-strategy | 11.64 | 25.62 | 90.3% |
+| Naive | 6.33 | 7.52 | 84.3% |
 
-The naive path is 1.6x faster at P50 — it does strictly less work. It also reaches the asking query's passages 7.0 points less often. The extra milliseconds buy the recall, and both numbers sit far inside the budget.
-Multi-strategy strict recall@5 (the one passage MS MARCO marked selected): 37.0%.
+The naive path is 1.8x faster at P50 — it does strictly less work. It also reaches the asking query's passages 6.0 points less often. The extra milliseconds buy the recall, and both numbers sit far inside the budget.
+Multi-strategy strict recall@5 (the one passage MS MARCO marked selected): 37.3%.
 
 ## Tier 1 with the cross-encoder rerank (precision mode)
 
@@ -74,8 +74,8 @@ show the trade rather than assert it.
 
 | Metric | fast path | precision mode |
 | --- | --- | --- |
-| P50 | 10.12 ms | 92.7 ms |
-| P100 | 11.67 ms | 158.57 ms |
+| P50 | 11.64 ms | 94.42 ms |
+| P100 | 25.62 ms | 161.97 ms |
 | within 200 ms | 100.0% | 100.0% |
 
 Quality at depth 10, measured separately over 120 queries
@@ -86,9 +86,9 @@ precision@1 21.7% -> 24.2%.
 
 | Metric | ms |
 | --- | --- |
-| P50 total | 2633.4 |
-| P70 total | 3066.24 |
-| P100 total | 4008.5 |
-| P50 first token | 301.49 |
+| P50 total | 2768.22 |
+| P70 total | 2922.98 |
+| P100 total | 16656.35 |
+| P50 first token | 302.61 |
 
 Grounding check passed on 100.0% of generations; 0.0% fell back to the Tier 1 span.

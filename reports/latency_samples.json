@@ -1,0 +1,5105 @@
+{
+ "n": 300,
+ "samples": [
+  {
+   "query_id": 967335,
+   "lang": "ben_Beng",
+   "tier1_ms": 11.362,
+   "stages": {
+    "detect": 0.058,
+    "dense": 0.644,
+    "bm25": 2.996,
+    "cluster": 0.682,
+    "fusion": 0.025,
+    "rerank": 0.747,
+    "embed": 5.793,
+    "guardrail": 0.369
+   },
+   "precision_ms": 120.204,
+   "naive_ms": 6.48
+  },
+  {
+   "query_id": 439778,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.203,
+   "stages": {
+    "detect": 0.036,
+    "dense": 0.734,
+    "bm25": 2.607,
+    "cluster": 0.458,
+    "fusion": 0.027,
+    "rerank": 0.985,
+    "embed": 5.174,
+    "guardrail": 0.134
+   },
+   "precision_ms": 115.52,
+   "naive_ms": 6.372
+  },
+  {
+   "query_id": 1099166,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.857,
+   "stages": {
+    "detect": 0.025,
+    "dense": 0.443,
+    "bm25": 3.094,
+    "cluster": 0.311,
+    "fusion": 0.022,
+    "rerank": 0.378,
+    "embed": 5.436,
+    "guardrail": 0.112
+   },
+   "precision_ms": 73.272,
+   "naive_ms": 6.302
+  },
+  {
+   "query_id": 523087,
+   "lang": "eng_Latn",
+   "tier1_ms": 10.314,
+   "stages": {
+    "detect": 0.019,
+    "dense": 0.655,
+    "bm25": 3.049,
+    "cluster": 0.748,
+    "fusion": 0.023,
+    "rerank": 0.336,
+    "embed": 5.34,
+    "guardrail": 0.111
+   },
+   "precision_ms": 71.849,
+   "naive_ms": 6.191
+  },
+  {
+   "query_id": 76055,
+   "lang": "eng_Latn",
+   "tier1_ms": 10.082,
+   "stages": {
+    "detect": 0.04,
+    "dense": 0.62,
+    "bm25": 3.053,
+    "cluster": 0.34,
+    "fusion": 0.023,
+    "rerank": 0.342,
+    "embed": 5.518,
+    "guardrail": 0.112
+   },
+   "precision_ms": 77.828,
+   "naive_ms": 6.591
+  },
+  {
+   "query_id": 1087294,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.163,
+   "stages": {
+    "detect": 0.044,
+    "dense": 0.553,
+    "bm25": 2.676,
+    "cluster": 0.599,
+    "fusion": 0.023,
+    "rerank": 0.614,
+    "embed": 5.507,
+    "guardrail": 0.111
+   },
+   "precision_ms": 90.229,
+   "naive_ms": 6.241
+  },
+  {
+   "query_id": 546670,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.453,
+   "stages": {
+    "detect": 0.021,
+    "dense": 0.678,
+    "bm25": 2.713,
+    "cluster": 0.778,
+    "fusion": 0.027,
+    "rerank": 0.71,
+    "embed": 5.351,
+    "guardrail": 0.126
+   },
+   "precision_ms": 103.953,
+   "naive_ms": 6.077
+  },
+  {
+   "query_id": 1087882,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.854,
+   "stages": {
+    "detect": 0.054,
+    "dense": 0.62,
+    "bm25": 2.994,
+    "cluster": 0.584,
+    "fusion": 0.028,
+    "rerank": 0.636,
+    "embed": 5.792,
+    "guardrail": 0.109
+   },
+   "precision_ms": 104.554,
+   "naive_ms": 6.276
+  },
+  {
+   "query_id": 1037689,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.747,
+   "stages": {
+    "detect": 0.026,
+    "dense": 0.524,
+    "bm25": 2.906,
+    "cluster": 0.39,
+    "fusion": 0.025,
+    "rerank": 0.347,
+    "embed": 5.375,
+    "guardrail": 0.117
+   },
+   "precision_ms": 73.817,
+   "naive_ms": 5.941
+  },
+  {
+   "query_id": 653916,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.266,
+   "stages": {
+    "detect": 0.025,
+    "dense": 0.703,
+    "bm25": 3.164,
+    "cluster": 0.465,
+    "fusion": 0.026,
+    "rerank": 0.468,
+    "embed": 5.276,
+    "guardrail": 0.112
+   },
+   "precision_ms": 79.527,
+   "naive_ms": 5.808
+  },
+  {
+   "query_id": 1042127,
+   "lang": "tam_Taml",
+   "tier1_ms": 9.663,
+   "stages": {
+    "detect": 0.046,
+    "dense": 0.508,
+    "bm25": 2.524,
+    "cluster": 0.472,
+    "fusion": 0.027,
+    "rerank": 0.594,
+    "embed": 5.355,
+    "guardrail": 0.106
+   },
+   "precision_ms": 113.841,
+   "naive_ms": 6.059
+  },
+  {
+   "query_id": 174007,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.282,
+   "stages": {
+    "detect": 0.038,
+    "dense": 0.646,
+    "bm25": 2.837,
+    "cluster": 0.571,
+    "fusion": 0.025,
+    "rerank": 0.594,
+    "embed": 5.431,
+    "guardrail": 0.102
+   },
+   "precision_ms": 83.504,
+   "naive_ms": 6.101
+  },
+  {
+   "query_id": 1063677,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.854,
+   "stages": {
+    "detect": 0.022,
+    "dense": 0.575,
+    "bm25": 2.907,
+    "cluster": 0.562,
+    "fusion": 0.024,
+    "rerank": 0.352,
+    "embed": 5.274,
+    "guardrail": 0.109
+   },
+   "precision_ms": 79.856,
+   "naive_ms": 5.979
+  },
+  {
+   "query_id": 1079806,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.931,
+   "stages": {
+    "detect": 0.036,
+    "dense": 0.583,
+    "bm25": 2.525,
+    "cluster": 0.445,
+    "fusion": 0.026,
+    "rerank": 0.565,
+    "embed": 5.592,
+    "guardrail": 0.108
+   },
+   "precision_ms": 98.525,
+   "naive_ms": 6.32
+  },
+  {
+   "query_id": 842720,
+   "lang": "eng_Latn",
+   "tier1_ms": 10.067,
+   "stages": {
+    "detect": 0.035,
+    "dense": 0.581,
+    "bm25": 2.954,
+    "cluster": 0.707,
+    "fusion": 0.024,
+    "rerank": 0.306,
+    "embed": 5.326,
+    "guardrail": 0.108
+   },
+   "precision_ms": 79.16,
+   "naive_ms": 6.123
+  },
+  {
+   "query_id": 1005770,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.646,
+   "stages": {
+    "detect": 0.018,
+    "dense": 0.558,
+    "bm25": 2.679,
+    "cluster": 0.633,
+    "fusion": 0.025,
+    "rerank": 0.342,
+    "embed": 5.237,
+    "guardrail": 0.125
+   },
+   "precision_ms": 65.038,
+   "naive_ms": 5.957
+  },
+  {
+   "query_id": 1098091,
+   "lang": "hin_Deva",
+   "tier1_ms": 9.846,
+   "stages": {
+    "detect": 0.029,
+    "dense": 0.487,
+    "bm25": 2.931,
+    "cluster": 0.3,
+    "fusion": 0.024,
+    "rerank": 0.515,
+    "embed": 5.427,
+    "guardrail": 0.105
+   },
+   "precision_ms": 117.422,
+   "naive_ms": 5.937
+  },
+  {
+   "query_id": 506065,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.722,
+   "stages": {
+    "detect": 0.026,
+    "dense": 0.649,
+    "bm25": 3.063,
+    "cluster": 0.502,
+    "fusion": 0.023,
+    "rerank": 0.756,
+    "embed": 5.563,
+    "guardrail": 0.112
+   },
+   "precision_ms": 110.34,
+   "naive_ms": 5.98
+  },
+  {
+   "query_id": 1082445,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.413,
+   "stages": {
+    "detect": 0.03,
+    "dense": 0.609,
+    "bm25": 2.939,
+    "cluster": 0.433,
+    "fusion": 0.025,
+    "rerank": 0.6,
+    "embed": 5.623,
+    "guardrail": 0.12
+   },
+   "precision_ms": 116.061,
+   "naive_ms": 6.166
+  },
+  {
+   "query_id": 821885,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.199,
+   "stages": {
+    "detect": 0.024,
+    "dense": 0.603,
+    "bm25": 3.053,
+    "cluster": 0.417,
+    "fusion": 0.026,
+    "rerank": 0.409,
+    "embed": 5.504,
+    "guardrail": 0.134
+   },
+   "precision_ms": 74.382,
+   "naive_ms": 5.899
+  },
+  {
+   "query_id": 687930,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.323,
+   "stages": {
+    "detect": 0.02,
+    "dense": 0.675,
+    "bm25": 2.814,
+    "cluster": 0.628,
+    "fusion": 0.026,
+    "rerank": 0.605,
+    "embed": 5.375,
+    "guardrail": 0.135
+   },
+   "precision_ms": 87.375,
+   "naive_ms": 6.4
+  },
+  {
+   "query_id": 899859,
+   "lang": "eng_Latn",
+   "tier1_ms": 10.471,
+   "stages": {
+    "detect": 0.025,
+    "dense": 0.568,
+    "bm25": 2.801,
+    "cluster": 0.907,
+    "fusion": 0.034,
+    "rerank": 0.339,
+    "embed": 5.642,
+    "guardrail": 0.125
+   },
+   "precision_ms": 64.191,
+   "naive_ms": 14.2
+  },
+  {
+   "query_id": 216783,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.605,
+   "stages": {
+    "detect": 0.034,
+    "dense": 0.637,
+    "bm25": 2.85,
+    "cluster": 0.438,
+    "fusion": 0.025,
+    "rerank": 0.669,
+    "embed": 5.774,
+    "guardrail": 0.137
+   },
+   "precision_ms": 94.571,
+   "naive_ms": 7.701
+  },
+  {
+   "query_id": 1029909,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.977,
+   "stages": {
+    "detect": 0.015,
+    "dense": 0.612,
+    "bm25": 2.893,
+    "cluster": 0.795,
+    "fusion": 0.027,
+    "rerank": 0.313,
+    "embed": 5.189,
+    "guardrail": 0.109
+   },
+   "precision_ms": 61.952,
+   "naive_ms": 7.011
+  },
+  {
+   "query_id": 1082743,
+   "lang": "eng_Latn",
+   "tier1_ms": 10.335,
+   "stages": {
+    "detect": 0.024,
+    "dense": 0.622,
+    "bm25": 3.028,
+    "cluster": 0.751,
+    "fusion": 0.024,
+    "rerank": 0.353,
+    "embed": 5.392,
+    "guardrail": 0.112
+   },
+   "precision_ms": 59.029,
+   "naive_ms": 6.702
+  },
+  {
+   "query_id": 1021894,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.744,
+   "stages": {
+    "detect": 0.073,
+    "dense": 0.516,
+    "bm25": 2.982,
+    "cluster": 0.574,
+    "fusion": 0.023,
+    "rerank": 0.573,
+    "embed": 5.868,
+    "guardrail": 0.104
+   },
+   "precision_ms": 112.317,
+   "naive_ms": 6.518
+  },
+  {
+   "query_id": 556497,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.004,
+   "stages": {
+    "detect": 0.023,
+    "dense": 0.692,
+    "bm25": 2.898,
+    "cluster": 0.469,
+    "fusion": 0.027,
+    "rerank": 0.491,
+    "embed": 5.269,
+    "guardrail": 0.107
+   },
+   "precision_ms": 78.114,
+   "naive_ms": 5.99
+  },
+  {
+   "query_id": 685924,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.174,
+   "stages": {
+    "detect": 0.034,
+    "dense": 0.513,
+    "bm25": 3.046,
+    "cluster": 0.483,
+    "fusion": 0.025,
+    "rerank": 0.499,
+    "embed": 5.438,
+    "guardrail": 0.107
+   },
+   "precision_ms": 108.515,
+   "naive_ms": 6.162
+  },
+  {
+   "query_id": 492404,
+   "lang": "hin_Deva",
+   "tier1_ms": 9.687,
+   "stages": {
+    "detect": 0.027,
+    "dense": 0.644,
+    "bm25": 2.672,
+    "cluster": 0.264,
+    "fusion": 0.026,
+    "rerank": 0.541,
+    "embed": 5.374,
+    "guardrail": 0.105
+   },
+   "precision_ms": 77.666,
+   "naive_ms": 5.891
+  },
+  {
+   "query_id": 190454,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.984,
+   "stages": {
+    "detect": 0.03,
+    "dense": 0.553,
+    "bm25": 2.643,
+    "cluster": 0.669,
+    "fusion": 0.024,
+    "rerank": 0.515,
+    "embed": 5.414,
+    "guardrail": 0.101
+   },
+   "precision_ms": 84.953,
+   "naive_ms": 6.047
+  },
+  {
+   "query_id": 1084098,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.695,
+   "stages": {
+    "detect": 0.023,
+    "dense": 0.521,
+    "bm25": 2.66,
+    "cluster": 0.423,
+    "fusion": 0.023,
+    "rerank": 0.507,
+    "embed": 5.387,
+    "guardrail": 0.117
+   },
+   "precision_ms": 103.306,
+   "naive_ms": 5.994
+  },
+  {
+   "query_id": 678419,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.074,
+   "stages": {
+    "detect": 0.049,
+    "dense": 0.637,
+    "bm25": 2.668,
+    "cluster": 0.344,
+    "fusion": 0.025,
+    "rerank": 0.756,
+    "embed": 5.463,
+    "guardrail": 0.102
+   },
+   "precision_ms": 78.508,
+   "naive_ms": 6.034
+  },
+  {
+   "query_id": 1002655,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.112,
+   "stages": {
+    "detect": 0.027,
+    "dense": 0.532,
+    "bm25": 3.058,
+    "cluster": 0.466,
+    "fusion": 0.024,
+    "rerank": 0.495,
+    "embed": 5.388,
+    "guardrail": 0.096
+   },
+   "precision_ms": 77.079,
+   "naive_ms": 5.928
+  },
+  {
+   "query_id": 317168,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.225,
+   "stages": {
+    "detect": 0.057,
+    "dense": 0.498,
+    "bm25": 2.993,
+    "cluster": 0.388,
+    "fusion": 0.026,
+    "rerank": 0.554,
+    "embed": 5.57,
+    "guardrail": 0.107
+   },
+   "precision_ms": 105.544,
+   "naive_ms": 6.183
+  },
+  {
+   "query_id": 1085756,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.975,
+   "stages": {
+    "detect": 0.038,
+    "dense": 0.636,
+    "bm25": 2.638,
+    "cluster": 0.47,
+    "fusion": 0.025,
+    "rerank": 0.55,
+    "embed": 5.493,
+    "guardrail": 0.095
+   },
+   "precision_ms": 87.361,
+   "naive_ms": 6.22
+  },
+  {
+   "query_id": 103669,
+   "lang": "tam_Taml",
+   "tier1_ms": 9.688,
+   "stages": {
+    "detect": 0.055,
+    "dense": 0.512,
+    "bm25": 2.653,
+    "cluster": 0.396,
+    "fusion": 0.022,
+    "rerank": 0.637,
+    "embed": 5.287,
+    "guardrail": 0.096
+   },
+   "precision_ms": 83.455,
+   "naive_ms": 5.95
+  },
+  {
+   "query_id": 20597,
+   "lang": "hin_Deva",
+   "tier1_ms": 9.292,
+   "stages": {
+    "detect": 0.013,
+    "dense": 0.369,
+    "bm25": 2.552,
+    "cluster": 0.758,
+    "fusion": 0.019,
+    "rerank": 0.413,
+    "embed": 5.041,
+    "guardrail": 0.092
+   },
+   "precision_ms": 65.615,
+   "naive_ms": 5.912
+  },
+  {
+   "query_id": 617265,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.966,
+   "stages": {
+    "detect": 0.03,
+    "dense": 0.614,
+    "bm25": 2.775,
+    "cluster": 0.414,
+    "fusion": 0.026,
+    "rerank": 0.583,
+    "embed": 5.379,
+    "guardrail": 0.11
+   },
+   "precision_ms": 106.869,
+   "naive_ms": 6.204
+  },
+  {
+   "query_id": 1096020,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.693,
+   "stages": {
+    "detect": 0.059,
+    "dense": 0.653,
+    "bm25": 2.669,
+    "cluster": 0.532,
+    "fusion": 0.036,
+    "rerank": 0.874,
+    "embed": 5.694,
+    "guardrail": 0.131
+   },
+   "precision_ms": 91.303,
+   "naive_ms": 6.241
+  },
+  {
+   "query_id": 424810,
+   "lang": "ben_Beng",
+   "tier1_ms": 15.492,
+   "stages": {
+    "detect": 0.034,
+    "dense": 0.611,
+    "bm25": 2.791,
+    "cluster": 0.597,
+    "fusion": 0.036,
+    "rerank": 0.582,
+    "embed": 10.667,
+    "guardrail": 0.13
+   },
+   "precision_ms": 115.063,
+   "naive_ms": 6.305
+  },
+  {
+   "query_id": 434378,
+   "lang": "tam_Taml",
+   "tier1_ms": 9.963,
+   "stages": {
+    "detect": 0.038,
+    "dense": 0.506,
+    "bm25": 2.502,
+    "cluster": 0.378,
+    "fusion": 0.025,
+    "rerank": 0.616,
+    "embed": 5.724,
+    "guardrail": 0.142
+   },
+   "precision_ms": 103.7,
+   "naive_ms": 6.606
+  },
+  {
+   "query_id": 14962,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.082,
+   "stages": {
+    "detect": 0.028,
+    "dense": 0.486,
+    "bm25": 3.063,
+    "cluster": 0.362,
+    "fusion": 0.025,
+    "rerank": 0.553,
+    "embed": 5.421,
+    "guardrail": 0.117
+   },
+   "precision_ms": 70.856,
+   "naive_ms": 6.286
+  },
+  {
+   "query_id": 544750,
+   "lang": "eng_Latn",
+   "tier1_ms": 10.483,
+   "stages": {
+    "detect": 0.024,
+    "dense": 0.474,
+    "bm25": 2.967,
+    "cluster": 0.36,
+    "fusion": 0.029,
+    "rerank": 0.358,
+    "embed": 6.081,
+    "guardrail": 0.161
+   },
+   "precision_ms": 117.791,
+   "naive_ms": 5.99
+  },
+  {
+   "query_id": 808754,
+   "lang": "eng_Latn",
+   "tier1_ms": 10.168,
+   "stages": {
+    "detect": 0.022,
+    "dense": 0.598,
+    "bm25": 2.974,
+    "cluster": 0.565,
+    "fusion": 0.026,
+    "rerank": 0.375,
+    "embed": 5.462,
+    "guardrail": 0.112
+   },
+   "precision_ms": 73.547,
+   "naive_ms": 5.998
+  },
+  {
+   "query_id": 967335,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.717,
+   "stages": {
+    "detect": 0.05,
+    "dense": 0.81,
+    "bm25": 2.94,
+    "cluster": 0.348,
+    "fusion": 0.026,
+    "rerank": 0.634,
+    "embed": 5.764,
+    "guardrail": 0.108
+   },
+   "precision_ms": 108.287,
+   "naive_ms": 6.321
+  },
+  {
+   "query_id": 514109,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.61,
+   "stages": {
+    "detect": 0.018,
+    "dense": 0.584,
+    "bm25": 2.49,
+    "cluster": 0.522,
+    "fusion": 0.026,
+    "rerank": 0.51,
+    "embed": 5.323,
+    "guardrail": 0.108
+   },
+   "precision_ms": 69.285,
+   "naive_ms": 5.917
+  },
+  {
+   "query_id": 939323,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.226,
+   "stages": {
+    "detect": 0.041,
+    "dense": 0.584,
+    "bm25": 2.732,
+    "cluster": 0.351,
+    "fusion": 0.026,
+    "rerank": 0.687,
+    "embed": 5.645,
+    "guardrail": 0.128
+   },
+   "precision_ms": 106.164,
+   "naive_ms": 6.813
+  },
+  {
+   "query_id": 1102315,
+   "lang": "eng_Latn",
+   "tier1_ms": 10.544,
+   "stages": {
+    "detect": 0.037,
+    "dense": 0.592,
+    "bm25": 2.948,
+    "cluster": 1.038,
+    "fusion": 0.026,
+    "rerank": 0.335,
+    "embed": 5.433,
+    "guardrail": 0.11
+   },
+   "precision_ms": 70.005,
+   "naive_ms": 6.223
+  },
+  {
+   "query_id": 829100,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.284,
+   "stages": {
+    "detect": 0.036,
+    "dense": 0.53,
+    "bm25": 2.672,
+    "cluster": 0.295,
+    "fusion": 0.022,
+    "rerank": 0.626,
+    "embed": 5.927,
+    "guardrail": 0.148
+   },
+   "precision_ms": 100.134,
+   "naive_ms": 6.204
+  },
+  {
+   "query_id": 550956,
+   "lang": "eng_Latn",
+   "tier1_ms": 10.378,
+   "stages": {
+    "detect": 0.029,
+    "dense": 0.483,
+    "bm25": 2.741,
+    "cluster": 0.739,
+    "fusion": 0.025,
+    "rerank": 0.472,
+    "embed": 5.691,
+    "guardrail": 0.164
+   },
+   "precision_ms": 81.388,
+   "naive_ms": 6.021
+  },
+  {
+   "query_id": 1098008,
+   "lang": "eng_Latn",
+   "tier1_ms": 10.108,
+   "stages": {
+    "detect": 0.028,
+    "dense": 0.566,
+    "bm25": 3.057,
+    "cluster": 0.524,
+    "fusion": 0.024,
+    "rerank": 0.335,
+    "embed": 5.433,
+    "guardrail": 0.114
+   },
+   "precision_ms": 72.929,
+   "naive_ms": 6.602
+  },
+  {
+   "query_id": 707585,
+   "lang": "hin_Deva",
+   "tier1_ms": 9.781,
+   "stages": {
+    "detect": 0.021,
+    "dense": 0.516,
+    "bm25": 3.017,
+    "cluster": 0.365,
+    "fusion": 0.024,
+    "rerank": 0.453,
+    "embed": 5.237,
+    "guardrail": 0.119
+   },
+   "precision_ms": 105.366,
+   "naive_ms": 6.899
+  },
+  {
+   "query_id": 788930,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.824,
+   "stages": {
+    "detect": 0.012,
+    "dense": 0.536,
+    "bm25": 2.926,
+    "cluster": 0.683,
+    "fusion": 0.024,
+    "rerank": 0.394,
+    "embed": 5.102,
+    "guardrail": 0.103
+   },
+   "precision_ms": 80.825,
+   "naive_ms": 6.281
+  },
+  {
+   "query_id": 678185,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.933,
+   "stages": {
+    "detect": 0.025,
+    "dense": 0.525,
+    "bm25": 2.983,
+    "cluster": 0.491,
+    "fusion": 0.029,
+    "rerank": 0.333,
+    "embed": 5.402,
+    "guardrail": 0.111
+   },
+   "precision_ms": 55.623,
+   "naive_ms": 6.207
+  },
+  {
+   "query_id": 206936,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.279,
+   "stages": {
+    "detect": 0.041,
+    "dense": 0.473,
+    "bm25": 3.09,
+    "cluster": 0.113,
+    "fusion": 0.021,
+    "rerank": 0.662,
+    "embed": 5.736,
+    "guardrail": 0.112
+   },
+   "precision_ms": 86.294,
+   "naive_ms": 6.77
+  },
+  {
+   "query_id": 363525,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.064,
+   "stages": {
+    "detect": 0.032,
+    "dense": 0.417,
+    "bm25": 3.011,
+    "cluster": 0.335,
+    "fusion": 0.024,
+    "rerank": 0.606,
+    "embed": 5.479,
+    "guardrail": 0.12
+   },
+   "precision_ms": 115.181,
+   "naive_ms": 6.316
+  },
+  {
+   "query_id": 140066,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.969,
+   "stages": {
+    "detect": 0.022,
+    "dense": 0.601,
+    "bm25": 2.594,
+    "cluster": 0.494,
+    "fusion": 0.025,
+    "rerank": 0.673,
+    "embed": 5.414,
+    "guardrail": 0.108
+   },
+   "precision_ms": 110.306,
+   "naive_ms": 6.348
+  },
+  {
+   "query_id": 5040,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.548,
+   "stages": {
+    "detect": 0.014,
+    "dense": 0.447,
+    "bm25": 2.96,
+    "cluster": 0.543,
+    "fusion": 0.026,
+    "rerank": 0.343,
+    "embed": 5.086,
+    "guardrail": 0.101
+   },
+   "precision_ms": 77.548,
+   "naive_ms": 6.087
+  },
+  {
+   "query_id": 581891,
+   "lang": "eng_Latn",
+   "tier1_ms": 10.189,
+   "stages": {
+    "detect": 0.023,
+    "dense": 0.712,
+    "bm25": 3.049,
+    "cluster": 0.439,
+    "fusion": 0.028,
+    "rerank": 0.447,
+    "embed": 5.345,
+    "guardrail": 0.105
+   },
+   "precision_ms": 89.49,
+   "naive_ms": 6.059
+  },
+  {
+   "query_id": 896079,
+   "lang": "eng_Latn",
+   "tier1_ms": 11.456,
+   "stages": {
+    "detect": 0.056,
+    "dense": 0.732,
+    "bm25": 3.198,
+    "cluster": 0.597,
+    "fusion": 0.03,
+    "rerank": 0.422,
+    "embed": 6.235,
+    "guardrail": 0.154
+   },
+   "precision_ms": 66.984,
+   "naive_ms": 6.345
+  },
+  {
+   "query_id": 958625,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.732,
+   "stages": {
+    "detect": 0.051,
+    "dense": 0.664,
+    "bm25": 2.542,
+    "cluster": 0.466,
+    "fusion": 0.03,
+    "rerank": 1.035,
+    "embed": 5.754,
+    "guardrail": 0.14
+   },
+   "precision_ms": 83.687,
+   "naive_ms": 6.039
+  },
+  {
+   "query_id": 113053,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.059,
+   "stages": {
+    "detect": 0.041,
+    "dense": 0.585,
+    "bm25": 2.559,
+    "cluster": 0.416,
+    "fusion": 0.026,
+    "rerank": 0.638,
+    "embed": 5.612,
+    "guardrail": 0.14
+   },
+   "precision_ms": 92.959,
+   "naive_ms": 5.918
+  },
+  {
+   "query_id": 313811,
+   "lang": "eng_Latn",
+   "tier1_ms": 10.102,
+   "stages": {
+    "detect": 0.031,
+    "dense": 0.597,
+    "bm25": 2.924,
+    "cluster": 0.414,
+    "fusion": 0.025,
+    "rerank": 0.348,
+    "embed": 5.567,
+    "guardrail": 0.169
+   },
+   "precision_ms": 60.095,
+   "naive_ms": 6.156
+  },
+  {
+   "query_id": 511174,
+   "lang": "hin_Deva",
+   "tier1_ms": 9.823,
+   "stages": {
+    "detect": 0.02,
+    "dense": 0.64,
+    "bm25": 3.062,
+    "cluster": 0.089,
+    "fusion": 0.023,
+    "rerank": 0.503,
+    "embed": 5.342,
+    "guardrail": 0.116
+   },
+   "precision_ms": 67.458,
+   "naive_ms": 5.871
+  },
+  {
+   "query_id": 1098932,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.731,
+   "stages": {
+    "detect": 0.025,
+    "dense": 0.553,
+    "bm25": 2.745,
+    "cluster": 0.364,
+    "fusion": 0.026,
+    "rerank": 0.539,
+    "embed": 5.344,
+    "guardrail": 0.104
+   },
+   "precision_ms": 113.522,
+   "naive_ms": 5.929
+  },
+  {
+   "query_id": 1018862,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.414,
+   "stages": {
+    "detect": 0.051,
+    "dense": 0.575,
+    "bm25": 2.565,
+    "cluster": 0.763,
+    "fusion": 0.026,
+    "rerank": 0.976,
+    "embed": 5.292,
+    "guardrail": 0.107
+   },
+   "precision_ms": 94.132,
+   "naive_ms": 6.018
+  },
+  {
+   "query_id": 996118,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.521,
+   "stages": {
+    "detect": 0.043,
+    "dense": 0.361,
+    "bm25": 2.556,
+    "cluster": 0.144,
+    "fusion": 0.021,
+    "rerank": 0.615,
+    "embed": 5.643,
+    "guardrail": 0.102
+   },
+   "precision_ms": 128.406,
+   "naive_ms": 6.399
+  },
+  {
+   "query_id": 899897,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.407,
+   "stages": {
+    "detect": 0.018,
+    "dense": 0.602,
+    "bm25": 2.655,
+    "cluster": 0.481,
+    "fusion": 0.024,
+    "rerank": 0.308,
+    "embed": 5.175,
+    "guardrail": 0.11
+   },
+   "precision_ms": 73.791,
+   "naive_ms": 5.857
+  },
+  {
+   "query_id": 503933,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.36,
+   "stages": {
+    "detect": 0.018,
+    "dense": 0.588,
+    "bm25": 2.502,
+    "cluster": 0.364,
+    "fusion": 0.024,
+    "rerank": 0.503,
+    "embed": 5.219,
+    "guardrail": 0.1
+   },
+   "precision_ms": 71.053,
+   "naive_ms": 5.813
+  },
+  {
+   "query_id": 35950,
+   "lang": "hin_Deva",
+   "tier1_ms": 9.567,
+   "stages": {
+    "detect": 0.024,
+    "dense": 0.365,
+    "bm25": 2.955,
+    "cluster": 0.373,
+    "fusion": 0.021,
+    "rerank": 0.405,
+    "embed": 5.29,
+    "guardrail": 0.106
+   },
+   "precision_ms": 62.184,
+   "naive_ms": 5.986
+  },
+  {
+   "query_id": 1091415,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.308,
+   "stages": {
+    "detect": 0.028,
+    "dense": 0.522,
+    "bm25": 2.467,
+    "cluster": 0.441,
+    "fusion": 0.025,
+    "rerank": 0.497,
+    "embed": 5.197,
+    "guardrail": 0.099
+   },
+   "precision_ms": 82.94,
+   "naive_ms": 5.915
+  },
+  {
+   "query_id": 671568,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.045,
+   "stages": {
+    "detect": 0.036,
+    "dense": 0.552,
+    "bm25": 2.732,
+    "cluster": 0.518,
+    "fusion": 0.025,
+    "rerank": 0.637,
+    "embed": 5.401,
+    "guardrail": 0.107
+   },
+   "precision_ms": 133.173,
+   "naive_ms": 6.228
+  },
+  {
+   "query_id": 1032738,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.532,
+   "stages": {
+    "detect": 0.028,
+    "dense": 0.459,
+    "bm25": 2.623,
+    "cluster": 0.253,
+    "fusion": 0.025,
+    "rerank": 0.578,
+    "embed": 5.422,
+    "guardrail": 0.11
+   },
+   "precision_ms": 117.354,
+   "naive_ms": 6.082
+  },
+  {
+   "query_id": 326813,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.807,
+   "stages": {
+    "detect": 0.024,
+    "dense": 0.579,
+    "bm25": 2.582,
+    "cluster": 0.536,
+    "fusion": 0.025,
+    "rerank": 0.363,
+    "embed": 5.545,
+    "guardrail": 0.125
+   },
+   "precision_ms": 63.247,
+   "naive_ms": 6.18
+  },
+  {
+   "query_id": 391688,
+   "lang": "eng_Latn",
+   "tier1_ms": 10.127,
+   "stages": {
+    "detect": 0.046,
+    "dense": 0.381,
+    "bm25": 2.931,
+    "cluster": 0.274,
+    "fusion": 0.025,
+    "rerank": 0.463,
+    "embed": 5.836,
+    "guardrail": 0.137
+   },
+   "precision_ms": 88.4,
+   "naive_ms": 6.227
+  },
+  {
+   "query_id": 1091715,
+   "lang": "hin_Deva",
+   "tier1_ms": 9.722,
+   "stages": {
+    "detect": 0.019,
+    "dense": 0.594,
+    "bm25": 2.799,
+    "cluster": 0.477,
+    "fusion": 0.025,
+    "rerank": 0.377,
+    "embed": 5.297,
+    "guardrail": 0.105
+   },
+   "precision_ms": 72.262,
+   "naive_ms": 5.885
+  },
+  {
+   "query_id": 1024951,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.23,
+   "stages": {
+    "detect": 0.027,
+    "dense": 0.472,
+    "bm25": 3.147,
+    "cluster": 0.512,
+    "fusion": 0.027,
+    "rerank": 0.556,
+    "embed": 5.35,
+    "guardrail": 0.104
+   },
+   "precision_ms": 113.628,
+   "naive_ms": 6.316
+  },
+  {
+   "query_id": 742135,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.086,
+   "stages": {
+    "detect": 0.05,
+    "dense": 0.65,
+    "bm25": 2.885,
+    "cluster": 0.301,
+    "fusion": 0.025,
+    "rerank": 0.561,
+    "embed": 5.471,
+    "guardrail": 0.109
+   },
+   "precision_ms": 89.114,
+   "naive_ms": 6.202
+  },
+  {
+   "query_id": 376310,
+   "lang": "hin_Deva",
+   "tier1_ms": 9.848,
+   "stages": {
+    "detect": 0.026,
+    "dense": 0.52,
+    "bm25": 2.955,
+    "cluster": 0.305,
+    "fusion": 0.025,
+    "rerank": 0.616,
+    "embed": 5.262,
+    "guardrail": 0.103
+   },
+   "precision_ms": 107.25,
+   "naive_ms": 6.414
+  },
+  {
+   "query_id": 1087455,
+   "lang": "hin_Deva",
+   "tier1_ms": 9.934,
+   "stages": {
+    "detect": 0.041,
+    "dense": 0.504,
+    "bm25": 2.855,
+    "cluster": 0.547,
+    "fusion": 0.025,
+    "rerank": 0.415,
+    "embed": 5.413,
+    "guardrail": 0.108
+   },
+   "precision_ms": 85.256,
+   "naive_ms": 6.393
+  },
+  {
+   "query_id": 1100764,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.067,
+   "stages": {
+    "detect": 0.029,
+    "dense": 0.54,
+    "bm25": 2.872,
+    "cluster": 0.381,
+    "fusion": 0.024,
+    "rerank": 0.535,
+    "embed": 5.551,
+    "guardrail": 0.104
+   },
+   "precision_ms": 93.171,
+   "naive_ms": 6.063
+  },
+  {
+   "query_id": 63220,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.509,
+   "stages": {
+    "detect": 0.079,
+    "dense": 0.657,
+    "bm25": 2.745,
+    "cluster": 0.438,
+    "fusion": 0.029,
+    "rerank": 0.951,
+    "embed": 5.443,
+    "guardrail": 0.112
+   },
+   "precision_ms": 90.894,
+   "naive_ms": 6.08
+  },
+  {
+   "query_id": 830057,
+   "lang": "eng_Latn",
+   "tier1_ms": 10.158,
+   "stages": {
+    "detect": 0.045,
+    "dense": 0.557,
+    "bm25": 3.01,
+    "cluster": 0.368,
+    "fusion": 0.026,
+    "rerank": 0.347,
+    "embed": 5.664,
+    "guardrail": 0.111
+   },
+   "precision_ms": 68.304,
+   "naive_ms": 6.2
+  },
+  {
+   "query_id": 66957,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.442,
+   "stages": {
+    "detect": 0.038,
+    "dense": 0.688,
+    "bm25": 2.66,
+    "cluster": 0.289,
+    "fusion": 0.024,
+    "rerank": 0.728,
+    "embed": 5.85,
+    "guardrail": 0.133
+   },
+   "precision_ms": 131.069,
+   "naive_ms": 6.024
+  },
+  {
+   "query_id": 143361,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.393,
+   "stages": {
+    "detect": 0.088,
+    "dense": 0.728,
+    "bm25": 2.825,
+    "cluster": 0.195,
+    "fusion": 0.027,
+    "rerank": 0.633,
+    "embed": 5.736,
+    "guardrail": 0.117
+   },
+   "precision_ms": 108.325,
+   "naive_ms": 6.293
+  },
+  {
+   "query_id": 472037,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.527,
+   "stages": {
+    "detect": 0.031,
+    "dense": 0.579,
+    "bm25": 2.97,
+    "cluster": 0.528,
+    "fusion": 0.028,
+    "rerank": 0.86,
+    "embed": 5.383,
+    "guardrail": 0.109
+   },
+   "precision_ms": 104.916,
+   "naive_ms": 5.933
+  },
+  {
+   "query_id": 1102318,
+   "lang": "tam_Taml",
+   "tier1_ms": 9.829,
+   "stages": {
+    "detect": 0.052,
+    "dense": 0.669,
+    "bm25": 2.596,
+    "cluster": 0.417,
+    "fusion": 0.025,
+    "rerank": 0.628,
+    "embed": 5.307,
+    "guardrail": 0.105
+   },
+   "precision_ms": 100.054,
+   "naive_ms": 6.003
+  },
+  {
+   "query_id": 71907,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.168,
+   "stages": {
+    "detect": 0.073,
+    "dense": 0.599,
+    "bm25": 2.532,
+    "cluster": 0.527,
+    "fusion": 0.024,
+    "rerank": 0.758,
+    "embed": 5.508,
+    "guardrail": 0.112
+   },
+   "precision_ms": 104.143,
+   "naive_ms": 6.188
+  },
+  {
+   "query_id": 1020076,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.277,
+   "stages": {
+    "detect": 0.088,
+    "dense": 0.606,
+    "bm25": 2.677,
+    "cluster": 0.507,
+    "fusion": 0.025,
+    "rerank": 0.653,
+    "embed": 5.576,
+    "guardrail": 0.105
+   },
+   "precision_ms": 105.707,
+   "naive_ms": 6.261
+  },
+  {
+   "query_id": 722431,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.061,
+   "stages": {
+    "detect": 0.024,
+    "dense": 0.56,
+    "bm25": 3.022,
+    "cluster": 0.6,
+    "fusion": 0.027,
+    "rerank": 0.528,
+    "embed": 5.168,
+    "guardrail": 0.098
+   },
+   "precision_ms": 71.831,
+   "naive_ms": 5.983
+  },
+  {
+   "query_id": 72303,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.099,
+   "stages": {
+    "detect": 0.041,
+    "dense": 0.608,
+    "bm25": 2.816,
+    "cluster": 0.61,
+    "fusion": 0.026,
+    "rerank": 0.497,
+    "embed": 5.36,
+    "guardrail": 0.107
+   },
+   "precision_ms": 98.351,
+   "naive_ms": 6.149
+  },
+  {
+   "query_id": 881582,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.057,
+   "stages": {
+    "detect": 0.057,
+    "dense": 0.55,
+    "bm25": 3.064,
+    "cluster": 0.216,
+    "fusion": 0.024,
+    "rerank": 0.472,
+    "embed": 5.542,
+    "guardrail": 0.103
+   },
+   "precision_ms": 78.097,
+   "naive_ms": 6.216
+  },
+  {
+   "query_id": 1084675,
+   "lang": "tam_Taml",
+   "tier1_ms": 9.826,
+   "stages": {
+    "detect": 0.026,
+    "dense": 0.564,
+    "bm25": 2.621,
+    "cluster": 0.505,
+    "fusion": 0.026,
+    "rerank": 0.878,
+    "embed": 5.056,
+    "guardrail": 0.109
+   },
+   "precision_ms": 74.091,
+   "naive_ms": 6.04
+  },
+  {
+   "query_id": 527548,
+   "lang": "tam_Taml",
+   "tier1_ms": 9.988,
+   "stages": {
+    "detect": 0.064,
+    "dense": 0.611,
+    "bm25": 2.505,
+    "cluster": 0.543,
+    "fusion": 0.025,
+    "rerank": 0.53,
+    "embed": 5.548,
+    "guardrail": 0.127
+   },
+   "precision_ms": 78.772,
+   "naive_ms": 6.109
+  },
+  {
+   "query_id": 207009,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.745,
+   "stages": {
+    "detect": 0.017,
+    "dense": 0.665,
+    "bm25": 2.724,
+    "cluster": 0.59,
+    "fusion": 0.028,
+    "rerank": 0.374,
+    "embed": 5.214,
+    "guardrail": 0.106
+   },
+   "precision_ms": 82.415,
+   "naive_ms": 6.34
+  },
+  {
+   "query_id": 926064,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.271,
+   "stages": {
+    "detect": 0.106,
+    "dense": 0.683,
+    "bm25": 2.589,
+    "cluster": 0.388,
+    "fusion": 0.027,
+    "rerank": 0.588,
+    "embed": 5.74,
+    "guardrail": 0.107
+   },
+   "precision_ms": 91.793,
+   "naive_ms": 6.322
+  },
+  {
+   "query_id": 85835,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.345,
+   "stages": {
+    "detect": 0.033,
+    "dense": 0.588,
+    "bm25": 3.033,
+    "cluster": 0.373,
+    "fusion": 0.026,
+    "rerank": 0.573,
+    "embed": 5.579,
+    "guardrail": 0.107
+   },
+   "precision_ms": 109.739,
+   "naive_ms": 6.278
+  },
+  {
+   "query_id": 981330,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.063,
+   "stages": {
+    "detect": 0.033,
+    "dense": 0.564,
+    "bm25": 2.892,
+    "cluster": 0.471,
+    "fusion": 0.024,
+    "rerank": 0.539,
+    "embed": 5.412,
+    "guardrail": 0.104
+   },
+   "precision_ms": 87.857,
+   "naive_ms": 6.146
+  },
+  {
+   "query_id": 957727,
+   "lang": "hin_Deva",
+   "tier1_ms": 9.901,
+   "stages": {
+    "detect": 0.038,
+    "dense": 0.704,
+    "bm25": 2.867,
+    "cluster": 0.368,
+    "fusion": 0.025,
+    "rerank": 0.521,
+    "embed": 5.24,
+    "guardrail": 0.102
+   },
+   "precision_ms": 89.984,
+   "naive_ms": 5.968
+  },
+  {
+   "query_id": 1052313,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.338,
+   "stages": {
+    "detect": 0.028,
+    "dense": 0.66,
+    "bm25": 2.914,
+    "cluster": 0.685,
+    "fusion": 0.028,
+    "rerank": 0.56,
+    "embed": 5.327,
+    "guardrail": 0.104
+   },
+   "precision_ms": 119.213,
+   "naive_ms": 6.014
+  },
+  {
+   "query_id": 1000452,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.201,
+   "stages": {
+    "detect": 0.026,
+    "dense": 0.452,
+    "bm25": 2.74,
+    "cluster": 0.24,
+    "fusion": 0.022,
+    "rerank": 0.337,
+    "embed": 5.26,
+    "guardrail": 0.098
+   },
+   "precision_ms": 63.298,
+   "naive_ms": 6.062
+  },
+  {
+   "query_id": 92203,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.126,
+   "stages": {
+    "detect": 0.061,
+    "dense": 0.675,
+    "bm25": 2.666,
+    "cluster": 0.511,
+    "fusion": 0.025,
+    "rerank": 0.702,
+    "embed": 5.349,
+    "guardrail": 0.098
+   },
+   "precision_ms": 87.124,
+   "naive_ms": 5.894
+  },
+  {
+   "query_id": 1095439,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.1,
+   "stages": {
+    "detect": 0.038,
+    "dense": 0.491,
+    "bm25": 3.062,
+    "cluster": 0.45,
+    "fusion": 0.026,
+    "rerank": 0.539,
+    "embed": 5.348,
+    "guardrail": 0.113
+   },
+   "precision_ms": 100.995,
+   "naive_ms": 5.984
+  },
+  {
+   "query_id": 1083461,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.647,
+   "stages": {
+    "detect": 0.042,
+    "dense": 0.535,
+    "bm25": 2.647,
+    "cluster": 0.338,
+    "fusion": 0.024,
+    "rerank": 0.533,
+    "embed": 5.388,
+    "guardrail": 0.106
+   },
+   "precision_ms": 118.784,
+   "naive_ms": 6.14
+  },
+  {
+   "query_id": 1017542,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.787,
+   "stages": {
+    "detect": 0.026,
+    "dense": 0.584,
+    "bm25": 2.875,
+    "cluster": 0.465,
+    "fusion": 0.025,
+    "rerank": 0.421,
+    "embed": 5.254,
+    "guardrail": 0.103
+   },
+   "precision_ms": 75.16,
+   "naive_ms": 6.048
+  },
+  {
+   "query_id": 1066299,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.345,
+   "stages": {
+    "detect": 0.029,
+    "dense": 0.563,
+    "bm25": 3.043,
+    "cluster": 0.501,
+    "fusion": 0.023,
+    "rerank": 0.496,
+    "embed": 5.541,
+    "guardrail": 0.119
+   },
+   "precision_ms": 82.96,
+   "naive_ms": 6.085
+  },
+  {
+   "query_id": 584615,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.213,
+   "stages": {
+    "detect": 0.061,
+    "dense": 0.632,
+    "bm25": 2.697,
+    "cluster": 0.349,
+    "fusion": 0.026,
+    "rerank": 0.708,
+    "embed": 5.578,
+    "guardrail": 0.126
+   },
+   "precision_ms": 90.15,
+   "naive_ms": 6.129
+  },
+  {
+   "query_id": 263783,
+   "lang": "eng_Latn",
+   "tier1_ms": 10.27,
+   "stages": {
+    "detect": 0.023,
+    "dense": 0.602,
+    "bm25": 2.854,
+    "cluster": 0.573,
+    "fusion": 0.029,
+    "rerank": 0.401,
+    "embed": 5.621,
+    "guardrail": 0.132
+   },
+   "precision_ms": 80.303,
+   "naive_ms": 6.112
+  },
+  {
+   "query_id": 91460,
+   "lang": "tam_Taml",
+   "tier1_ms": 9.791,
+   "stages": {
+    "detect": 0.039,
+    "dense": 0.617,
+    "bm25": 2.518,
+    "cluster": 0.541,
+    "fusion": 0.027,
+    "rerank": 0.542,
+    "embed": 5.366,
+    "guardrail": 0.11
+   },
+   "precision_ms": 101.082,
+   "naive_ms": 5.923
+  },
+  {
+   "query_id": 1085454,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.941,
+   "stages": {
+    "detect": 0.021,
+    "dense": 0.523,
+    "bm25": 3.003,
+    "cluster": 0.526,
+    "fusion": 0.024,
+    "rerank": 0.341,
+    "embed": 5.363,
+    "guardrail": 0.107
+   },
+   "precision_ms": 66.642,
+   "naive_ms": 6.251
+  },
+  {
+   "query_id": 723442,
+   "lang": "tam_Taml",
+   "tier1_ms": 9.774,
+   "stages": {
+    "detect": 0.037,
+    "dense": 0.599,
+    "bm25": 2.571,
+    "cluster": 0.509,
+    "fusion": 0.028,
+    "rerank": 0.671,
+    "embed": 5.212,
+    "guardrail": 0.102
+   },
+   "precision_ms": 109.298,
+   "naive_ms": 5.971
+  },
+  {
+   "query_id": 1099340,
+   "lang": "tam_Taml",
+   "tier1_ms": 9.846,
+   "stages": {
+    "detect": 0.064,
+    "dense": 0.591,
+    "bm25": 2.663,
+    "cluster": 0.354,
+    "fusion": 0.028,
+    "rerank": 0.728,
+    "embed": 5.279,
+    "guardrail": 0.101
+   },
+   "precision_ms": 89.126,
+   "naive_ms": 6.055
+  },
+  {
+   "query_id": 1068021,
+   "lang": "tam_Taml",
+   "tier1_ms": 9.98,
+   "stages": {
+    "detect": 0.062,
+    "dense": 0.574,
+    "bm25": 2.694,
+    "cluster": 0.43,
+    "fusion": 0.028,
+    "rerank": 0.728,
+    "embed": 5.316,
+    "guardrail": 0.101
+   },
+   "precision_ms": 92.201,
+   "naive_ms": 6.245
+  },
+  {
+   "query_id": 1100441,
+   "lang": "tam_Taml",
+   "tier1_ms": 9.655,
+   "stages": {
+    "detect": 0.042,
+    "dense": 0.462,
+    "bm25": 2.639,
+    "cluster": 0.281,
+    "fusion": 0.026,
+    "rerank": 0.756,
+    "embed": 5.318,
+    "guardrail": 0.102
+   },
+   "precision_ms": 108.65,
+   "naive_ms": 6.342
+  },
+  {
+   "query_id": 531837,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.098,
+   "stages": {
+    "detect": 0.03,
+    "dense": 0.634,
+    "bm25": 2.969,
+    "cluster": 0.486,
+    "fusion": 0.027,
+    "rerank": 0.427,
+    "embed": 5.392,
+    "guardrail": 0.104
+   },
+   "precision_ms": 83.97,
+   "naive_ms": 6.117
+  },
+  {
+   "query_id": 524141,
+   "lang": "tam_Taml",
+   "tier1_ms": 11.484,
+   "stages": {
+    "detect": 0.121,
+    "dense": 0.502,
+    "bm25": 2.738,
+    "cluster": 0.181,
+    "fusion": 0.024,
+    "rerank": 0.869,
+    "embed": 6.893,
+    "guardrail": 0.114
+   },
+   "precision_ms": 108.607,
+   "naive_ms": 7.295
+  },
+  {
+   "query_id": 542902,
+   "lang": "hin_Deva",
+   "tier1_ms": 9.864,
+   "stages": {
+    "detect": 0.025,
+    "dense": 0.397,
+    "bm25": 2.929,
+    "cluster": 0.412,
+    "fusion": 0.024,
+    "rerank": 0.462,
+    "embed": 5.483,
+    "guardrail": 0.104
+   },
+   "precision_ms": 91.022,
+   "naive_ms": 5.997
+  },
+  {
+   "query_id": 1012210,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.104,
+   "stages": {
+    "detect": 0.026,
+    "dense": 0.701,
+    "bm25": 2.623,
+    "cluster": 0.507,
+    "fusion": 0.026,
+    "rerank": 0.551,
+    "embed": 5.523,
+    "guardrail": 0.121
+   },
+   "precision_ms": 78.499,
+   "naive_ms": 6.091
+  },
+  {
+   "query_id": 576772,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.541,
+   "stages": {
+    "detect": 0.022,
+    "dense": 0.565,
+    "bm25": 2.531,
+    "cluster": 0.384,
+    "fusion": 0.023,
+    "rerank": 0.564,
+    "embed": 5.319,
+    "guardrail": 0.101
+   },
+   "precision_ms": 156.993,
+   "naive_ms": 6.034
+  },
+  {
+   "query_id": 173971,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.558,
+   "stages": {
+    "detect": 0.026,
+    "dense": 0.419,
+    "bm25": 2.583,
+    "cluster": 0.643,
+    "fusion": 0.025,
+    "rerank": 0.478,
+    "embed": 5.254,
+    "guardrail": 0.101
+   },
+   "precision_ms": 91.181,
+   "naive_ms": 6.182
+  },
+  {
+   "query_id": 250882,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.897,
+   "stages": {
+    "detect": 0.039,
+    "dense": 0.453,
+    "bm25": 2.801,
+    "cluster": 0.44,
+    "fusion": 0.023,
+    "rerank": 0.67,
+    "embed": 5.324,
+    "guardrail": 0.11
+   },
+   "precision_ms": 93.113,
+   "naive_ms": 6.273
+  },
+  {
+   "query_id": 304518,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.708,
+   "stages": {
+    "detect": 0.032,
+    "dense": 0.374,
+    "bm25": 3.052,
+    "cluster": 0.37,
+    "fusion": 0.03,
+    "rerank": 0.407,
+    "embed": 5.294,
+    "guardrail": 0.117
+   },
+   "precision_ms": 83.017,
+   "naive_ms": 6.341
+  },
+  {
+   "query_id": 1100149,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.678,
+   "stages": {
+    "detect": 0.022,
+    "dense": 0.543,
+    "bm25": 2.615,
+    "cluster": 0.49,
+    "fusion": 0.025,
+    "rerank": 0.681,
+    "embed": 5.181,
+    "guardrail": 0.095
+   },
+   "precision_ms": 116.346,
+   "naive_ms": 6.291
+  },
+  {
+   "query_id": 438700,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.11,
+   "stages": {
+    "detect": 0.012,
+    "dense": 0.467,
+    "bm25": 2.559,
+    "cluster": 0.625,
+    "fusion": 0.028,
+    "rerank": 0.302,
+    "embed": 4.994,
+    "guardrail": 0.097
+   },
+   "precision_ms": 55.988,
+   "naive_ms": 5.977
+  },
+  {
+   "query_id": 779519,
+   "lang": "eng_Latn",
+   "tier1_ms": 10.145,
+   "stages": {
+    "detect": 0.025,
+    "dense": 0.55,
+    "bm25": 3.105,
+    "cluster": 0.736,
+    "fusion": 0.028,
+    "rerank": 0.352,
+    "embed": 5.214,
+    "guardrail": 0.1
+   },
+   "precision_ms": 80.872,
+   "naive_ms": 6.302
+  },
+  {
+   "query_id": 1101069,
+   "lang": "eng_Latn",
+   "tier1_ms": 10.145,
+   "stages": {
+    "detect": 0.018,
+    "dense": 0.554,
+    "bm25": 2.93,
+    "cluster": 0.928,
+    "fusion": 0.025,
+    "rerank": 0.341,
+    "embed": 5.221,
+    "guardrail": 0.101
+   },
+   "precision_ms": 79.384,
+   "naive_ms": 6.085
+  },
+  {
+   "query_id": 610668,
+   "lang": "tam_Taml",
+   "tier1_ms": 9.544,
+   "stages": {
+    "detect": 0.05,
+    "dense": 0.608,
+    "bm25": 2.511,
+    "cluster": 0.384,
+    "fusion": 0.026,
+    "rerank": 0.527,
+    "embed": 5.29,
+    "guardrail": 0.107
+   },
+   "precision_ms": 127.531,
+   "naive_ms": 5.959
+  },
+  {
+   "query_id": 1074255,
+   "lang": "tam_Taml",
+   "tier1_ms": 9.802,
+   "stages": {
+    "detect": 0.065,
+    "dense": 0.588,
+    "bm25": 2.652,
+    "cluster": 0.306,
+    "fusion": 0.027,
+    "rerank": 0.793,
+    "embed": 5.229,
+    "guardrail": 0.106
+   },
+   "precision_ms": 107.248,
+   "naive_ms": 6.151
+  },
+  {
+   "query_id": 1089887,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.681,
+   "stages": {
+    "detect": 0.05,
+    "dense": 0.714,
+    "bm25": 2.942,
+    "cluster": 0.39,
+    "fusion": 0.027,
+    "rerank": 0.613,
+    "embed": 5.801,
+    "guardrail": 0.107
+   },
+   "precision_ms": 124.689,
+   "naive_ms": 6.372
+  },
+  {
+   "query_id": 583568,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.588,
+   "stages": {
+    "detect": 0.028,
+    "dense": 0.478,
+    "bm25": 2.844,
+    "cluster": 0.258,
+    "fusion": 0.022,
+    "rerank": 0.319,
+    "embed": 5.505,
+    "guardrail": 0.11
+   },
+   "precision_ms": 70.088,
+   "naive_ms": 6.229
+  },
+  {
+   "query_id": 411465,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.994,
+   "stages": {
+    "detect": 0.029,
+    "dense": 0.681,
+    "bm25": 2.672,
+    "cluster": 0.38,
+    "fusion": 0.027,
+    "rerank": 0.497,
+    "embed": 5.547,
+    "guardrail": 0.121
+   },
+   "precision_ms": 74.638,
+   "naive_ms": 6.154
+  },
+  {
+   "query_id": 1092039,
+   "lang": "hin_Deva",
+   "tier1_ms": 9.863,
+   "stages": {
+    "detect": 0.014,
+    "dense": 0.641,
+    "bm25": 2.639,
+    "cluster": 0.746,
+    "fusion": 0.028,
+    "rerank": 0.444,
+    "embed": 5.204,
+    "guardrail": 0.109
+   },
+   "precision_ms": 60.055,
+   "naive_ms": 5.893
+  },
+  {
+   "query_id": 904786,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.77,
+   "stages": {
+    "detect": 0.028,
+    "dense": 0.577,
+    "bm25": 2.844,
+    "cluster": 0.296,
+    "fusion": 0.028,
+    "rerank": 0.502,
+    "embed": 5.365,
+    "guardrail": 0.1
+   },
+   "precision_ms": 82.377,
+   "naive_ms": 6.001
+  },
+  {
+   "query_id": 544352,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.002,
+   "stages": {
+    "detect": 0.038,
+    "dense": 0.519,
+    "bm25": 3.003,
+    "cluster": 0.42,
+    "fusion": 0.026,
+    "rerank": 0.445,
+    "embed": 5.419,
+    "guardrail": 0.102
+   },
+   "precision_ms": 71.856,
+   "naive_ms": 6.363
+  },
+  {
+   "query_id": 992284,
+   "lang": "tam_Taml",
+   "tier1_ms": 9.999,
+   "stages": {
+    "detect": 0.04,
+    "dense": 0.703,
+    "bm25": 2.778,
+    "cluster": 0.348,
+    "fusion": 0.029,
+    "rerank": 0.614,
+    "embed": 5.322,
+    "guardrail": 0.132
+   },
+   "precision_ms": 91.429,
+   "naive_ms": 6.2
+  },
+  {
+   "query_id": 317168,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.345,
+   "stages": {
+    "detect": 0.062,
+    "dense": 0.492,
+    "bm25": 2.695,
+    "cluster": 0.453,
+    "fusion": 0.025,
+    "rerank": 0.559,
+    "embed": 5.867,
+    "guardrail": 0.15
+   },
+   "precision_ms": 128.897,
+   "naive_ms": 6.49
+  },
+  {
+   "query_id": 933019,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.619,
+   "stages": {
+    "detect": 0.022,
+    "dense": 0.492,
+    "bm25": 3.139,
+    "cluster": 0.61,
+    "fusion": 0.026,
+    "rerank": 0.862,
+    "embed": 5.317,
+    "guardrail": 0.106
+   },
+   "precision_ms": 117.094,
+   "naive_ms": 6.017
+  },
+  {
+   "query_id": 886071,
+   "lang": "eng_Latn",
+   "tier1_ms": 10.216,
+   "stages": {
+    "detect": 0.024,
+    "dense": 0.592,
+    "bm25": 3.138,
+    "cluster": 0.358,
+    "fusion": 0.026,
+    "rerank": 0.333,
+    "embed": 5.6,
+    "guardrail": 0.118
+   },
+   "precision_ms": 76.551,
+   "naive_ms": 6.003
+  },
+  {
+   "query_id": 994066,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.405,
+   "stages": {
+    "detect": 0.043,
+    "dense": 0.55,
+    "bm25": 2.74,
+    "cluster": 0.556,
+    "fusion": 0.029,
+    "rerank": 0.632,
+    "embed": 5.713,
+    "guardrail": 0.111
+   },
+   "precision_ms": 137.772,
+   "naive_ms": 6.263
+  },
+  {
+   "query_id": 203003,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.467,
+   "stages": {
+    "detect": 0.032,
+    "dense": 0.558,
+    "bm25": 2.586,
+    "cluster": 0.725,
+    "fusion": 0.026,
+    "rerank": 0.623,
+    "embed": 5.77,
+    "guardrail": 0.117
+   },
+   "precision_ms": 97.678,
+   "naive_ms": 5.997
+  },
+  {
+   "query_id": 1038985,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.933,
+   "stages": {
+    "detect": 0.031,
+    "dense": 0.52,
+    "bm25": 3.021,
+    "cluster": 0.574,
+    "fusion": 0.025,
+    "rerank": 0.629,
+    "embed": 5.951,
+    "guardrail": 0.153
+   },
+   "precision_ms": 101.849,
+   "naive_ms": 5.939
+  },
+  {
+   "query_id": 798030,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.745,
+   "stages": {
+    "detect": 0.032,
+    "dense": 0.795,
+    "bm25": 3.155,
+    "cluster": 0.481,
+    "fusion": 0.028,
+    "rerank": 0.484,
+    "embed": 5.6,
+    "guardrail": 0.132
+   },
+   "precision_ms": 94.098,
+   "naive_ms": 6.19
+  },
+  {
+   "query_id": 678185,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.478,
+   "stages": {
+    "detect": 0.028,
+    "dense": 0.626,
+    "bm25": 3.012,
+    "cluster": 0.639,
+    "fusion": 0.024,
+    "rerank": 0.507,
+    "embed": 5.506,
+    "guardrail": 0.106
+   },
+   "precision_ms": 69.505,
+   "naive_ms": 6.236
+  },
+  {
+   "query_id": 991085,
+   "lang": "hin_Deva",
+   "tier1_ms": 9.779,
+   "stages": {
+    "detect": 0.019,
+    "dense": 0.498,
+    "bm25": 3.107,
+    "cluster": 0.242,
+    "fusion": 0.027,
+    "rerank": 0.493,
+    "embed": 5.269,
+    "guardrail": 0.099
+   },
+   "precision_ms": 90.364,
+   "naive_ms": 6.057
+  },
+  {
+   "query_id": 1060485,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.104,
+   "stages": {
+    "detect": 0.038,
+    "dense": 0.623,
+    "bm25": 2.695,
+    "cluster": 0.745,
+    "fusion": 0.026,
+    "rerank": 0.641,
+    "embed": 5.195,
+    "guardrail": 0.102
+   },
+   "precision_ms": 86.768,
+   "naive_ms": 5.841
+  },
+  {
+   "query_id": 519356,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.826,
+   "stages": {
+    "detect": 0.026,
+    "dense": 0.623,
+    "bm25": 2.985,
+    "cluster": 0.467,
+    "fusion": 0.026,
+    "rerank": 0.383,
+    "embed": 5.191,
+    "guardrail": 0.099
+   },
+   "precision_ms": 64.239,
+   "naive_ms": 6.191
+  },
+  {
+   "query_id": 1089898,
+   "lang": "eng_Latn",
+   "tier1_ms": 10.255,
+   "stages": {
+    "detect": 0.052,
+    "dense": 0.635,
+    "bm25": 3.027,
+    "cluster": 0.195,
+    "fusion": 0.024,
+    "rerank": 0.332,
+    "embed": 5.842,
+    "guardrail": 0.11
+   },
+   "precision_ms": 88.871,
+   "naive_ms": 6.455
+  },
+  {
+   "query_id": 113053,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.521,
+   "stages": {
+    "detect": 0.027,
+    "dense": 0.566,
+    "bm25": 2.585,
+    "cluster": 0.123,
+    "fusion": 0.021,
+    "rerank": 0.587,
+    "embed": 5.457,
+    "guardrail": 0.124
+   },
+   "precision_ms": 103.084,
+   "naive_ms": 5.932
+  },
+  {
+   "query_id": 1089799,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.376,
+   "stages": {
+    "detect": 0.086,
+    "dense": 0.599,
+    "bm25": 2.681,
+    "cluster": 0.388,
+    "fusion": 0.027,
+    "rerank": 0.608,
+    "embed": 5.827,
+    "guardrail": 0.112
+   },
+   "precision_ms": 102.083,
+   "naive_ms": 6.529
+  },
+  {
+   "query_id": 151947,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.04,
+   "stages": {
+    "detect": 0.033,
+    "dense": 0.624,
+    "bm25": 2.542,
+    "cluster": 0.531,
+    "fusion": 0.026,
+    "rerank": 0.67,
+    "embed": 5.464,
+    "guardrail": 0.106
+   },
+   "precision_ms": 104.138,
+   "naive_ms": 6.089
+  },
+  {
+   "query_id": 455807,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.37,
+   "stages": {
+    "detect": 0.039,
+    "dense": 0.613,
+    "bm25": 2.596,
+    "cluster": 0.456,
+    "fusion": 0.027,
+    "rerank": 0.861,
+    "embed": 5.626,
+    "guardrail": 0.118
+   },
+   "precision_ms": 99.662,
+   "naive_ms": 6.236
+  },
+  {
+   "query_id": 13820,
+   "lang": "hin_Deva",
+   "tier1_ms": 9.74,
+   "stages": {
+    "detect": 0.022,
+    "dense": 0.509,
+    "bm25": 2.833,
+    "cluster": 0.362,
+    "fusion": 0.025,
+    "rerank": 0.521,
+    "embed": 5.337,
+    "guardrail": 0.104
+   },
+   "precision_ms": 87.985,
+   "naive_ms": 6.0
+  },
+  {
+   "query_id": 226461,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.077,
+   "stages": {
+    "detect": 0.032,
+    "dense": 0.576,
+    "bm25": 2.954,
+    "cluster": 0.363,
+    "fusion": 0.028,
+    "rerank": 0.588,
+    "embed": 5.391,
+    "guardrail": 0.111
+   },
+   "precision_ms": 82.645,
+   "naive_ms": 6.071
+  },
+  {
+   "query_id": 382744,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.548,
+   "stages": {
+    "detect": 0.12,
+    "dense": 0.615,
+    "bm25": 2.655,
+    "cluster": 0.582,
+    "fusion": 0.027,
+    "rerank": 0.672,
+    "embed": 5.734,
+    "guardrail": 0.104
+   },
+   "precision_ms": 102.418,
+   "naive_ms": 6.344
+  },
+  {
+   "query_id": 1092973,
+   "lang": "eng_Latn",
+   "tier1_ms": 10.014,
+   "stages": {
+    "detect": 0.016,
+    "dense": 0.608,
+    "bm25": 3.136,
+    "cluster": 0.631,
+    "fusion": 0.025,
+    "rerank": 0.337,
+    "embed": 5.137,
+    "guardrail": 0.097
+   },
+   "precision_ms": 67.427,
+   "naive_ms": 5.856
+  },
+  {
+   "query_id": 370050,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.882,
+   "stages": {
+    "detect": 0.031,
+    "dense": 0.599,
+    "bm25": 2.763,
+    "cluster": 0.29,
+    "fusion": 0.029,
+    "rerank": 0.671,
+    "embed": 5.341,
+    "guardrail": 0.107
+   },
+   "precision_ms": 133.341,
+   "naive_ms": 6.034
+  },
+  {
+   "query_id": 1052313,
+   "lang": "tam_Taml",
+   "tier1_ms": 9.842,
+   "stages": {
+    "detect": 0.045,
+    "dense": 0.512,
+    "bm25": 2.587,
+    "cluster": 0.438,
+    "fusion": 0.024,
+    "rerank": 0.858,
+    "embed": 5.24,
+    "guardrail": 0.104
+   },
+   "precision_ms": 98.386,
+   "naive_ms": 5.873
+  },
+  {
+   "query_id": 514767,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.92,
+   "stages": {
+    "detect": 0.06,
+    "dense": 0.74,
+    "bm25": 2.593,
+    "cluster": 0.593,
+    "fusion": 0.03,
+    "rerank": 1.147,
+    "embed": 5.597,
+    "guardrail": 0.12
+   },
+   "precision_ms": 157.974,
+   "naive_ms": 6.09
+  },
+  {
+   "query_id": 1003230,
+   "lang": "hin_Deva",
+   "tier1_ms": 11.242,
+   "stages": {
+    "detect": 0.037,
+    "dense": 0.764,
+    "bm25": 3.282,
+    "cluster": 0.267,
+    "fusion": 0.03,
+    "rerank": 0.56,
+    "embed": 6.096,
+    "guardrail": 0.173
+   },
+   "precision_ms": 99.613,
+   "naive_ms": 6.114
+  },
+  {
+   "query_id": 825948,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.063,
+   "stages": {
+    "detect": 0.055,
+    "dense": 0.461,
+    "bm25": 2.689,
+    "cluster": 0.287,
+    "fusion": 0.027,
+    "rerank": 0.737,
+    "embed": 5.658,
+    "guardrail": 0.114
+   },
+   "precision_ms": 106.413,
+   "naive_ms": 6.09
+  },
+  {
+   "query_id": 1018800,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.392,
+   "stages": {
+    "detect": 0.022,
+    "dense": 0.606,
+    "bm25": 2.967,
+    "cluster": 0.398,
+    "fusion": 0.026,
+    "rerank": 0.582,
+    "embed": 5.635,
+    "guardrail": 0.121
+   },
+   "precision_ms": 98.839,
+   "naive_ms": 5.845
+  },
+  {
+   "query_id": 1076926,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.572,
+   "stages": {
+    "detect": 0.05,
+    "dense": 0.639,
+    "bm25": 2.562,
+    "cluster": 0.52,
+    "fusion": 0.029,
+    "rerank": 0.834,
+    "embed": 5.758,
+    "guardrail": 0.139
+   },
+   "precision_ms": 99.238,
+   "naive_ms": 5.929
+  },
+  {
+   "query_id": 650520,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.737,
+   "stages": {
+    "detect": 0.027,
+    "dense": 0.386,
+    "bm25": 3.073,
+    "cluster": 0.275,
+    "fusion": 0.023,
+    "rerank": 0.408,
+    "embed": 5.392,
+    "guardrail": 0.121
+   },
+   "precision_ms": 92.443,
+   "naive_ms": 5.99
+  },
+  {
+   "query_id": 477168,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.993,
+   "stages": {
+    "detect": 0.027,
+    "dense": 0.607,
+    "bm25": 2.699,
+    "cluster": 0.484,
+    "fusion": 0.028,
+    "rerank": 0.604,
+    "embed": 5.385,
+    "guardrail": 0.12
+   },
+   "precision_ms": 154.651,
+   "naive_ms": 6.134
+  },
+  {
+   "query_id": 1071238,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.606,
+   "stages": {
+    "detect": 0.038,
+    "dense": 0.514,
+    "bm25": 2.93,
+    "cluster": 0.538,
+    "fusion": 0.026,
+    "rerank": 1.005,
+    "embed": 5.411,
+    "guardrail": 0.113
+   },
+   "precision_ms": 111.678,
+   "naive_ms": 6.382
+  },
+  {
+   "query_id": 785264,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.231,
+   "stages": {
+    "detect": 0.032,
+    "dense": 0.643,
+    "bm25": 3.05,
+    "cluster": 0.5,
+    "fusion": 0.028,
+    "rerank": 0.48,
+    "embed": 5.352,
+    "guardrail": 0.109
+   },
+   "precision_ms": 89.307,
+   "naive_ms": 6.29
+  },
+  {
+   "query_id": 463432,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.086,
+   "stages": {
+    "detect": 0.035,
+    "dense": 0.592,
+    "bm25": 2.439,
+    "cluster": 0.721,
+    "fusion": 0.027,
+    "rerank": 0.805,
+    "embed": 5.315,
+    "guardrail": 0.102
+   },
+   "precision_ms": 102.445,
+   "naive_ms": 6.154
+  },
+  {
+   "query_id": 235622,
+   "lang": "tam_Taml",
+   "tier1_ms": 9.942,
+   "stages": {
+    "detect": 0.068,
+    "dense": 0.545,
+    "bm25": 2.588,
+    "cluster": 0.436,
+    "fusion": 0.025,
+    "rerank": 0.648,
+    "embed": 5.489,
+    "guardrail": 0.106
+   },
+   "precision_ms": 105.853,
+   "naive_ms": 6.49
+  },
+  {
+   "query_id": 248186,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.353,
+   "stages": {
+    "detect": 0.051,
+    "dense": 0.642,
+    "bm25": 2.876,
+    "cluster": 0.501,
+    "fusion": 0.029,
+    "rerank": 0.617,
+    "embed": 5.493,
+    "guardrail": 0.104
+   },
+   "precision_ms": 106.811,
+   "naive_ms": 6.354
+  },
+  {
+   "query_id": 1099651,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.058,
+   "stages": {
+    "detect": 0.026,
+    "dense": 0.537,
+    "bm25": 2.69,
+    "cluster": 0.629,
+    "fusion": 0.034,
+    "rerank": 0.595,
+    "embed": 5.385,
+    "guardrail": 0.124
+   },
+   "precision_ms": 94.285,
+   "naive_ms": 6.165
+  },
+  {
+   "query_id": 1002499,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.001,
+   "stages": {
+    "detect": 0.026,
+    "dense": 0.49,
+    "bm25": 2.844,
+    "cluster": 0.36,
+    "fusion": 0.024,
+    "rerank": 0.547,
+    "embed": 5.564,
+    "guardrail": 0.118
+   },
+   "precision_ms": 98.806,
+   "naive_ms": 5.988
+  },
+  {
+   "query_id": 821084,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.878,
+   "stages": {
+    "detect": 0.063,
+    "dense": 0.631,
+    "bm25": 2.643,
+    "cluster": 0.479,
+    "fusion": 0.028,
+    "rerank": 1.014,
+    "embed": 5.824,
+    "guardrail": 0.129
+   },
+   "precision_ms": 104.298,
+   "naive_ms": 6.168
+  },
+  {
+   "query_id": 311067,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.014,
+   "stages": {
+    "detect": 0.034,
+    "dense": 0.524,
+    "bm25": 2.655,
+    "cluster": 0.529,
+    "fusion": 0.027,
+    "rerank": 0.681,
+    "embed": 5.416,
+    "guardrail": 0.115
+   },
+   "precision_ms": 118.882,
+   "naive_ms": 6.089
+  },
+  {
+   "query_id": 775510,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.667,
+   "stages": {
+    "detect": 0.038,
+    "dense": 0.562,
+    "bm25": 2.824,
+    "cluster": 0.754,
+    "fusion": 0.03,
+    "rerank": 0.829,
+    "embed": 5.488,
+    "guardrail": 0.11
+   },
+   "precision_ms": 117.795,
+   "naive_ms": 6.159
+  },
+  {
+   "query_id": 519356,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.258,
+   "stages": {
+    "detect": 0.044,
+    "dense": 0.696,
+    "bm25": 3.085,
+    "cluster": 0.333,
+    "fusion": 0.027,
+    "rerank": 0.452,
+    "embed": 5.465,
+    "guardrail": 0.113
+   },
+   "precision_ms": 103.751,
+   "naive_ms": 6.165
+  },
+  {
+   "query_id": 1083122,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.005,
+   "stages": {
+    "detect": 0.031,
+    "dense": 0.609,
+    "bm25": 2.655,
+    "cluster": 0.529,
+    "fusion": 0.029,
+    "rerank": 0.906,
+    "embed": 5.105,
+    "guardrail": 0.102
+   },
+   "precision_ms": 88.427,
+   "naive_ms": 5.884
+  },
+  {
+   "query_id": 1029891,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.007,
+   "stages": {
+    "detect": 0.029,
+    "dense": 0.451,
+    "bm25": 3.114,
+    "cluster": 0.445,
+    "fusion": 0.026,
+    "rerank": 0.557,
+    "embed": 5.248,
+    "guardrail": 0.105
+   },
+   "precision_ms": 104.49,
+   "naive_ms": 5.926
+  },
+  {
+   "query_id": 144432,
+   "lang": "tam_Taml",
+   "tier1_ms": 9.989,
+   "stages": {
+    "detect": 0.074,
+    "dense": 0.492,
+    "bm25": 2.732,
+    "cluster": 0.276,
+    "fusion": 0.024,
+    "rerank": 0.644,
+    "embed": 5.608,
+    "guardrail": 0.111
+   },
+   "precision_ms": 116.723,
+   "naive_ms": 6.249
+  },
+  {
+   "query_id": 526139,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.341,
+   "stages": {
+    "detect": 0.068,
+    "dense": 0.675,
+    "bm25": 2.585,
+    "cluster": 0.572,
+    "fusion": 0.029,
+    "rerank": 0.803,
+    "embed": 5.455,
+    "guardrail": 0.107
+   },
+   "precision_ms": 101.414,
+   "naive_ms": 6.571
+  },
+  {
+   "query_id": 410040,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.643,
+   "stages": {
+    "detect": 0.018,
+    "dense": 0.488,
+    "bm25": 2.908,
+    "cluster": 0.477,
+    "fusion": 0.026,
+    "rerank": 0.365,
+    "embed": 5.231,
+    "guardrail": 0.103
+   },
+   "precision_ms": 60.985,
+   "naive_ms": 6.01
+  },
+  {
+   "query_id": 986358,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.85,
+   "stages": {
+    "detect": 0.028,
+    "dense": 0.555,
+    "bm25": 2.634,
+    "cluster": 0.521,
+    "fusion": 0.023,
+    "rerank": 0.656,
+    "embed": 5.306,
+    "guardrail": 0.1
+   },
+   "precision_ms": 143.149,
+   "naive_ms": 6.011
+  },
+  {
+   "query_id": 916829,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.588,
+   "stages": {
+    "detect": 0.03,
+    "dense": 0.463,
+    "bm25": 3.024,
+    "cluster": 0.27,
+    "fusion": 0.024,
+    "rerank": 0.328,
+    "embed": 5.313,
+    "guardrail": 0.108
+   },
+   "precision_ms": 54.509,
+   "naive_ms": 6.661
+  },
+  {
+   "query_id": 1081559,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.973,
+   "stages": {
+    "detect": 0.021,
+    "dense": 0.6,
+    "bm25": 2.531,
+    "cluster": 0.758,
+    "fusion": 0.025,
+    "rerank": 0.737,
+    "embed": 5.157,
+    "guardrail": 0.101
+   },
+   "precision_ms": 106.991,
+   "naive_ms": 6.079
+  },
+  {
+   "query_id": 344221,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.192,
+   "stages": {
+    "detect": 0.036,
+    "dense": 0.543,
+    "bm25": 2.973,
+    "cluster": 0.185,
+    "fusion": 0.023,
+    "rerank": 0.585,
+    "embed": 5.704,
+    "guardrail": 0.113
+   },
+   "precision_ms": 99.003,
+   "naive_ms": 6.439
+  },
+  {
+   "query_id": 565661,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.232,
+   "stages": {
+    "detect": 0.044,
+    "dense": 0.508,
+    "bm25": 2.822,
+    "cluster": 0.42,
+    "fusion": 0.025,
+    "rerank": 0.546,
+    "embed": 5.711,
+    "guardrail": 0.122
+   },
+   "precision_ms": 84.049,
+   "naive_ms": 6.343
+  },
+  {
+   "query_id": 42076,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.566,
+   "stages": {
+    "detect": 0.019,
+    "dense": 0.397,
+    "bm25": 3.003,
+    "cluster": 0.39,
+    "fusion": 0.025,
+    "rerank": 0.396,
+    "embed": 5.205,
+    "guardrail": 0.102
+   },
+   "precision_ms": 78.05,
+   "naive_ms": 6.027
+  },
+  {
+   "query_id": 14962,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.816,
+   "stages": {
+    "detect": 0.028,
+    "dense": 0.588,
+    "bm25": 2.57,
+    "cluster": 0.487,
+    "fusion": 0.025,
+    "rerank": 0.697,
+    "embed": 5.29,
+    "guardrail": 0.101
+   },
+   "precision_ms": 133.968,
+   "naive_ms": 5.889
+  },
+  {
+   "query_id": 1083735,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.196,
+   "stages": {
+    "detect": 0.017,
+    "dense": 0.477,
+    "bm25": 2.652,
+    "cluster": 0.442,
+    "fusion": 0.025,
+    "rerank": 0.358,
+    "embed": 5.088,
+    "guardrail": 0.105
+   },
+   "precision_ms": 83.947,
+   "naive_ms": 5.974
+  },
+  {
+   "query_id": 394205,
+   "lang": "eng_Latn",
+   "tier1_ms": 10.511,
+   "stages": {
+    "detect": 0.039,
+    "dense": 0.529,
+    "bm25": 3.173,
+    "cluster": 0.868,
+    "fusion": 0.027,
+    "rerank": 0.369,
+    "embed": 5.372,
+    "guardrail": 0.104
+   },
+   "precision_ms": 85.211,
+   "naive_ms": 6.189
+  },
+  {
+   "query_id": 384452,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.987,
+   "stages": {
+    "detect": 0.023,
+    "dense": 0.432,
+    "bm25": 3.154,
+    "cluster": 0.411,
+    "fusion": 0.023,
+    "rerank": 0.578,
+    "embed": 5.234,
+    "guardrail": 0.1
+   },
+   "precision_ms": 91.609,
+   "naive_ms": 5.945
+  },
+  {
+   "query_id": 1097446,
+   "lang": "eng_Latn",
+   "tier1_ms": 10.077,
+   "stages": {
+    "detect": 0.034,
+    "dense": 0.511,
+    "bm25": 3.154,
+    "cluster": 0.47,
+    "fusion": 0.026,
+    "rerank": 0.354,
+    "embed": 5.394,
+    "guardrail": 0.107
+   },
+   "precision_ms": 99.173,
+   "naive_ms": 6.089
+  },
+  {
+   "query_id": 1064490,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.149,
+   "stages": {
+    "detect": 0.021,
+    "dense": 0.583,
+    "bm25": 3.094,
+    "cluster": 0.555,
+    "fusion": 0.024,
+    "rerank": 0.476,
+    "embed": 5.264,
+    "guardrail": 0.101
+   },
+   "precision_ms": 91.817,
+   "naive_ms": 6.015
+  },
+  {
+   "query_id": 508293,
+   "lang": "hin_Deva",
+   "tier1_ms": 9.462,
+   "stages": {
+    "detect": 0.019,
+    "dense": 0.457,
+    "bm25": 2.822,
+    "cluster": 0.366,
+    "fusion": 0.025,
+    "rerank": 0.473,
+    "embed": 5.171,
+    "guardrail": 0.1
+   },
+   "precision_ms": 72.295,
+   "naive_ms": 5.874
+  },
+  {
+   "query_id": 1093402,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.071,
+   "stages": {
+    "detect": 0.047,
+    "dense": 0.611,
+    "bm25": 2.544,
+    "cluster": 0.507,
+    "fusion": 0.025,
+    "rerank": 0.751,
+    "embed": 5.441,
+    "guardrail": 0.113
+   },
+   "precision_ms": 100.398,
+   "naive_ms": 5.837
+  },
+  {
+   "query_id": 955148,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.494,
+   "stages": {
+    "detect": 0.128,
+    "dense": 0.616,
+    "bm25": 2.61,
+    "cluster": 0.434,
+    "fusion": 0.026,
+    "rerank": 0.632,
+    "embed": 5.897,
+    "guardrail": 0.116
+   },
+   "precision_ms": 87.023,
+   "naive_ms": 6.158
+  },
+  {
+   "query_id": 870207,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.11,
+   "stages": {
+    "detect": 0.072,
+    "dense": 0.596,
+    "bm25": 2.563,
+    "cluster": 0.62,
+    "fusion": 0.026,
+    "rerank": 0.578,
+    "embed": 5.505,
+    "guardrail": 0.106
+   },
+   "precision_ms": 93.94,
+   "naive_ms": 6.137
+  },
+  {
+   "query_id": 1082574,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.679,
+   "stages": {
+    "detect": 0.029,
+    "dense": 0.609,
+    "bm25": 2.974,
+    "cluster": 0.268,
+    "fusion": 0.026,
+    "rerank": 0.375,
+    "embed": 5.261,
+    "guardrail": 0.102
+   },
+   "precision_ms": 63.997,
+   "naive_ms": 5.981
+  },
+  {
+   "query_id": 1093118,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.027,
+   "stages": {
+    "detect": 0.023,
+    "dense": 0.602,
+    "bm25": 3.056,
+    "cluster": 0.494,
+    "fusion": 0.025,
+    "rerank": 0.43,
+    "embed": 5.271,
+    "guardrail": 0.102
+   },
+   "precision_ms": 61.075,
+   "naive_ms": 5.895
+  },
+  {
+   "query_id": 586580,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.759,
+   "stages": {
+    "detect": 0.03,
+    "dense": 0.521,
+    "bm25": 2.78,
+    "cluster": 0.352,
+    "fusion": 0.027,
+    "rerank": 0.522,
+    "embed": 5.39,
+    "guardrail": 0.104
+   },
+   "precision_ms": 112.939,
+   "naive_ms": 6.065
+  },
+  {
+   "query_id": 829215,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.649,
+   "stages": {
+    "detect": 0.03,
+    "dense": 0.582,
+    "bm25": 2.591,
+    "cluster": 0.461,
+    "fusion": 0.025,
+    "rerank": 0.498,
+    "embed": 5.326,
+    "guardrail": 0.104
+   },
+   "precision_ms": 75.155,
+   "naive_ms": 6.091
+  },
+  {
+   "query_id": 496491,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.172,
+   "stages": {
+    "detect": 0.058,
+    "dense": 0.653,
+    "bm25": 2.627,
+    "cluster": 0.46,
+    "fusion": 0.029,
+    "rerank": 0.709,
+    "embed": 5.489,
+    "guardrail": 0.111
+   },
+   "precision_ms": 89.805,
+   "naive_ms": 6.145
+  },
+  {
+   "query_id": 610010,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.129,
+   "stages": {
+    "detect": 0.061,
+    "dense": 0.458,
+    "bm25": 2.652,
+    "cluster": 0.47,
+    "fusion": 0.024,
+    "rerank": 0.639,
+    "embed": 5.681,
+    "guardrail": 0.109
+   },
+   "precision_ms": 103.675,
+   "naive_ms": 6.492
+  },
+  {
+   "query_id": 16660,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.045,
+   "stages": {
+    "detect": 0.023,
+    "dense": 0.608,
+    "bm25": 2.515,
+    "cluster": 0.179,
+    "fusion": 0.025,
+    "rerank": 0.324,
+    "embed": 5.226,
+    "guardrail": 0.112
+   },
+   "precision_ms": 68.547,
+   "naive_ms": 6.245
+  },
+  {
+   "query_id": 440419,
+   "lang": "hin_Deva",
+   "tier1_ms": 9.717,
+   "stages": {
+    "detect": 0.021,
+    "dense": 0.51,
+    "bm25": 2.929,
+    "cluster": 0.314,
+    "fusion": 0.026,
+    "rerank": 0.528,
+    "embed": 5.256,
+    "guardrail": 0.102
+   },
+   "precision_ms": 77.716,
+   "naive_ms": 6.37
+  },
+  {
+   "query_id": 1019582,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.663,
+   "stages": {
+    "detect": 0.055,
+    "dense": 0.653,
+    "bm25": 2.991,
+    "cluster": 0.391,
+    "fusion": 0.027,
+    "rerank": 0.733,
+    "embed": 5.667,
+    "guardrail": 0.105
+   },
+   "precision_ms": 111.149,
+   "naive_ms": 6.42
+  },
+  {
+   "query_id": 1074137,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.699,
+   "stages": {
+    "detect": 0.02,
+    "dense": 0.544,
+    "bm25": 3.108,
+    "cluster": 0.601,
+    "fusion": 0.029,
+    "rerank": 0.958,
+    "embed": 5.3,
+    "guardrail": 0.102
+   },
+   "precision_ms": 92.708,
+   "naive_ms": 5.997
+  },
+  {
+   "query_id": 917507,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.627,
+   "stages": {
+    "detect": 0.087,
+    "dense": 0.731,
+    "bm25": 2.74,
+    "cluster": 0.564,
+    "fusion": 0.028,
+    "rerank": 0.666,
+    "embed": 5.665,
+    "guardrail": 0.108
+   },
+   "precision_ms": 105.71,
+   "naive_ms": 6.279
+  },
+  {
+   "query_id": 1043338,
+   "lang": "tam_Taml",
+   "tier1_ms": 9.924,
+   "stages": {
+    "detect": 0.066,
+    "dense": 0.657,
+    "bm25": 2.578,
+    "cluster": 0.407,
+    "fusion": 0.027,
+    "rerank": 0.608,
+    "embed": 5.43,
+    "guardrail": 0.111
+   },
+   "precision_ms": 79.671,
+   "naive_ms": 6.093
+  },
+  {
+   "query_id": 511174,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.749,
+   "stages": {
+    "detect": 0.017,
+    "dense": 0.6,
+    "bm25": 3.033,
+    "cluster": 0.5,
+    "fusion": 0.025,
+    "rerank": 0.332,
+    "embed": 5.12,
+    "guardrail": 0.098
+   },
+   "precision_ms": 51.757,
+   "naive_ms": 5.89
+  },
+  {
+   "query_id": 270349,
+   "lang": "tam_Taml",
+   "tier1_ms": 9.81,
+   "stages": {
+    "detect": 0.059,
+    "dense": 0.484,
+    "bm25": 2.622,
+    "cluster": 0.38,
+    "fusion": 0.028,
+    "rerank": 0.827,
+    "embed": 5.274,
+    "guardrail": 0.105
+   },
+   "precision_ms": 90.188,
+   "naive_ms": 5.954
+  },
+  {
+   "query_id": 993728,
+   "lang": "tam_Taml",
+   "tier1_ms": 11.215,
+   "stages": {
+    "detect": 0.106,
+    "dense": 0.551,
+    "bm25": 2.62,
+    "cluster": 0.554,
+    "fusion": 0.025,
+    "rerank": 0.623,
+    "embed": 6.611,
+    "guardrail": 0.091
+   },
+   "precision_ms": 102.816,
+   "naive_ms": 7.022
+  },
+  {
+   "query_id": 368547,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.763,
+   "stages": {
+    "detect": 0.03,
+    "dense": 0.447,
+    "bm25": 2.938,
+    "cluster": 0.338,
+    "fusion": 0.028,
+    "rerank": 0.562,
+    "embed": 5.285,
+    "guardrail": 0.1
+   },
+   "precision_ms": 132.634,
+   "naive_ms": 5.995
+  },
+  {
+   "query_id": 1098908,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.893,
+   "stages": {
+    "detect": 0.095,
+    "dense": 0.665,
+    "bm25": 2.662,
+    "cluster": 0.254,
+    "fusion": 0.024,
+    "rerank": 0.477,
+    "embed": 6.587,
+    "guardrail": 0.094
+   },
+   "precision_ms": 98.211,
+   "naive_ms": 7.818
+  },
+  {
+   "query_id": 246754,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.378,
+   "stages": {
+    "detect": 0.022,
+    "dense": 0.528,
+    "bm25": 2.827,
+    "cluster": 0.347,
+    "fusion": 0.026,
+    "rerank": 0.344,
+    "embed": 5.156,
+    "guardrail": 0.096
+   },
+   "precision_ms": 78.342,
+   "naive_ms": 6.843
+  },
+  {
+   "query_id": 213668,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.568,
+   "stages": {
+    "detect": 0.055,
+    "dense": 0.669,
+    "bm25": 3.108,
+    "cluster": 0.288,
+    "fusion": 0.026,
+    "rerank": 0.649,
+    "embed": 5.644,
+    "guardrail": 0.1
+   },
+   "precision_ms": 108.511,
+   "naive_ms": 6.7
+  },
+  {
+   "query_id": 344221,
+   "lang": "eng_Latn",
+   "tier1_ms": 10.186,
+   "stages": {
+    "detect": 0.031,
+    "dense": 0.576,
+    "bm25": 3.038,
+    "cluster": 0.425,
+    "fusion": 0.027,
+    "rerank": 0.397,
+    "embed": 5.546,
+    "guardrail": 0.116
+   },
+   "precision_ms": 74.202,
+   "naive_ms": 6.226
+  },
+  {
+   "query_id": 562369,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.938,
+   "stages": {
+    "detect": 0.02,
+    "dense": 0.434,
+    "bm25": 2.783,
+    "cluster": 0.849,
+    "fusion": 0.025,
+    "rerank": 0.3,
+    "embed": 5.392,
+    "guardrail": 0.107
+   },
+   "precision_ms": 81.769,
+   "naive_ms": 6.536
+  },
+  {
+   "query_id": 1081198,
+   "lang": "hin_Deva",
+   "tier1_ms": 9.834,
+   "stages": {
+    "detect": 0.025,
+    "dense": 0.471,
+    "bm25": 2.795,
+    "cluster": 0.498,
+    "fusion": 0.025,
+    "rerank": 0.461,
+    "embed": 5.42,
+    "guardrail": 0.108
+   },
+   "precision_ms": 83.553,
+   "naive_ms": 6.15
+  },
+  {
+   "query_id": 380707,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.319,
+   "stages": {
+    "detect": 0.039,
+    "dense": 0.371,
+    "bm25": 2.943,
+    "cluster": 0.492,
+    "fusion": 0.025,
+    "rerank": 0.722,
+    "embed": 5.594,
+    "guardrail": 0.101
+   },
+   "precision_ms": 129.274,
+   "naive_ms": 6.552
+  },
+  {
+   "query_id": 993728,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.374,
+   "stages": {
+    "detect": 0.051,
+    "dense": 0.505,
+    "bm25": 2.7,
+    "cluster": 0.545,
+    "fusion": 0.027,
+    "rerank": 0.679,
+    "embed": 5.73,
+    "guardrail": 0.104
+   },
+   "precision_ms": 144.197,
+   "naive_ms": 6.916
+  },
+  {
+   "query_id": 1009382,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.453,
+   "stages": {
+    "detect": 0.047,
+    "dense": 0.662,
+    "bm25": 3.098,
+    "cluster": 0.555,
+    "fusion": 0.028,
+    "rerank": 0.501,
+    "embed": 5.416,
+    "guardrail": 0.106
+   },
+   "precision_ms": 88.48,
+   "naive_ms": 6.267
+  },
+  {
+   "query_id": 411410,
+   "lang": "hin_Deva",
+   "tier1_ms": 9.305,
+   "stages": {
+    "detect": 0.019,
+    "dense": 0.546,
+    "bm25": 2.471,
+    "cluster": 0.271,
+    "fusion": 0.023,
+    "rerank": 0.485,
+    "embed": 5.347,
+    "guardrail": 0.106
+   },
+   "precision_ms": 85.059,
+   "naive_ms": 6.379
+  },
+  {
+   "query_id": 103669,
+   "lang": "eng_Latn",
+   "tier1_ms": 10.018,
+   "stages": {
+    "detect": 0.016,
+    "dense": 0.475,
+    "bm25": 3.061,
+    "cluster": 0.778,
+    "fusion": 0.025,
+    "rerank": 0.361,
+    "embed": 5.177,
+    "guardrail": 0.097
+   },
+   "precision_ms": 78.655,
+   "naive_ms": 6.117
+  },
+  {
+   "query_id": 411465,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.711,
+   "stages": {
+    "detect": 0.022,
+    "dense": 0.578,
+    "bm25": 3.05,
+    "cluster": 0.346,
+    "fusion": 0.024,
+    "rerank": 0.322,
+    "embed": 5.24,
+    "guardrail": 0.107
+   },
+   "precision_ms": 52.155,
+   "naive_ms": 5.98
+  },
+  {
+   "query_id": 1030380,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.372,
+   "stages": {
+    "detect": 0.023,
+    "dense": 0.395,
+    "bm25": 2.994,
+    "cluster": 0.314,
+    "fusion": 0.024,
+    "rerank": 0.347,
+    "embed": 5.142,
+    "guardrail": 0.099
+   },
+   "precision_ms": 117.919,
+   "naive_ms": 6.059
+  },
+  {
+   "query_id": 190454,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.544,
+   "stages": {
+    "detect": 0.019,
+    "dense": 0.455,
+    "bm25": 2.718,
+    "cluster": 0.473,
+    "fusion": 0.027,
+    "rerank": 0.33,
+    "embed": 5.383,
+    "guardrail": 0.108
+   },
+   "precision_ms": 66.242,
+   "naive_ms": 5.903
+  },
+  {
+   "query_id": 1038856,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.958,
+   "stages": {
+    "detect": 0.048,
+    "dense": 0.658,
+    "bm25": 2.692,
+    "cluster": 0.773,
+    "fusion": 0.029,
+    "rerank": 1.314,
+    "embed": 5.283,
+    "guardrail": 0.109
+   },
+   "precision_ms": 88.011,
+   "naive_ms": 5.856
+  },
+  {
+   "query_id": 28143,
+   "lang": "eng_Latn",
+   "tier1_ms": 10.266,
+   "stages": {
+    "detect": 0.027,
+    "dense": 0.512,
+    "bm25": 2.876,
+    "cluster": 0.489,
+    "fusion": 0.026,
+    "rerank": 0.471,
+    "embed": 5.705,
+    "guardrail": 0.126
+   },
+   "precision_ms": 86.481,
+   "naive_ms": 6.237
+  },
+  {
+   "query_id": 1083919,
+   "lang": "eng_Latn",
+   "tier1_ms": 10.086,
+   "stages": {
+    "detect": 0.025,
+    "dense": 0.597,
+    "bm25": 3.054,
+    "cluster": 0.412,
+    "fusion": 0.027,
+    "rerank": 0.332,
+    "embed": 5.501,
+    "guardrail": 0.109
+   },
+   "precision_ms": 71.092,
+   "naive_ms": 6.003
+  },
+  {
+   "query_id": 1029247,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.338,
+   "stages": {
+    "detect": 0.032,
+    "dense": 0.642,
+    "bm25": 2.992,
+    "cluster": 0.4,
+    "fusion": 0.026,
+    "rerank": 0.599,
+    "embed": 5.494,
+    "guardrail": 0.111
+   },
+   "precision_ms": 113.57,
+   "naive_ms": 6.156
+  },
+  {
+   "query_id": 152378,
+   "lang": "tam_Taml",
+   "tier1_ms": 9.507,
+   "stages": {
+    "detect": 0.036,
+    "dense": 0.577,
+    "bm25": 2.598,
+    "cluster": 0.393,
+    "fusion": 0.025,
+    "rerank": 0.587,
+    "embed": 5.156,
+    "guardrail": 0.1
+   },
+   "precision_ms": 87.241,
+   "naive_ms": 5.877
+  },
+  {
+   "query_id": 140434,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.23,
+   "stages": {
+    "detect": 0.013,
+    "dense": 0.464,
+    "bm25": 2.492,
+    "cluster": 0.781,
+    "fusion": 0.026,
+    "rerank": 0.32,
+    "embed": 5.011,
+    "guardrail": 0.098
+   },
+   "precision_ms": 71.826,
+   "naive_ms": 5.966
+  },
+  {
+   "query_id": 1041941,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.844,
+   "stages": {
+    "detect": 0.033,
+    "dense": 0.544,
+    "bm25": 3.059,
+    "cluster": 0.305,
+    "fusion": 0.025,
+    "rerank": 0.412,
+    "embed": 5.34,
+    "guardrail": 0.101
+   },
+   "precision_ms": 86.429,
+   "naive_ms": 6.232
+  },
+  {
+   "query_id": 1001125,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.199,
+   "stages": {
+    "detect": 0.038,
+    "dense": 0.584,
+    "bm25": 2.476,
+    "cluster": 0.771,
+    "fusion": 0.027,
+    "rerank": 0.912,
+    "embed": 5.235,
+    "guardrail": 0.096
+   },
+   "precision_ms": 149.946,
+   "naive_ms": 5.998
+  },
+  {
+   "query_id": 996832,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.36,
+   "stages": {
+    "detect": 0.03,
+    "dense": 0.477,
+    "bm25": 2.474,
+    "cluster": 0.461,
+    "fusion": 0.024,
+    "rerank": 0.504,
+    "embed": 5.258,
+    "guardrail": 0.104
+   },
+   "precision_ms": 89.876,
+   "naive_ms": 5.965
+  },
+  {
+   "query_id": 700406,
+   "lang": "eng_Latn",
+   "tier1_ms": 11.078,
+   "stages": {
+    "detect": 0.023,
+    "dense": 0.596,
+    "bm25": 3.104,
+    "cluster": 0.425,
+    "fusion": 0.026,
+    "rerank": 0.376,
+    "embed": 6.345,
+    "guardrail": 0.146
+   },
+   "precision_ms": 81.852,
+   "naive_ms": 6.206
+  },
+  {
+   "query_id": 1036520,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.454,
+   "stages": {
+    "detect": 0.012,
+    "dense": 0.553,
+    "bm25": 2.499,
+    "cluster": 0.811,
+    "fusion": 0.024,
+    "rerank": 0.313,
+    "embed": 5.116,
+    "guardrail": 0.102
+   },
+   "precision_ms": 69.82,
+   "naive_ms": 5.935
+  },
+  {
+   "query_id": 1082743,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.711,
+   "stages": {
+    "detect": 0.032,
+    "dense": 0.653,
+    "bm25": 2.775,
+    "cluster": 0.671,
+    "fusion": 0.03,
+    "rerank": 0.507,
+    "embed": 5.861,
+    "guardrail": 0.148
+   },
+   "precision_ms": 77.179,
+   "naive_ms": 5.97
+  },
+  {
+   "query_id": 287803,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.394,
+   "stages": {
+    "detect": 0.031,
+    "dense": 0.432,
+    "bm25": 2.951,
+    "cluster": 0.582,
+    "fusion": 0.025,
+    "rerank": 0.647,
+    "embed": 5.576,
+    "guardrail": 0.117
+   },
+   "precision_ms": 144.761,
+   "naive_ms": 6.423
+  },
+  {
+   "query_id": 799903,
+   "lang": "ben_Beng",
+   "tier1_ms": 11.165,
+   "stages": {
+    "detect": 0.022,
+    "dense": 0.635,
+    "bm25": 2.844,
+    "cluster": 0.745,
+    "fusion": 0.03,
+    "rerank": 1.235,
+    "embed": 5.506,
+    "guardrail": 0.109
+   },
+   "precision_ms": 148.986,
+   "naive_ms": 6.142
+  },
+  {
+   "query_id": 496491,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.25,
+   "stages": {
+    "detect": 0.051,
+    "dense": 0.614,
+    "bm25": 3.123,
+    "cluster": 0.345,
+    "fusion": 0.025,
+    "rerank": 0.536,
+    "embed": 5.41,
+    "guardrail": 0.109
+   },
+   "precision_ms": 103.867,
+   "naive_ms": 6.3
+  },
+  {
+   "query_id": 92203,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.661,
+   "stages": {
+    "detect": 0.02,
+    "dense": 0.557,
+    "bm25": 2.704,
+    "cluster": 0.64,
+    "fusion": 0.029,
+    "rerank": 0.393,
+    "embed": 5.185,
+    "guardrail": 0.102
+   },
+   "precision_ms": 89.005,
+   "naive_ms": 6.029
+  },
+  {
+   "query_id": 1091343,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.741,
+   "stages": {
+    "detect": 0.029,
+    "dense": 0.58,
+    "bm25": 2.57,
+    "cluster": 0.358,
+    "fusion": 0.025,
+    "rerank": 0.619,
+    "embed": 5.426,
+    "guardrail": 0.101
+   },
+   "precision_ms": 123.164,
+   "naive_ms": 6.019
+  },
+  {
+   "query_id": 249948,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.319,
+   "stages": {
+    "detect": 0.037,
+    "dense": 0.505,
+    "bm25": 3.137,
+    "cluster": 0.365,
+    "fusion": 0.026,
+    "rerank": 0.46,
+    "embed": 5.63,
+    "guardrail": 0.126
+   },
+   "precision_ms": 82.55,
+   "naive_ms": 6.19
+  },
+  {
+   "query_id": 987185,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.75,
+   "stages": {
+    "detect": 0.058,
+    "dense": 0.546,
+    "bm25": 3.126,
+    "cluster": 0.404,
+    "fusion": 0.023,
+    "rerank": 0.633,
+    "embed": 5.812,
+    "guardrail": 0.108
+   },
+   "precision_ms": 140.053,
+   "naive_ms": 6.449
+  },
+  {
+   "query_id": 866679,
+   "lang": "eng_Latn",
+   "tier1_ms": 10.191,
+   "stages": {
+    "detect": 0.042,
+    "dense": 0.622,
+    "bm25": 2.981,
+    "cluster": 0.569,
+    "fusion": 0.028,
+    "rerank": 0.335,
+    "embed": 5.475,
+    "guardrail": 0.106
+   },
+   "precision_ms": 66.05,
+   "naive_ms": 6.208
+  },
+  {
+   "query_id": 200586,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.95,
+   "stages": {
+    "detect": 0.023,
+    "dense": 0.597,
+    "bm25": 2.699,
+    "cluster": 0.495,
+    "fusion": 0.029,
+    "rerank": 0.644,
+    "embed": 5.316,
+    "guardrail": 0.11
+   },
+   "precision_ms": 102.719,
+   "naive_ms": 6.016
+  },
+  {
+   "query_id": 1085756,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.343,
+   "stages": {
+    "detect": 0.059,
+    "dense": 0.475,
+    "bm25": 2.694,
+    "cluster": 0.604,
+    "fusion": 0.028,
+    "rerank": 0.57,
+    "embed": 5.76,
+    "guardrail": 0.127
+   },
+   "precision_ms": 91.565,
+   "naive_ms": 6.071
+  },
+  {
+   "query_id": 178431,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.945,
+   "stages": {
+    "detect": 0.084,
+    "dense": 0.437,
+    "bm25": 2.894,
+    "cluster": 0.298,
+    "fusion": 0.027,
+    "rerank": 1.116,
+    "embed": 5.905,
+    "guardrail": 0.135
+   },
+   "precision_ms": 102.695,
+   "naive_ms": 6.095
+  },
+  {
+   "query_id": 243883,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.385,
+   "stages": {
+    "detect": 0.033,
+    "dense": 0.676,
+    "bm25": 2.714,
+    "cluster": 0.52,
+    "fusion": 0.027,
+    "rerank": 0.691,
+    "embed": 5.572,
+    "guardrail": 0.111
+   },
+   "precision_ms": 109.516,
+   "naive_ms": 6.162
+  },
+  {
+   "query_id": 1025994,
+   "lang": "tam_Taml",
+   "tier1_ms": 9.866,
+   "stages": {
+    "detect": 0.068,
+    "dense": 0.584,
+    "bm25": 2.565,
+    "cluster": 0.33,
+    "fusion": 0.024,
+    "rerank": 0.576,
+    "embed": 5.564,
+    "guardrail": 0.111
+   },
+   "precision_ms": 100.204,
+   "naive_ms": 6.204
+  },
+  {
+   "query_id": 1090097,
+   "lang": "tam_Taml",
+   "tier1_ms": 9.887,
+   "stages": {
+    "detect": 0.034,
+    "dense": 0.651,
+    "bm25": 2.476,
+    "cluster": 0.759,
+    "fusion": 0.029,
+    "rerank": 0.59,
+    "embed": 5.221,
+    "guardrail": 0.1
+   },
+   "precision_ms": 82.242,
+   "naive_ms": 6.051
+  },
+  {
+   "query_id": 208054,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.31,
+   "stages": {
+    "detect": 0.046,
+    "dense": 0.675,
+    "bm25": 2.744,
+    "cluster": 0.418,
+    "fusion": 0.027,
+    "rerank": 0.78,
+    "embed": 5.482,
+    "guardrail": 0.104
+   },
+   "precision_ms": 111.649,
+   "naive_ms": 6.252
+  },
+  {
+   "query_id": 1090178,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.293,
+   "stages": {
+    "detect": 0.041,
+    "dense": 0.542,
+    "bm25": 2.457,
+    "cluster": 0.74,
+    "fusion": 0.018,
+    "rerank": 1.078,
+    "embed": 5.281,
+    "guardrail": 0.098
+   },
+   "precision_ms": 101.07,
+   "naive_ms": 5.85
+  },
+  {
+   "query_id": 502592,
+   "lang": "hin_Deva",
+   "tier1_ms": 9.526,
+   "stages": {
+    "detect": 0.016,
+    "dense": 0.548,
+    "bm25": 2.545,
+    "cluster": 0.672,
+    "fusion": 0.026,
+    "rerank": 0.484,
+    "embed": 5.109,
+    "guardrail": 0.096
+   },
+   "precision_ms": 91.947,
+   "naive_ms": 5.91
+  },
+  {
+   "query_id": 1099632,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.04,
+   "stages": {
+    "detect": 0.032,
+    "dense": 0.526,
+    "bm25": 3.066,
+    "cluster": 0.499,
+    "fusion": 0.026,
+    "rerank": 0.529,
+    "embed": 5.231,
+    "guardrail": 0.097
+   },
+   "precision_ms": 108.235,
+   "naive_ms": 6.032
+  },
+  {
+   "query_id": 326813,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.896,
+   "stages": {
+    "detect": 0.077,
+    "dense": 0.72,
+    "bm25": 2.621,
+    "cluster": 0.454,
+    "fusion": 0.027,
+    "rerank": 0.764,
+    "embed": 6.035,
+    "guardrail": 0.164
+   },
+   "precision_ms": 81.534,
+   "naive_ms": 6.018
+  },
+  {
+   "query_id": 324680,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.364,
+   "stages": {
+    "detect": 0.04,
+    "dense": 0.416,
+    "bm25": 2.812,
+    "cluster": 0.404,
+    "fusion": 0.024,
+    "rerank": 0.712,
+    "embed": 5.784,
+    "guardrail": 0.133
+   },
+   "precision_ms": 111.847,
+   "naive_ms": 6.395
+  },
+  {
+   "query_id": 1082445,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.857,
+   "stages": {
+    "detect": 0.035,
+    "dense": 0.64,
+    "bm25": 2.708,
+    "cluster": 0.421,
+    "fusion": 0.027,
+    "rerank": 0.684,
+    "embed": 6.176,
+    "guardrail": 0.132
+   },
+   "precision_ms": 101.325,
+   "naive_ms": 6.218
+  },
+  {
+   "query_id": 990765,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.011,
+   "stages": {
+    "detect": 0.021,
+    "dense": 0.632,
+    "bm25": 3.08,
+    "cluster": 0.267,
+    "fusion": 0.025,
+    "rerank": 0.398,
+    "embed": 5.41,
+    "guardrail": 0.147
+   },
+   "precision_ms": 94.273,
+   "naive_ms": 6.381
+  },
+  {
+   "query_id": 1060485,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.472,
+   "stages": {
+    "detect": 0.014,
+    "dense": 0.614,
+    "bm25": 2.559,
+    "cluster": 0.36,
+    "fusion": 0.029,
+    "rerank": 0.515,
+    "embed": 5.239,
+    "guardrail": 0.111
+   },
+   "precision_ms": 78.656,
+   "naive_ms": 5.899
+  },
+  {
+   "query_id": 43526,
+   "lang": "tam_Taml",
+   "tier1_ms": 9.77,
+   "stages": {
+    "detect": 0.085,
+    "dense": 0.518,
+    "bm25": 2.668,
+    "cluster": 0.243,
+    "fusion": 0.025,
+    "rerank": 0.609,
+    "embed": 5.474,
+    "guardrail": 0.106
+   },
+   "precision_ms": 102.573,
+   "naive_ms": 6.229
+  },
+  {
+   "query_id": 602969,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.811,
+   "stages": {
+    "detect": 0.023,
+    "dense": 0.456,
+    "bm25": 2.98,
+    "cluster": 0.526,
+    "fusion": 0.024,
+    "rerank": 0.312,
+    "embed": 5.36,
+    "guardrail": 0.103
+   },
+   "precision_ms": 66.551,
+   "naive_ms": 6.153
+  },
+  {
+   "query_id": 935024,
+   "lang": "eng_Latn",
+   "tier1_ms": 10.072,
+   "stages": {
+    "detect": 0.049,
+    "dense": 0.571,
+    "bm25": 2.927,
+    "cluster": 0.483,
+    "fusion": 0.023,
+    "rerank": 0.351,
+    "embed": 5.537,
+    "guardrail": 0.105
+   },
+   "precision_ms": 68.815,
+   "naive_ms": 6.25
+  },
+  {
+   "query_id": 690537,
+   "lang": "eng_Latn",
+   "tier1_ms": 10.355,
+   "stages": {
+    "detect": 0.035,
+    "dense": 0.506,
+    "bm25": 2.965,
+    "cluster": 0.94,
+    "fusion": 0.027,
+    "rerank": 0.348,
+    "embed": 5.39,
+    "guardrail": 0.112
+   },
+   "precision_ms": 87.838,
+   "naive_ms": 6.18
+  },
+  {
+   "query_id": 1085297,
+   "lang": "hin_Deva",
+   "tier1_ms": 9.912,
+   "stages": {
+    "detect": 0.029,
+    "dense": 0.497,
+    "bm25": 2.989,
+    "cluster": 0.488,
+    "fusion": 0.027,
+    "rerank": 0.407,
+    "embed": 5.339,
+    "guardrail": 0.108
+   },
+   "precision_ms": 92.408,
+   "naive_ms": 6.076
+  },
+  {
+   "query_id": 940659,
+   "lang": "hin_Deva",
+   "tier1_ms": 9.695,
+   "stages": {
+    "detect": 0.025,
+    "dense": 0.558,
+    "bm25": 2.954,
+    "cluster": 0.341,
+    "fusion": 0.025,
+    "rerank": 0.439,
+    "embed": 5.222,
+    "guardrail": 0.105
+   },
+   "precision_ms": 107.446,
+   "naive_ms": 6.064
+  },
+  {
+   "query_id": 195721,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.016,
+   "stages": {
+    "detect": 0.046,
+    "dense": 0.662,
+    "bm25": 2.645,
+    "cluster": 0.497,
+    "fusion": 0.024,
+    "rerank": 0.663,
+    "embed": 5.34,
+    "guardrail": 0.106
+   },
+   "precision_ms": 112.246,
+   "naive_ms": 6.014
+  },
+  {
+   "query_id": 967335,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.212,
+   "stages": {
+    "detect": 0.088,
+    "dense": 0.632,
+    "bm25": 2.68,
+    "cluster": 0.369,
+    "fusion": 0.026,
+    "rerank": 0.646,
+    "embed": 5.633,
+    "guardrail": 0.105
+   },
+   "precision_ms": 104.728,
+   "naive_ms": 6.301
+  },
+  {
+   "query_id": 528976,
+   "lang": "hin_Deva",
+   "tier1_ms": 9.982,
+   "stages": {
+    "detect": 0.016,
+    "dense": 0.469,
+    "bm25": 3.106,
+    "cluster": 0.498,
+    "fusion": 0.025,
+    "rerank": 0.49,
+    "embed": 5.243,
+    "guardrail": 0.099
+   },
+   "precision_ms": 106.963,
+   "naive_ms": 5.995
+  },
+  {
+   "query_id": 327842,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.896,
+   "stages": {
+    "detect": 0.036,
+    "dense": 0.475,
+    "bm25": 2.723,
+    "cluster": 0.298,
+    "fusion": 0.025,
+    "rerank": 0.811,
+    "embed": 5.392,
+    "guardrail": 0.104
+   },
+   "precision_ms": 103.968,
+   "naive_ms": 6.057
+  },
+  {
+   "query_id": 411410,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.149,
+   "stages": {
+    "detect": 0.057,
+    "dense": 0.734,
+    "bm25": 2.605,
+    "cluster": 0.6,
+    "fusion": 0.024,
+    "rerank": 0.617,
+    "embed": 5.374,
+    "guardrail": 0.104
+   },
+   "precision_ms": 107.851,
+   "naive_ms": 6.322
+  },
+  {
+   "query_id": 318660,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.453,
+   "stages": {
+    "detect": 0.056,
+    "dense": 0.445,
+    "bm25": 3.109,
+    "cluster": 0.408,
+    "fusion": 0.025,
+    "rerank": 0.54,
+    "embed": 5.729,
+    "guardrail": 0.11
+   },
+   "precision_ms": 99.588,
+   "naive_ms": 6.269
+  },
+  {
+   "query_id": 531577,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.611,
+   "stages": {
+    "detect": 0.019,
+    "dense": 0.419,
+    "bm25": 2.522,
+    "cluster": 0.896,
+    "fusion": 0.023,
+    "rerank": 0.316,
+    "embed": 5.284,
+    "guardrail": 0.107
+   },
+   "precision_ms": 69.371,
+   "naive_ms": 6.177
+  },
+  {
+   "query_id": 1083735,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.659,
+   "stages": {
+    "detect": 0.02,
+    "dense": 0.563,
+    "bm25": 2.607,
+    "cluster": 0.518,
+    "fusion": 0.023,
+    "rerank": 0.57,
+    "embed": 5.229,
+    "guardrail": 0.098
+   },
+   "precision_ms": 108.471,
+   "naive_ms": 6.06
+  },
+  {
+   "query_id": 186802,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.087,
+   "stages": {
+    "detect": 0.04,
+    "dense": 0.675,
+    "bm25": 2.621,
+    "cluster": 0.702,
+    "fusion": 0.027,
+    "rerank": 0.518,
+    "embed": 5.364,
+    "guardrail": 0.104
+   },
+   "precision_ms": 87.203,
+   "naive_ms": 6.439
+  },
+  {
+   "query_id": 1083568,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.125,
+   "stages": {
+    "detect": 0.042,
+    "dense": 0.643,
+    "bm25": 2.896,
+    "cluster": 0.318,
+    "fusion": 0.026,
+    "rerank": 0.538,
+    "embed": 5.527,
+    "guardrail": 0.099
+   },
+   "precision_ms": 90.242,
+   "naive_ms": 6.296
+  },
+  {
+   "query_id": 11812,
+   "lang": "eng_Latn",
+   "tier1_ms": 8.961,
+   "stages": {
+    "detect": 0.018,
+    "dense": 0.507,
+    "bm25": 2.61,
+    "cluster": 0.178,
+    "fusion": 0.03,
+    "rerank": 0.337,
+    "embed": 5.151,
+    "guardrail": 0.1
+   },
+   "precision_ms": 62.444,
+   "naive_ms": 5.983
+  },
+  {
+   "query_id": 832147,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.116,
+   "stages": {
+    "detect": 0.032,
+    "dense": 0.543,
+    "bm25": 3.007,
+    "cluster": 0.652,
+    "fusion": 0.027,
+    "rerank": 0.475,
+    "embed": 5.255,
+    "guardrail": 0.101
+   },
+   "precision_ms": 79.549,
+   "naive_ms": 6.096
+  },
+  {
+   "query_id": 519301,
+   "lang": "eng_Latn",
+   "tier1_ms": 9.958,
+   "stages": {
+    "detect": 0.027,
+    "dense": 0.506,
+    "bm25": 3.063,
+    "cluster": 0.493,
+    "fusion": 0.026,
+    "rerank": 0.438,
+    "embed": 5.273,
+    "guardrail": 0.105
+   },
+   "precision_ms": 110.718,
+   "naive_ms": 6.195
+  },
+  {
+   "query_id": 217655,
+   "lang": "eng_Latn",
+   "tier1_ms": 10.247,
+   "stages": {
+    "detect": 0.031,
+    "dense": 0.368,
+    "bm25": 3.186,
+    "cluster": 0.402,
+    "fusion": 0.026,
+    "rerank": 0.5,
+    "embed": 5.591,
+    "guardrail": 0.111
+   },
+   "precision_ms": 93.174,
+   "naive_ms": 6.257
+  },
+  {
+   "query_id": 666904,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.134,
+   "stages": {
+    "detect": 0.049,
+    "dense": 0.544,
+    "bm25": 3.112,
+    "cluster": 0.357,
+    "fusion": 0.026,
+    "rerank": 0.479,
+    "embed": 5.42,
+    "guardrail": 0.117
+   },
+   "precision_ms": 84.268,
+   "naive_ms": 6.252
+  },
+  {
+   "query_id": 775510,
+   "lang": "eng_Latn",
+   "tier1_ms": 10.05,
+   "stages": {
+    "detect": 0.021,
+    "dense": 0.555,
+    "bm25": 2.98,
+    "cluster": 0.648,
+    "fusion": 0.026,
+    "rerank": 0.36,
+    "embed": 5.322,
+    "guardrail": 0.107
+   },
+   "precision_ms": 84.501,
+   "naive_ms": 6.047
+  },
+  {
+   "query_id": 562241,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.953,
+   "stages": {
+    "detect": 0.022,
+    "dense": 0.643,
+    "bm25": 2.611,
+    "cluster": 0.562,
+    "fusion": 0.032,
+    "rerank": 0.516,
+    "embed": 5.433,
+    "guardrail": 0.102
+   },
+   "precision_ms": 105.143,
+   "naive_ms": 6.039
+  },
+  {
+   "query_id": 821885,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.827,
+   "stages": {
+    "detect": 0.022,
+    "dense": 0.562,
+    "bm25": 2.649,
+    "cluster": 0.412,
+    "fusion": 0.026,
+    "rerank": 0.758,
+    "embed": 5.264,
+    "guardrail": 0.101
+   },
+   "precision_ms": 118.107,
+   "naive_ms": 5.891
+  },
+  {
+   "query_id": 1012444,
+   "lang": "hin_Deva",
+   "tier1_ms": 9.87,
+   "stages": {
+    "detect": 0.032,
+    "dense": 0.514,
+    "bm25": 2.974,
+    "cluster": 0.281,
+    "fusion": 0.027,
+    "rerank": 0.539,
+    "embed": 5.359,
+    "guardrail": 0.11
+   },
+   "precision_ms": 92.28,
+   "naive_ms": 6.017
+  },
+  {
+   "query_id": 929464,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.546,
+   "stages": {
+    "detect": 0.047,
+    "dense": 0.591,
+    "bm25": 2.711,
+    "cluster": 0.758,
+    "fusion": 0.026,
+    "rerank": 0.954,
+    "embed": 5.313,
+    "guardrail": 0.099
+   },
+   "precision_ms": 104.61,
+   "naive_ms": 6.043
+  },
+  {
+   "query_id": 1036389,
+   "lang": "tam_Taml",
+   "tier1_ms": 9.789,
+   "stages": {
+    "detect": 0.076,
+    "dense": 0.545,
+    "bm25": 2.608,
+    "cluster": 0.314,
+    "fusion": 0.025,
+    "rerank": 0.596,
+    "embed": 5.496,
+    "guardrail": 0.101
+   },
+   "precision_ms": 108.089,
+   "naive_ms": 6.202
+  },
+  {
+   "query_id": 670045,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.055,
+   "stages": {
+    "detect": 0.052,
+    "dense": 0.572,
+    "bm25": 2.839,
+    "cluster": 0.389,
+    "fusion": 0.028,
+    "rerank": 0.618,
+    "embed": 5.401,
+    "guardrail": 0.111
+   },
+   "precision_ms": 106.307,
+   "naive_ms": 6.387
+  },
+  {
+   "query_id": 1093512,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.572,
+   "stages": {
+    "detect": 0.027,
+    "dense": 0.479,
+    "bm25": 2.6,
+    "cluster": 0.443,
+    "fusion": 0.026,
+    "rerank": 0.518,
+    "embed": 5.344,
+    "guardrail": 0.104
+   },
+   "precision_ms": 100.484,
+   "naive_ms": 6.223
+  },
+  {
+   "query_id": 200586,
+   "lang": "hin_Deva",
+   "tier1_ms": 10.168,
+   "stages": {
+    "detect": 0.028,
+    "dense": 0.508,
+    "bm25": 3.229,
+    "cluster": 0.426,
+    "fusion": 0.027,
+    "rerank": 0.45,
+    "embed": 5.363,
+    "guardrail": 0.103
+   },
+   "precision_ms": 87.1,
+   "naive_ms": 6.181
+  },
+  {
+   "query_id": 497929,
+   "lang": "eng_Latn",
+   "tier1_ms": 10.086,
+   "stages": {
+    "detect": 0.024,
+    "dense": 0.401,
+    "bm25": 2.962,
+    "cluster": 0.875,
+    "fusion": 0.025,
+    "rerank": 0.333,
+    "embed": 5.337,
+    "guardrail": 0.101
+   },
+   "precision_ms": 64.012,
+   "naive_ms": 6.314
+  },
+  {
+   "query_id": 1083599,
+   "lang": "tam_Taml",
+   "tier1_ms": 9.706,
+   "stages": {
+    "detect": 0.047,
+    "dense": 0.518,
+    "bm25": 2.625,
+    "cluster": 0.462,
+    "fusion": 0.025,
+    "rerank": 0.645,
+    "embed": 5.251,
+    "guardrail": 0.1
+   },
+   "precision_ms": 88.531,
+   "naive_ms": 6.382
+  },
+  {
+   "query_id": 924532,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.217,
+   "stages": {
+    "detect": 0.031,
+    "dense": 0.629,
+    "bm25": 2.753,
+    "cluster": 0.745,
+    "fusion": 0.028,
+    "rerank": 0.821,
+    "embed": 5.071,
+    "guardrail": 0.1
+   },
+   "precision_ms": 108.205,
+   "naive_ms": 6.015
+  },
+  {
+   "query_id": 980698,
+   "lang": "tam_Taml",
+   "tier1_ms": 9.57,
+   "stages": {
+    "detect": 0.063,
+    "dense": 0.461,
+    "bm25": 2.527,
+    "cluster": 0.469,
+    "fusion": 0.024,
+    "rerank": 0.618,
+    "embed": 5.28,
+    "guardrail": 0.103
+   },
+   "precision_ms": 94.131,
+   "naive_ms": 6.189
+  },
+  {
+   "query_id": 610810,
+   "lang": "tam_Taml",
+   "tier1_ms": 9.755,
+   "stages": {
+    "detect": 0.055,
+    "dense": 0.717,
+    "bm25": 2.6,
+    "cluster": 0.409,
+    "fusion": 0.026,
+    "rerank": 0.554,
+    "embed": 5.252,
+    "guardrail": 0.104
+   },
+   "precision_ms": 107.918,
+   "naive_ms": 6.174
+  },
+  {
+   "query_id": 1008993,
+   "lang": "tam_Taml",
+   "tier1_ms": 10.068,
+   "stages": {
+    "detect": 0.078,
+    "dense": 0.656,
+    "bm25": 2.564,
+    "cluster": 0.387,
+    "fusion": 0.026,
+    "rerank": 0.791,
+    "embed": 5.419,
+    "guardrail": 0.101
+   },
+   "precision_ms": 97.341,
+   "naive_ms": 6.494
+  },
+  {
+   "query_id": 516232,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.534,
+   "stages": {
+    "detect": 0.019,
+    "dense": 0.578,
+    "bm25": 2.583,
+    "cluster": 0.722,
+    "fusion": 0.024,
+    "rerank": 1.281,
+    "embed": 5.198,
+    "guardrail": 0.098
+   },
+   "precision_ms": 155.868,
+   "naive_ms": 6.169
+  },
+  {
+   "query_id": 590117,
+   "lang": "ben_Beng",
+   "tier1_ms": 9.664,
+   "stages": {
+    "detect": 0.027,
+    "dense": 0.577,
+    "bm25": 2.601,
+    "cluster": 0.401,
+    "fusion": 0.025,
+    "rerank": 0.514,
+    "embed": 5.387,
+    "guardrail": 0.1
+   },
+   "precision_ms": 92.065,
+   "naive_ms": 6.254
+  },
+  {
+   "query_id": 671219,
+   "lang": "ben_Beng",
+   "tier1_ms": 10.265,
+   "stages": {
+    "detect": 0.036,
+    "dense": 0.627,
+    "bm25": 2.85,
+    "cluster": 0.66,
+    "fusion": 0.029,
+    "rerank": 0.566,
+    "embed": 5.347,
+    "guardrail": 0.111
+   },
+   "precision_ms": 98.029,
+   "naive_ms": 6.079
+  }
+ ]
+}

@@ -87,11 +87,11 @@ Measured on an Apple M4, 1,200 MS MARCO query ids across four languages:
 <!-- BENCHMARK:BEGIN -->
 | | P50 | P70 | P100 | measured against 200 ms |
 | --- | --- | --- | --- | --- |
-| **Tier 1** — retrieval + extractive answer | 10.12 ms | 10.31 ms | 11.67 ms | yes |
-| **Tier 2** — LLM synthesis | 2.63 s | 3.07 s | 4.01 s | no, by design |
-| Naive baseline — fixed chunks, one dense scan | 6.14 ms | 6.28 ms | 7.34 ms | for comparison |
+| **Tier 1** — retrieval + extractive answer | 11.64 ms | 12.4 ms | 25.62 ms | yes |
+| **Tier 2** — LLM synthesis | 2.77 s | 2.92 s | 16.66 s | no, by design |
+| Naive baseline — fixed chunks, one dense scan | 6.33 ms | 6.44 ms | 7.52 ms | for comparison |
 
-100.0% of Tier 1 queries land inside the budget; P100 is 11.67 ms against a 200 ms target.
+100.0% of Tier 1 queries land inside the budget; P100 is 25.62 ms against a 200 ms target.
 
 Per-stage and per-language breakdowns: [reports/latency_report.md](reports/latency_report.md).
 <!-- BENCHMARK:END -->

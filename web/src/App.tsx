@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { askAudio, askText, fetchMeta, fetchSamples, runRace } from "./api";
 import { Measure } from "./components/Measure";
+import { Percentiles } from "./components/Percentiles";
 import { Race } from "./components/Race";
 import { TraceStream } from "./components/TraceStream";
 import { useAudioPlayer } from "./useAudioPlayer";
@@ -74,6 +75,9 @@ export default function App() {
   const [racing, setRacing] = useState(false);
   const [raceError, setRaceError] = useState<string | null>(null);
   const [lastQuery, setLastQuery] = useState("");
+  // Percentiles for the questions asked in front of the viewer, kept per tier.
+  const [tier1Times, setTier1Times] = useState<number[]>([]);
+  const [tier2Times, setTier2Times] = useState<number[]>([]);
   const recorder = useRecorder();
   const player = useAudioPlayer();
 
@@ -98,6 +102,12 @@ export default function App() {
         setTurn((prev) => reduce(prev, event));
         if (event.type === "audio" && event.audio_b64) {
           player.play(event.audio_b64);
+        }
+        if (event.type === "tier1") {
+          setTier1Times((prev) => [...prev, event.tier1_total_ms]);
+        }
+        if (event.type === "tier2" && event.latency_ms) {
+          setTier2Times((prev) => [...prev, event.latency_ms as number]);
         }
         if (event.type === "transcript" && event.text) {
           // Spoken questions have to reach the race too; the transcript is the
@@ -192,6 +202,12 @@ export default function App() {
           corpus itself.
         </p>
       </header>
+
+      <Percentiles
+        tier1={tier1Times}
+        tier2={tier2Times}
+        targetMs={meta?.tier1_target_ms ?? 200}
+      />
 
       <Measure
         stages={turn.stages}

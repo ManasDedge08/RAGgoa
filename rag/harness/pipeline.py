@@ -22,7 +22,7 @@ from __future__ import annotations
 import asyncio
 import time
 import uuid
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from enum import Enum
 from typing import AsyncIterator
 
@@ -30,6 +30,7 @@ from ..config import ALLOW_UNSOURCED_DEFAULT, CROSS_ENCODER_DEFAULT
 from ..generation import tier1 as tier1_mod
 from ..generation import tier2 as tier2_mod
 from ..generation import unsourced as unsourced_mod
+from ..generation import relevance as relevance_mod
 from ..generation.confidence import score_retrieval
 from ..generation.templates import off_topic_for
 from ..retrieval.lang import detect, from_sarvam_code, has_voice, sarvam_code
@@ -139,6 +140,7 @@ class Pipeline:
         speak_tier1: bool = False,
         cross_encode: bool = CROSS_ENCODER_DEFAULT,
         allow_unsourced: bool = ALLOW_UNSOURCED_DEFAULT,
+        relevance_gate: bool | None = None,
     ) -> AsyncIterator[dict]:
         """Drive one turn, yielding trace events as each stage completes.
 
@@ -239,6 +241,20 @@ class Pipeline:
 
         # ---- Tier 1: extractive, grounded by construction ---------------------
         confidence = score_retrieval(result)
+
+        # The confidence score is relative and can look healthy when nothing
+        # relevant came back. Ask a cross-encoder whether anything actually
+        # answers the question, and decline outright when it does not.
+        verdict = await asyncio.to_thread(
+            relevance_mod.check, turn.query, result.candidates, relevance_gate
+        )
+        turn.payload["relevance"] = verdict.to_dict()
+        if verdict.checked:
+            turn.stage_ms["relevance"] = verdict.latency_ms
+            yield {"type": "relevance", **verdict.to_dict()}
+            if not verdict.passed:
+                confidence = replace(confidence, tier="refuse")
+
         turn.payload["confidence"] = confidence.to_dict()
 
         async def _tier1():
@@ -252,7 +268,12 @@ class Pipeline:
 
         # Tier 1 total is the number measured against the 200 ms target: the
         # embed, the retrieval stages, and the extractive assembly.
-        tier1_total = turn.stage_ms["embed"] + result.timings_ms["total"] + answer1.latency_ms
+        tier1_total = (
+            turn.stage_ms["embed"]
+            + result.timings_ms["total"]
+            + turn.stage_ms.get("relevance", 0.0)
+            + answer1.latency_ms
+        )
         turn.payload["tier1"] = {**answer1.to_dict(), "tier1_total_ms": round(tier1_total, 2)}
         yield {
             "type": "tier1",
@@ -264,6 +285,7 @@ class Pipeline:
             "harness_ms": {
                 "embed": round(turn.stage_ms["embed"], 2),
                 "guardrail": round(turn.stage_ms.get("guard", 0.0), 2),
+                "relevance": round(turn.stage_ms.get("relevance", 0.0), 2),
             },
             **answer1.to_dict(),
         }

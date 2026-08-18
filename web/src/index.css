@@ -118,6 +118,67 @@ button {
   margin: 0 0 1.6rem;
 }
 
+/* ------------------------------------------------------------- percentiles */
+
+.pct {
+  border-top: 2px solid var(--ink);
+  margin-bottom: 0.4rem;
+}
+
+.pct__row {
+  padding: 0.6rem 0;
+  border-bottom: var(--hair);
+}
+
+.pct__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3rem 0.8rem;
+  margin-bottom: 0.35rem;
+}
+
+.pct__label {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.pct__note,
+.pct__empty {
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.pct__values {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 1.5rem;
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.pct__values b {
+  font-size: 0.62rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-right: 0.3rem;
+}
+
+.pct__n {
+  font-size: 0.66rem;
+  color: var(--ink-soft);
+}
+
 /* ----------------------------------------------------------------- measure */
 /* The signature element: one 0-200 ms scale. Everything below hangs from it. */
 
