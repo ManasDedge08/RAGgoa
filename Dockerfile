@@ -15,8 +15,25 @@ RUN apt-get update \
 
 COPY requirements.txt .
 # CPU-only torch: the GPU wheel is several gigabytes and useless on this plan.
-RUN pip install --no-cache-dir torch==2.13.0 --index-url https://download.pytorch.org/whl/cpu \
-    && pip install --no-cache-dir -r requirements.txt
+#
+# Retried with backoff because PyPI's file CDN returns intermittent 502s, and a
+# build that spends an hour embedding is a bad place to discover that a wheel
+# download flaked. pip's own --retries covers a single request; this covers the
+# whole install, and still fails the layer if every attempt is exhausted.
+RUN set -eu; \
+    for spec in "torch==2.13.0 --index-url https://download.pytorch.org/whl/cpu" \
+                "-r requirements.txt"; do \
+      n=0; \
+      until pip install --no-cache-dir --retries 10 --timeout 60 $spec; do \
+        n=$((n + 1)); \
+        if [ "$n" -ge 4 ]; then \
+          echo "pip install failed after $n attempts: $spec" >&2; \
+          exit 1; \
+        fi; \
+        echo "pip install failed (attempt $n), retrying in $((n * 15))s: $spec" >&2; \
+        sleep $((n * 15)); \
+      done; \
+    done
 
 COPY rag ./rag
 COPY scripts ./scripts
