@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { askAudio, askText, fetchMeta, fetchSamples, runRace } from "./api";
 import { Measure } from "./components/Measure";
 import { Race } from "./components/Race";
 import { TraceStream } from "./components/TraceStream";
+import { useAudioPlayer } from "./useAudioPlayer";
 import { useRecorder } from "./useRecorder";
 import type {
   CandidateDto,
@@ -72,8 +73,8 @@ export default function App() {
   const [race, setRace] = useState<RaceResult | null>(null);
   const [racing, setRacing] = useState(false);
   const [lastQuery, setLastQuery] = useState("");
-  const audioRef = useRef<HTMLAudioElement | null>(null);
   const recorder = useRecorder();
+  const player = useAudioPlayer();
 
   // Display names come from /meta so adding a language to the corpus needs no
   // frontend change.
@@ -95,10 +96,7 @@ export default function App() {
       for await (const event of stream) {
         setTurn((prev) => reduce(prev, event));
         if (event.type === "audio" && event.audio_b64) {
-          const audio = new Audio(`data:audio/mp3;base64,${event.audio_b64}`);
-          audioRef.current?.pause();
-          audioRef.current = audio;
-          void audio.play().catch(() => undefined);
+          player.play(event.audio_b64);
         }
       }
     } catch (err) {
@@ -109,19 +107,23 @@ export default function App() {
     } finally {
       setBusy(false);
     }
-  }, []);
+  }, [player]);
 
   const submitText = useCallback(
     (value: string, languageCode?: string) => {
       const query = value.trim();
       if (!query) return;
+      // Satisfy autoplay policy now, while this click still counts as a
+      // gesture; the spoken answer arrives seconds later.
+      if (speak) player.unlock();
       setLastQuery(query);
       void consume(askText(query, { langMode, speak, crossEncode, allowUnsourced, languageCode }));
     },
-    [allowUnsourced, consume, crossEncode, langMode, speak],
+    [allowUnsourced, consume, crossEncode, langMode, player, speak],
   );
 
   const toggleMic = useCallback(async () => {
+    if (speak) player.unlock();
     if (recorder.recording) {
       const recording = await recorder.stop();
       if (recording) {
@@ -130,7 +132,7 @@ export default function App() {
       return;
     }
     await recorder.start();
-  }, [allowUnsourced, consume, crossEncode, langMode, recorder, speak]);
+  }, [allowUnsourced, consume, crossEncode, langMode, player, recorder, speak]);
 
   const onRace = useCallback(() => {
     if (!lastQuery) return;
@@ -220,6 +222,14 @@ export default function App() {
         <p className="notice">
           {langLabel(turn.queryLang)} has speech recognition but no Sarvam voice, so this answer is
           text only.
+        </p>
+      )}
+      {player.blocked && (
+        <p className="notice">
+          The browser blocked audio that it did not start itself.{" "}
+          <button className="chip chip--inline" onClick={player.playPending}>
+            Play the answer
+          </button>
         </p>
       )}
       {recorder.error && <p className="notice notice--error">{recorder.error}</p>}
