@@ -52,8 +52,8 @@ division of labour is measured, not assumed: letting BM25 score and fusion
 position into the *final* ordering dropped recall@5 from 38.5% to 30.0%,
 because a lexically noisy passage can out-rank the actual answer.
 
-**Cross-lingual by construction.** Every passage exists in all four languages,
-aligned on `query_id`. Ask in Tamil and the system can answer from a
+**Cross-lingual by construction.** Every passage exists in all eleven
+languages, aligned on `query_id`. Ask in Tamil and the system can answer from a
 Bengali-sourced passage, in Tamil, and say so. Three routing modes: `cross`
 (all languages), `strict` (only the asker's), `pivot` (only other languages —
 the cross-lingual proof).

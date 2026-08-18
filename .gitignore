@@ -17,3 +17,12 @@ web/dist/
 # macOS
 .DS_Store
 .run/
+
+# Session backups of the 4-language build, kept locally while the 11-language
+# index beds in. Never committed: the index copy alone is 780 MB and the .env
+# copy carries the Sarvam key.
+data/*.bak-*/
+.env.bak.*
+
+# Design references dropped in the repo root.
+ref.jpeg

@@ -3,24 +3,31 @@ services:
     name: measure-rag-api
     runtime: docker
     dockerfilePath: ./Dockerfile
-    # Free tier by explicit choice. Be aware of the measurement: serving the
-    # full 1,200-query corpus locally sits at ~2.2 GB RSS, and 800 query ids
-    # scales that to roughly 1.4 GB. The free instance caps at 512 MB, so this
-    # is expected to OOM once the encoder loads.
+    # Free tier by explicit choice. Measured, not assumed: eleven languages at
+    # 1,200 query ids sits at 1.29 GB RSS locally, and the free instance caps at
+    # 512 MB. The corpus is therefore cut to 250 query ids here, which scales
+    # the index to roughly a fifth.
     #
-    # Index vectors are memory-mapped, so a good share of that RSS is evictable
-    # page cache rather than a hard requirement — which is why it is worth
-    # trying rather than assuming. If it does get killed, the levers in order of
-    # effect are:
-    #   1. RAG_N_QUERY_IDS=250   - shrinks every index proportionally
-    #   2. plan: standard        - 2 GB, comfortable at 800
+    # Whether that fits is genuinely uncertain, because index vectors and the
+    # FAISS graphs are memory-mapped: much of the RSS above is evictable page
+    # cache rather than a hard requirement. What is not evictable is the Python
+    # process, torch, and the two models (encoder + cross-encoder).
+    #
+    # If it is OOM-killed, the levers in order of effect:
+    #   1. RAG_N_QUERY_IDS=150   - shrinks every index proportionally again
+    #   2. RAG_RELEVANCE_GATE=0  - drops the cross-encoder, and with it the
+    #                              ability to decline out-of-corpus questions
+    #   3. a 2 GB plan           - comfortable at 800 ids
     plan: free
     healthCheckPath: /health
     envVars:
       - key: SARVAM_API_KEY
         sync: false
       - key: RAG_N_QUERY_IDS
-        value: "800"
+        value: "250"
+      # Must match the list baked into the image at build time.
+      - key: RAG_LANGUAGES
+        value: eng_Latn,hin_Deva,ben_Beng,tam_Taml,tel_Telu,mar_Deva,guj_Gujr,kan_Knda,mal_Mlym,pan_Guru,ori_Orya
       - key: SARVAM_CHAT_MODEL
         value: sarvam-105b-conversations
       - key: SARVAM_STT_MODEL

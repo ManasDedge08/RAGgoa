@@ -1,5 +1,5 @@
 /**
- * The Measure: one 0–200 ms scale that the whole page hangs from.
+ * The measure: one 0–200 ms scale that the whole page hangs from.
  *
  * Tier 1's stages are drawn as adjoining segments on the top lane, so the
  * reader sees where the time actually goes. The naive baseline runs on the
@@ -7,17 +7,19 @@
  * overruns it visibly rather than in a footnote.
  */
 
+// Colours come from CSS custom properties rather than literals so the dark
+// palette can restate them: the light indigos are unreadable on a dark lane.
 const SEGMENTS: { key: string; label: string; color: string }[] = [
-  { key: "guardrail", label: "guardrail", color: "#8892b8" },
-  { key: "embed", label: "embed", color: "#2d3e8c" },
-  { key: "dense", label: "dense", color: "#3f56b8" },
-  { key: "bm25", label: "bm25", color: "#5b74d1" },
-  { key: "cluster", label: "cluster", color: "#7f92dd" },
-  { key: "fusion", label: "fusion", color: "#2e7d6b" },
-  { key: "rerank", label: "rerank", color: "#4a9e88" },
-  { key: "relevance", label: "relevance gate", color: "#2e7d6b" },
-  { key: "cross_encoder", label: "cross-encoder", color: "#a6402e" },
-  { key: "extract", label: "extract", color: "#d99a1f" },
+  { key: "guardrail", label: "guardrail", color: "var(--seg-guardrail)" },
+  { key: "embed", label: "embed", color: "var(--seg-embed)" },
+  { key: "dense", label: "dense", color: "var(--seg-dense)" },
+  { key: "bm25", label: "bm25", color: "var(--seg-bm25)" },
+  { key: "cluster", label: "cluster", color: "var(--seg-cluster)" },
+  { key: "fusion", label: "fusion", color: "var(--seg-fusion)" },
+  { key: "rerank", label: "rerank", color: "var(--seg-rerank)" },
+  { key: "relevance", label: "relevance gate", color: "var(--seg-relevance)" },
+  { key: "cross_encoder", label: "cross-encoder", color: "var(--seg-cross-encoder)" },
+  { key: "extract", label: "extract", color: "var(--seg-extract)" },
 ];
 
 const TICKS = [0, 50, 100, 150, 200];
@@ -55,15 +57,19 @@ export function Measure({ stages, tier1Total, naiveTotal, targetMs }: Props) {
         </span>
       </div>
 
-      <div className="measure__track">
+      <div className="measure__track" data-empty={tier1Total === null ? "true" : "false"}>
         {TICKS.filter((t) => t <= max).map((t) => (
-          <div className="measure__tick" key={t} style={{ left: pct(t) }}>
+          // The last label would hang off the right edge of the track, so it
+          // flips to sit inside it.
+          <div
+            className={`measure__tick${t === max ? " measure__tick--end" : ""}`}
+            key={t}
+            style={{ left: pct(t) }}
+          >
             <span>{t}</span>
           </div>
         ))}
-        <div className="measure__budget" style={{ left: pct(targetMs) }}>
-          <span>{targetMs} ms budget</span>
-        </div>
+        <div className="measure__budget" style={{ left: pct(targetMs) }} />
 
         <div className="lane lane--tier1">
           <span className="lane__tag">tier 1</span>
@@ -87,10 +93,10 @@ export function Measure({ stages, tier1Total, naiveTotal, targetMs }: Props) {
             <span className="lane__tag">naive</span>
             <div
               className="lane__seg"
-              style={{ width: pct(naiveTotal), background: "#a6402e" }}
+              style={{ width: pct(naiveTotal), background: "var(--naive)" }}
               title={`naive baseline ${naiveTotal.toFixed(2)} ms`}
             />
-            <span className="lane__total" style={{ left: pct(naiveTotal), color: "#a6402e" }}>
+            <span className="lane__total" style={{ left: pct(naiveTotal), color: "var(--naive)" }}>
               {naiveTotal.toFixed(1)} ms
             </span>
           </div>

@@ -6,6 +6,9 @@ import { Race } from "./components/Race";
 import { TraceStream } from "./components/TraceStream";
 import { useAudioPlayer } from "./useAudioPlayer";
 import { useRecorder } from "./useRecorder";
+import { useTheme } from "./useTheme";
+import { BeachBand, Palm, Sun } from "./components/Scenery";
+import { DrinkSticker, HibiscusSticker, MugSticker } from "./components/Stickers";
 import type {
   CandidateDto,
   ConfidenceDto,
@@ -16,12 +19,25 @@ import type {
 } from "./types";
 
 const STATES = ["received", "transcribe", "guard", "retrieve", "tier1", "tier2", "speak", "done"];
-/** Routing modes, named by what they do rather than by their internal keys. */
-const LANG_MODES = [
-  { mode: "cross", label: "any language", hint: "Retrieve from all four languages" },
-  { mode: "strict", label: "same language", hint: "Retrieve only in the language you asked in" },
-  { mode: "pivot", label: "other languages", hint: "Answer only from sources in a different language" },
-] as const;
+/** Button face per theme: what you are on now, and what one click does next. */
+const THEME_LABEL: Record<string, { text: string; title: string }> = {
+  system: { text: "theme · system", title: "Following your system theme — click for light" },
+  light: { text: "theme · light", title: "Light theme — click for dark" },
+  dark: { text: "theme · dark", title: "Dark theme — click to follow your system" },
+};
+/** Routing modes, named by what they do rather than by their internal keys. The
+ *  count in the "any language" hint comes from /meta, so it tracks whatever
+ *  RAG_LANGUAGES the server was built with instead of hard-coding four. */
+const langModes = (count: number) =>
+  [
+    {
+      mode: "cross",
+      label: "any language",
+      hint: count ? `Retrieve from all ${count} indexed languages` : "Retrieve from every indexed language",
+    },
+    { mode: "strict", label: "same language", hint: "Retrieve only in the language you asked in" },
+    { mode: "pivot", label: "other languages", hint: "Answer only from sources in a different language" },
+  ] as const;
 
 interface TurnView {
   transcript: string;
@@ -163,16 +179,7 @@ export default function App() {
       .finally(() => setRacing(false));
   }, [lastQuery]);
 
-  const languageSentence = useMemo(() => {
-    const names = (meta?.languages ?? []).map((l) => l.name);
-    if (names.length === 0) return "any indexed language";
-    if (names.length <= 4) {
-      return names.length === 1
-        ? names[0]
-        : `${names.slice(0, -1).join(", ")} or ${names[names.length - 1]}`;
-    }
-    return `${names.slice(0, 3).join(", ")} or ${names.length - 3} other languages`;
-  }, [meta]);
+  const { theme, cycle: cycleTheme } = useTheme();
 
   const activeState = turn.state || "";
   const sampleChips = useMemo(
@@ -185,23 +192,53 @@ export default function App() {
 
   return (
     <div className="shell">
-      <header className="masthead">
+      <header className="masthead hero">
+        <BeachBand className="hero__band" />
+        <Sun className="hero__sun" />
+        <Palm className="palm palm--left" />
+        <Palm className="palm palm--right" flip />
+        <DrinkSticker className="sticker sticker--drink" />
         <div className="masthead__eyebrow">
           <span>voice RAG · MS MARCO-XI</span>
           <span>{meta ? `${meta.languages.length} languages, one index` : "one index"}</span>
-          <span>
-            {meta
-              ? `${meta.corpus.passages.toLocaleString()} passages · ${meta.corpus.sentences.toLocaleString()} sentences`
-              : "loading corpus…"}
-          </span>
+          <button
+            className="theme"
+            onClick={cycleTheme}
+            title={THEME_LABEL[theme].title}
+            aria-label={THEME_LABEL[theme].title}
+          >
+            {THEME_LABEL[theme].text}
+          </button>
         </div>
-        <h1 className="masthead__title">
-          The Measure<em>.</em>
-        </h1>
-        <p className="masthead__standfirst">
-          Speak a question in {languageSentence}. The extractive answer lands in milliseconds and is
-          measured against a 200 ms budget on the line below. The spoken, synthesised answer follows
-          after — separately timed, never folded into that number.
+        {/* Wordmark and corpus size share one baseline: the two things true
+            about this page before a question is asked. */}
+        <div className="masthead__lockup">
+          <h1 className="masthead__title">
+            Peoples<em>.</em>
+          </h1>
+          <span className="masthead__tagline">brewed in Goa, poured in eleven languages</span>
+          <dl className="masthead__figures">
+            <div>
+              <dt>passages</dt>
+              <dd>{meta ? meta.corpus.passages.toLocaleString() : "—"}</dd>
+            </div>
+            <div>
+              <dt>sentences</dt>
+              <dd>{meta ? meta.corpus.sentences.toLocaleString() : "—"}</dd>
+            </div>
+          </dl>
+        </div>
+        {/* Sentence case, not the eyebrow's caps: eleven language names in
+            tracked-out uppercase read as a wall rather than a list. */}
+        <p className="masthead__langs">
+          {meta
+            ? meta.languages.map((l, i) => (
+                <span key={l.code} className="masthead__lang">
+                  {i > 0 && <span aria-hidden="true">·</span>}
+                  {l.name}
+                </span>
+              ))
+            : "loading corpus…"}
         </p>
       </header>
 
@@ -268,6 +305,7 @@ export default function App() {
       ))}
 
       <div className="ask">
+        <MugSticker className="sticker sticker--mug" />
         <button
           className="mic"
           data-recording={recorder.recording}
@@ -297,7 +335,7 @@ export default function App() {
         </form>
 
         <div className="modes" role="group" aria-label="Language routing">
-          {LANG_MODES.map(({ mode, label, hint }) => (
+          {langModes(meta?.languages.length ?? 0).map(({ mode, label, hint }) => (
             <button
               key={mode}
               aria-pressed={langMode === mode}
@@ -329,6 +367,7 @@ export default function App() {
 
       {sampleChips.length > 0 && (
         <div className="samples">
+          <HibiscusSticker className="sticker sticker--hibiscus" />
           <span className="samples__label">real questions from the corpus</span>
           {sampleChips.map((chip) => (
             <button

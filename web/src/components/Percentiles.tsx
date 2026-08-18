@@ -41,11 +41,13 @@ function fmt(ms: number): string {
 function Row({
   label,
   note,
+  empty,
   stats,
   withinTarget,
 }: {
   label: string;
   note: string;
+  empty: string;
   stats: Percentile | null;
   withinTarget?: boolean;
 }) {
@@ -70,7 +72,7 @@ function Row({
           )}
         </div>
       ) : (
-        <p className="pct__empty">No questions asked yet this session.</p>
+        <p className="pct__empty">{empty}</p>
       )}
     </div>
   );
@@ -89,12 +91,14 @@ export function Percentiles({ tier1, tier2, targetMs }: Props) {
       <Row
         label="Tier 1 · extractive"
         note={`retrieval to answer, against the ${targetMs} ms budget`}
+        empty="Ask a question and the reading lands here."
         stats={one}
         withinTarget={one ? one.p100 <= targetMs : undefined}
       />
       <Row
         label="Tier 2 · generative"
         note="hosted model over the network, reported separately"
+        empty="Runs after Tier 1, on its own clock."
         stats={two}
       />
     </section>

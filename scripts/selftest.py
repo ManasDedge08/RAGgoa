@@ -1,7 +1,7 @@
 """Unit checks for the pure pieces. No index, no network, runs in a second.
 
 Covers the parts where a silent bug would corrupt every downstream number:
-tokenisation across four scripts, BM25 ranking, RRF ordering, script-based
+tokenisation across ten scripts, BM25 ranking, RRF ordering, script-based
 language detection, sentence splitting, and the naive chunker.
 
 Run: ``python scripts/selftest.py``

@@ -59,7 +59,7 @@ export function Race({ result, running, onRun, canRun, error, query }: Props) {
                   className="racelane__fill"
                   style={{
                     width: `${(result.multi_strategy.total_ms / max) * 100}%`,
-                    background: "#2d3e8c",
+                    background: "var(--indigo)",
                   }}
                 />
               </div>
@@ -72,7 +72,7 @@ export function Race({ result, running, onRun, canRun, error, query }: Props) {
                   className="racelane__fill"
                   style={{
                     width: `${(result.naive.total_ms / max) * 100}%`,
-                    background: "#a6402e",
+                    background: "var(--naive)",
                   }}
                 />
               </div>

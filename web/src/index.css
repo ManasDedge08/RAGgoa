@@ -1,28 +1,69 @@
 /* ============================================================================
-   The Measure — voice RAG across four languages
+   Peoples — voice RAG across eleven languages
 
    Structural idea: Devanagari hangs its letters from a continuous headline
    stroke (shirorekha). Here the page hangs from one too, and that same line is
    the 200 ms latency scale every timing is drawn against. Nothing floats.
 
-   Palette is dye-and-paper: indigo (the dye India exported for centuries) on
-   khadi, turmeric only for measurement, madder only for over-budget or refused,
-   verdigris only for grounded.
+   Palette is a Goan taproom, and every colour is a material from one: azulejo
+   blue off the tiled facades, malt amber for anything being measured, laterite
+   red for over-budget or refused, hop green for grounded, all on lime-wash.
+   The ink is roasted rather than blue-black — that single swap warms the page
+   without moving a millimetre of the layout.
    ========================================================================= */
 
 :root {
-  --paper: #e9e6dc;
-  --paper-deep: #ddd9cc;
-  --ink: #16213a;
-  --ink-soft: #4a5470;
-  --indigo: #2d3e8c;
-  --indigo-wash: rgba(45, 62, 140, 0.09);
-  --turmeric: #d99a1f;
+  --paper: #ece6d8;
+  --paper-deep: #ded6c4;
+  --ink: #1f1a15;
+  --ink-soft: #5d5446;
+  --indigo: #275e8e;
+  --indigo-wash: rgba(39, 94, 142, 0.1);
+  --turmeric: #c07d17;
+  /* Amber has to do two jobs and cannot do both at one value: as a fill it
+     needs dark ink to read on it, as text it needs to read on lime-wash.
+     Bright amber as small text is 2.7:1, so text gets its own darker pour. */
+  --turmeric-ink: #8d5a0e;
   --madder: #a6402e;
-  --verdigris: #2e7d6b;
+  --verdigris: #356848;
+
+  /* Washes and the page grid, held as tokens so the dark palette can restate
+     them at the opacity that dark actually needs rather than inheriting a
+     light-mode alpha that vanishes. */
+  --grid-line: rgba(39, 94, 142, 0.04);
+  --grain: rgba(31, 26, 21, 0.022);
+  --tile: rgba(39, 94, 142, 0.55);
+
+  /* The shack. Sea and sand behind the masthead, palms at the page edges. */
+  --sky: #cfe9e6;
+  --sea: #6fb8bd;
+  --sea-line: rgba(255, 255, 255, 0.55);
+  --foam: #f2ece0;
+  --sand: #e3cfa8;
+  --palm-dark: #3f7a55;
+  --trunk: #8a6034;
+  --trunk-lit: #a97b46;
+  --coconut: #6b4a2b;
+  --turmeric-wash: rgba(192, 125, 23, 0.13);
+  --madder-wash: rgba(166, 64, 46, 0.12);
+  --madder-wash-soft: rgba(166, 64, 46, 0.06);
+
+  /* Stage colours for the measure lanes. Ordered dark-to-light within each
+     family so adjacent segments stay distinguishable at 16px tall. */
+  --seg-guardrail: #8b8577;
+  --seg-embed: #1d4f7a;
+  --seg-dense: #275e8e;
+  --seg-bm25: #3a76a6;
+  --seg-cluster: #6a9cc2;
+  --seg-fusion: #3f7a55;
+  --seg-rerank: #5d9a6f;
+  --seg-relevance: #3f7a55;
+  --seg-cross-encoder: #a6402e;
+  --seg-extract: #c07d17;
+  --naive: #a6402e;
 
   --rule: 1px solid var(--ink);
-  --hair: 1px solid rgba(22, 33, 58, 0.22);
+  --hair: 1px solid rgba(31, 26, 21, 0.22);
 
   --display: "Anek Latin", system-ui, sans-serif;
   --indic: "Anek Devanagari", "Anek Tamil", "Anek Bangla", "Anek Gujarati",
@@ -34,6 +75,136 @@
   --measure-h: 64px;
 }
 
+/* --------------------------------------------------------------- dark mode ---
+   The taproom after dark: lime-wash ink on a cellar-black page rather than the
+   reverse. The accents are lifted, not reused — azulejo #275e8e on a near-black
+   page is unreadable, so it moves up to a tint that still reads as the tile.
+   Tokens are restated here only; no rule elsewhere in this file is duplicated. */
+:root[data-theme="dark"] {
+  --paper: #14110d;
+  --paper-deep: #1d1915;
+  --ink: #ece5d5;
+  --ink-soft: #a0947f;
+  --indigo: #74aad9;
+  --indigo-wash: rgba(116, 170, 217, 0.14);
+  --turmeric: #e0a63c;
+  --turmeric-ink: #e0a63c;
+  --madder: #dd7a62;
+  --verdigris: #6bb383;
+
+  --grid-line: rgba(116, 170, 217, 0.05);
+  --grain: rgba(236, 229, 213, 0.016);
+  --tile: rgba(116, 170, 217, 0.4);
+
+  --sky: #16303a;
+  --sea: #17505a;
+  --sea-line: rgba(190, 230, 235, 0.28);
+  --foam: #2a4a44;
+  --sand: #3a3323;
+  --palm-dark: #3d7a5c;
+  --trunk: #4a3520;
+  --trunk-lit: #66492c;
+  --coconut: #2f2114;
+  --turmeric-wash: rgba(224, 166, 60, 0.14);
+  --madder-wash: rgba(221, 122, 98, 0.16);
+  --madder-wash-soft: rgba(221, 122, 98, 0.09);
+
+  --seg-guardrail: #8d8471;
+  --seg-embed: #4f8ab8;
+  --seg-dense: #6aa0c9;
+  --seg-bm25: #83b2d6;
+  --seg-cluster: #a3c8e2;
+  --seg-fusion: #5aa374;
+  --seg-rerank: #7cbf94;
+  --seg-relevance: #5aa374;
+  --seg-cross-encoder: #dd7a62;
+  --seg-extract: #e0a63c;
+  --naive: #dd7a62;
+
+  --hair: 1px solid rgba(236, 229, 213, 0.2);
+}
+
+@media (prefers-color-scheme: dark) {
+  /* Same tokens under the system preference, but only while the reader has
+     made no explicit choice — an explicit "light" must survive a dark OS. */
+  :root:not([data-theme="light"]) {
+    --paper: #14110d;
+    --paper-deep: #1d1915;
+    --ink: #ece5d5;
+    --ink-soft: #a0947f;
+    --indigo: #74aad9;
+    --indigo-wash: rgba(116, 170, 217, 0.14);
+    --turmeric: #e0a63c;
+    --turmeric-ink: #e0a63c;
+    --madder: #dd7a62;
+    --verdigris: #6bb383;
+
+    --grid-line: rgba(116, 170, 217, 0.05);
+    --grain: rgba(236, 229, 213, 0.016);
+    --tile: rgba(116, 170, 217, 0.4);
+
+    --sky: #16303a;
+    --sea: #17505a;
+    --sea-line: rgba(190, 230, 235, 0.28);
+    --foam: #2a4a44;
+    --sand: #3a3323;
+    --palm-dark: #3d7a5c;
+    --trunk: #4a3520;
+    --trunk-lit: #66492c;
+    --coconut: #2f2114;
+
+  --sky: #16303a;
+  --sea: #17505a;
+  --sea-line: rgba(190, 230, 235, 0.28);
+  --foam: #2a4a44;
+  --sand: #3a3323;
+  --palm-dark: #3d7a5c;
+  --trunk: #4a3520;
+  --trunk-lit: #66492c;
+  --coconut: #2f2114;
+  --tile: rgba(116, 170, 217, 0.4);
+
+  --sky: #16303a;
+  --sea: #17505a;
+  --sea-line: rgba(190, 230, 235, 0.28);
+  --foam: #2a4a44;
+  --sand: #3a3323;
+  --palm-dark: #3d7a5c;
+  --trunk: #4a3520;
+  --trunk-lit: #66492c;
+  --coconut: #2f2114;
+  --grain: rgba(236, 229, 213, 0.016);
+  --tile: rgba(116, 170, 217, 0.4);
+
+  --sky: #16303a;
+  --sea: #17505a;
+  --sea-line: rgba(190, 230, 235, 0.28);
+  --foam: #2a4a44;
+  --sand: #3a3323;
+  --palm-dark: #3d7a5c;
+  --trunk: #4a3520;
+  --trunk-lit: #66492c;
+  --coconut: #2f2114;
+    --turmeric-wash: rgba(224, 166, 60, 0.14);
+    --madder-wash: rgba(221, 122, 98, 0.16);
+    --madder-wash-soft: rgba(221, 122, 98, 0.09);
+
+    --seg-guardrail: #8d8471;
+    --seg-embed: #4f8ab8;
+    --seg-dense: #6aa0c9;
+    --seg-bm25: #83b2d6;
+    --seg-cluster: #a3c8e2;
+    --seg-fusion: #5aa374;
+    --seg-rerank: #7cbf94;
+    --seg-relevance: #5aa374;
+    --seg-cross-encoder: #dd7a62;
+    --seg-extract: #e0a63c;
+    --naive: #dd7a62;
+
+    --hair: 1px solid rgba(236, 229, 213, 0.2);
+  }
+}
+
 * {
   box-sizing: border-box;
 }
@@ -41,6 +212,9 @@
 html,
 body {
   margin: 0;
+  /* 50vw includes the scrollbar; clip keeps that from becoming a sideways
+     scroll on the full-bleed banner. */
+  overflow-x: clip;
   background: var(--paper);
   color: var(--ink);
   font-family: var(--display);
@@ -49,8 +223,16 @@ body {
 }
 
 body {
-  background-image: linear-gradient(rgba(45, 62, 140, 0.035) 1px, transparent 1px);
-  background-size: 100% 28px;
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      var(--grain) 0,
+      var(--grain) 1px,
+      transparent 1px,
+      transparent 4px
+    ),
+    linear-gradient(var(--grid-line) 1px, transparent 1px);
+  background-size: 6px 6px, 100% 28px;
 }
 
 :focus-visible {
@@ -88,6 +270,38 @@ button {
   margin-bottom: 0.75rem;
 }
 
+/* The theme control sits in the eyebrow rather than floating over a corner:
+   it is metadata about the page, the same as the corpus counts beside it.
+   Pushed to the end of the row so it never separates the two data readings. */
+.theme {
+  margin-left: auto;
+  background: none;
+  border: var(--hair);
+  border-radius: 2px;
+  padding: 0.15rem 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  transition: color 120ms ease, border-color 120ms ease;
+}
+
+.theme:hover {
+  color: var(--indigo);
+  border-color: var(--indigo);
+}
+
+/* Wordmark and figures hang off one baseline, so the right half of the
+   masthead carries data instead of air. */
+.masthead__lockup {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem 2rem;
+}
+
 .masthead__title {
   font-size: clamp(2.6rem, 7.5vw, 5.6rem);
   font-weight: 800;
@@ -96,18 +310,50 @@ button {
   margin: 0;
 }
 
+.masthead__figures {
+  display: flex;
+  gap: 1.75rem;
+  margin: 0;
+}
+
+.masthead__figures dt {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.masthead__figures dd {
+  margin: 0.1rem 0 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.masthead__langs {
+  position: relative;
+  z-index: 1;
+  font-family: var(--indic);
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  margin: 0.9rem 0 1.5rem;
+  max-width: 74ch;
+}
+
+.masthead__lang span {
+  color: var(--turmeric-ink);
+  padding: 0 0.4rem;
+}
+
+/* The full stop is the whole logo. Amber rather than tile blue: it is the one
+   drop of the product in an otherwise structural page, and it is the only
+   place amber appears outside a measurement. */
 .masthead__title em {
   font-style: normal;
   font-weight: 300;
-  color: var(--indigo);
-}
-
-.masthead__standfirst {
-  max-width: 62ch;
-  font-size: 1.02rem;
-  line-height: 1.55;
-  color: var(--ink-soft);
-  margin: 0 0 1.6rem;
+  color: var(--turmeric-ink);
 }
 
 /* ------------------------------------------------------------- percentiles */
@@ -199,11 +445,33 @@ button {
   font-weight: 600;
 }
 
+/* The lane tags sit in a gutter to the left of the scale. Without it they are
+   pushed past the page edge and clipped. */
 .measure__track {
   position: relative;
+  margin-left: 3.4rem;
   height: var(--measure-h);
   border-top: 2px solid var(--ink);
   border-bottom: var(--hair);
+}
+
+/* Before the first question the lanes are empty. Hatching the band says the
+   instrument is waiting, where an empty rectangle just says nothing. */
+.measure__track[data-empty="true"]::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 14px;
+  height: 38px;
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--indigo-wash) 0,
+    var(--indigo-wash) 1px,
+    transparent 1px,
+    transparent 7px
+  );
+  pointer-events: none;
 }
 
 .measure__tick {
@@ -223,21 +491,17 @@ button {
   white-space: nowrap;
 }
 
+/* Must follow the rule above: same specificity, so source order decides. */
+.measure__tick--end span {
+  left: auto;
+  right: 4px;
+}
+
 .measure__budget {
   position: absolute;
   top: 0;
   bottom: 0;
   border-left: 2px solid var(--madder);
-}
-
-.measure__budget span {
-  position: absolute;
-  top: 4px;
-  left: 6px;
-  font-family: var(--mono);
-  font-size: 0.62rem;
-  color: var(--madder);
-  letter-spacing: 0.08em;
 }
 
 .lane {
@@ -255,6 +519,18 @@ button {
 
 .lane--naive {
   top: 36px;
+}
+
+/* Where the pour stopped. The lane already ends here; the cap just makes the
+   edge legible at a glance, the way a head sits on top of a measure. */
+.lane--tier1 .lane__total::before {
+  content: "";
+  position: absolute;
+  left: -5px;
+  bottom: 0;
+  width: 4px;
+  height: 16px;
+  background: var(--turmeric);
 }
 
 .lane__seg {
@@ -300,15 +576,16 @@ button {
 
 .measure__legend b {
   display: inline-block;
-  width: 9px;
-  height: 9px;
-  margin-right: 0.35rem;
-  vertical-align: -1px;
+  width: 14px;
+  height: 4px;
+  margin-right: 0.4rem;
+  vertical-align: 2px;
 }
 
 /* --------------------------------------------------------------- ask panel */
 
 .ask {
+  position: relative;
   display: grid;
   grid-template-columns: auto 1fr auto;
   gap: 0.75rem;
@@ -345,10 +622,17 @@ button {
   cursor: not-allowed;
 }
 
+/* Amber at rest — the same drop as the wordmark's full stop, and the only
+   warm point in the control row. It gives way to the button's own colour once
+   recording, where amber on laterite would go muddy. */
 .mic__pulse {
   width: 9px;
   height: 9px;
   border-radius: 50%;
+  background: var(--turmeric);
+}
+
+.mic[data-recording="true"] .mic__pulse {
   background: currentColor;
 }
 
@@ -385,12 +669,19 @@ button {
 .ask__field button {
   border: 0;
   border-left: var(--rule);
-  background: transparent;
-  padding: 0 1rem;
+  background: var(--turmeric);
+  color: var(--ink);
+  padding: 0 1.1rem;
   font-family: var(--mono);
   font-size: 0.72rem;
+  font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+  transition: filter 140ms ease;
+}
+
+.ask__field button:hover:not(:disabled) {
+  filter: brightness(1.08);
 }
 
 .ask__field button:hover:not(:disabled) {
@@ -423,6 +714,7 @@ button {
 }
 
 .samples {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
@@ -596,7 +888,7 @@ button {
 }
 
 .badge--low {
-  color: var(--turmeric);
+  color: var(--turmeric-ink);
 }
 
 .badge--refuse {
@@ -608,7 +900,7 @@ button {
 .answer--unsourced {
   border-left: 3px solid var(--madder);
   padding-left: 0.85rem;
-  background: rgba(166, 64, 46, 0.06);
+  background: var(--madder-wash-soft);
 }
 
 .badge--unsourced {
@@ -818,18 +1110,161 @@ button {
   padding: 0.5rem 0.7rem;
   margin: 0.8rem 0;
   border-left: 3px solid var(--turmeric);
-  background: rgba(217, 154, 31, 0.12);
+  background: var(--turmeric-wash);
   color: var(--ink);
 }
 
 .notice--error {
   border-left-color: var(--madder);
-  background: rgba(166, 64, 46, 0.12);
+  background: var(--madder-wash);
 }
 
 @media (prefers-reduced-motion: reduce) {
   * {
     animation: none !important;
     transition: none !important;
+  }
+}
+
+/* ---------------------------------------------------------------- stickers */
+
+.sticker {
+  position: absolute;
+  pointer-events: none;
+  z-index: 2;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
+  transition: transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Stands on the sand strip at the foot of the banner, which is the one part of
+   the hero with no type in it. Anchored higher up it landed on the corpus
+   figures. */
+.sticker--drink {
+  width: clamp(58px, 6vw, 88px);
+  right: clamp(2rem, 14vw, 14rem);
+  bottom: 2px;
+  transform: rotate(-9deg);
+}
+
+.sticker--mug {
+  width: 56px;
+  left: -16px;
+  top: -22px;
+  transform: rotate(-13deg);
+}
+
+.sticker--hibiscus {
+  width: 66px;
+  right: -20px;
+  bottom: -22px;
+  transform: rotate(12deg);
+}
+
+.ask:hover .sticker--mug {
+  transform: rotate(-5deg) scale(1.05);
+}
+
+.samples:hover .sticker--hibiscus {
+  transform: rotate(6deg) scale(1.05);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sticker {
+    transition: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .sticker {
+    display: none;
+  }
+}
+
+/* ----------------------------------------------------------------- scenery */
+
+/* The palms sit in the viewport gutters, behind everything, and are clipped by
+   the page edge. They never overlap the shell's content column. */
+/* The palms frame the band and nothing else. Roaming the whole page as a fixed
+   layer, they ended up behind the measurements — scenery competing with data. */
+.palm {
+  position: absolute;
+  bottom: -2px;
+  /* Short enough that the crowns clear the eyebrow line: at full height the
+     fronds sat on top of the corpus label. */
+  height: 82%;
+  width: auto;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.palm--left {
+  left: -3vw;
+}
+
+/* Further out than the left one: the corpus figures live on this side. */
+.palm--right {
+  right: -6vw;
+}
+
+/* Sea and sand run behind the masthead, full-bleed past the shell's gutters. */
+/* Full bleed to the viewport edge. The shell is a centred, max-width column, so
+   pulling out by (50% - 50vw) reaches the window edge whatever the width, and
+   the matching padding puts the masthead's text back on the shell's own left
+   edge — banner edge to edge, type still aligned with everything below it. */
+.hero {
+  position: relative;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  /* The bottom padding is the sea-and-sand strip: content stops above it. */
+  padding: clamp(1.4rem, 3.2vw, 2.6rem) calc(50vw - 50%) clamp(2.6rem, 5vw, 4.2rem);
+  overflow: hidden;
+}
+
+.hero__band {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+/* Masthead content rides above the band. */
+.masthead__eyebrow,
+.masthead__lockup,
+.masthead__langs {
+  position: relative;
+  z-index: 1;
+}
+
+.hero__sun {
+  position: absolute;
+  right: clamp(9rem, 22vw, 20rem);
+  top: 8%;
+  width: clamp(56px, 6vw, 88px);
+  z-index: 0;
+}
+
+/* The tagline is the one handwritten thing on the page. */
+.masthead__tagline {
+  font-family: "Caveat", cursive;
+  font-size: clamp(1.25rem, 2.4vw, 1.9rem);
+  color: var(--madder);
+  margin-left: 0.9rem;
+  white-space: nowrap;
+}
+
+/* A shack frame around the sample questions: double rule, cut corners. */
+.samples {
+  border: 2px solid var(--madder);
+  border-radius: 10px;
+  outline: 1px solid var(--madder);
+  outline-offset: 3px;
+  padding: 0.9rem 1rem;
+  margin: 0.9rem 0 1.2rem;
+}
+
+@media (max-width: 900px) {
+  .palm {
+    display: none;
   }
 }

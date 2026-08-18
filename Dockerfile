@@ -22,9 +22,18 @@ COPY rag ./rag
 COPY scripts ./scripts
 COPY benchmark.py ./
 
-# A smaller corpus slice than the local default keeps the container inside a
-# 2 GB instance. Override at build time with --build-arg.
-ARG N_QUERY_IDS=800
+# Languages are pinned rather than left to the registry default, so the image
+# cannot silently change shape when that default moves. Build and runtime read
+# the same list: an index built for eleven languages served by a process that
+# thinks there are four would answer from vectors it never loaded.
+ENV RAG_LANGUAGES=eng_Latn,hin_Deva,ben_Beng,tam_Taml,tel_Telu,mar_Deva,guj_Gujr,kan_Knda,mal_Mlym,pan_Guru,ori_Orya
+
+# The corpus slice is what decides whether this fits its instance. Eleven
+# languages at 1,200 query ids measured 1.29 GB RSS locally; the free instance
+# caps at 512 MB, and every index is memory-mapped, so the resident cost scales
+# with this number. 250 is the largest slice expected to fit. Override at build
+# time with --build-arg N_QUERY_IDS=...
+ARG N_QUERY_IDS=250
 ENV RAG_N_QUERY_IDS=${N_QUERY_IDS}
 
 RUN python scripts/prepare_data.py \

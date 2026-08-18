@@ -18,6 +18,7 @@ latency budget, so no network calls and no cross-encoder by default.
 
 from __future__ import annotations
 
+import os
 import time
 from dataclasses import dataclass, field
 from typing import Callable, Literal
@@ -28,6 +29,7 @@ from ..config import (
     CROSS_ENCODER_DEPTH,
     CROSS_ENCODER_MAX_CHARS,
     FINAL_K,
+    LANGUAGE_CODES,
     RERANK_CANDIDATES,
     RRF_K,
     TOP_K_PER_STRATEGY,
@@ -40,8 +42,12 @@ LangMode = Literal["cross", "strict", "pivot"]
 TraceCb = Callable[[str, dict], None]
 
 # Over-fetch before language routing: HNSW cannot filter during the walk, so
-# candidates are filtered afterwards and the fetch depth compensates.
-OVERFETCH = 4
+# candidates are filtered afterwards and the fetch depth compensates. Every
+# passage exists once per indexed language, so a raw hit list of depth N yields
+# roughly N / len(LANGUAGE_CODES) distinct passages in cross mode, and the same
+# again in strict mode where all but one language is discarded. Scaling with the
+# language count keeps the post-merge yield constant as languages are added.
+OVERFETCH = int(os.getenv("RAG_OVERFETCH", str(len(LANGUAGE_CODES))))
 
 # Set by scripts/eval_retrieval.py to ablate one strategy at a time.
 DROP_STRATEGY: str | None = None
@@ -67,10 +73,10 @@ RERANK_WEIGHTS = {
 class Candidate:
     """One retrieved passage, merged across its language variants.
 
-    The corpus holds every passage in all four languages. Left un-merged they
-    would occupy four of the five final slots with the same content, so the
-    variants are collapsed into one candidate: strategy votes are pooled, and
-    the surfacing language is recorded for the cross-lingual trace.
+    The corpus holds every passage in every indexed language. Left un-merged
+    the variants of one passage would fill the final slots with the same
+    content, so they are collapsed into one candidate: strategy votes are
+    pooled, and the surfacing language is recorded for the cross-lingual trace.
     """
 
     group_id: str  # query_id:passage_index, identical across languages

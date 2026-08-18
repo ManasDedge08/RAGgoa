@@ -97,9 +97,9 @@ what makes fusing a BM25 score with a cosine defensible.
 query-side index. Sentence hits are rolled up to their parent passage before
 fusion, so granularity is a retrieval signal rather than a separate result set.
 
-**Cross-language grouping.** Every passage exists in all four languages. Left
-alone, the four variants of one passage would occupy four of the five final
-slots with identical content. They are collapsed into one candidate whose
+**Cross-language grouping.** Every passage exists in all eleven languages.
+Left alone, the eleven variants of one passage would fill every one of the five
+final slots with identical content. They are collapsed into one candidate whose
 strategy votes are pooled; the variant shown is the asker's language when it was
 retrieved, otherwise whichever language surfaced it. Language routing has three
 modes: `cross` (default, all languages eligible), `strict` (only the asker's
@@ -174,7 +174,7 @@ Three, at different points, doing different jobs:
 rag/
   config.py              all tunables, environment-overridable
   index/
-    text.py              Unicode-aware tokenisation for four scripts
+    text.py              Unicode-aware tokenisation for ten scripts
     bm25.py              CSR-backed BM25
     build.py             sentence + passage + cluster index build
     build_baseline.py    the naive index, for the race

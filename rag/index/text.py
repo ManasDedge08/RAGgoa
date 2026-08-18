@@ -3,8 +3,8 @@
 Python's built-in ``re`` does not treat Unicode combining marks as word
 characters, so ``\\w+`` splits every Devanagari, Tamil and Bengali word at its
 vowel signs and virama — ``कॉर्पोरेशन`` tokenises as
-``['क', 'र', 'प', 'र', 'शन']``. That silently guts BM25 for three of the four
-languages here while leaving English untouched, which is exactly the kind of
+``['क', 'र', 'प', 'र', 'शन']``. That silently guts BM25 for every Indic
+language here while leaving English untouched, which is exactly the kind of
 bug that never shows up in an English smoke test.
 
 The ``regex`` module supports Unicode property classes, so a token is defined

@@ -3,19 +3,37 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The Measure — voice RAG across four languages</title>
+    <!-- Tell the browser both palettes exist, so form controls and scrollbars
+         follow the page instead of staying light. -->
+    <meta name="color-scheme" content="light dark" />
+    <title>Peoples — voice RAG across eleven languages</title>
     <meta
       name="description"
-      content="Ask out loud in Hindi, Tamil, Bengali or English. Watch retrieval reason in the open and every stage land on a 200 ms scale."
+      content="Ask out loud in English, Hindi, Bengali, Tamil, Telugu, Marathi, Gujarati, Kannada, Malayalam, Punjabi or Odia. Watch retrieval reason in the open and every stage land on a 200 ms scale."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Anek+Latin:wght@300;400;600;800&family=Anek+Devanagari:wght@400;600&family=Anek+Tamil:wght@400;600&family=Anek+Bangla:wght@400;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Anek+Latin:wght@300;400;600;800&family=Anek+Devanagari:wght@400;600&family=Anek+Bangla:wght@400;600&family=Anek+Tamil:wght@400;600&family=Anek+Telugu:wght@400;600&family=Anek+Gujarati:wght@400;600&family=Anek+Kannada:wght@400;600&family=Anek+Malayalam:wght@400;600&family=Anek+Gurmukhi:wght@400;600&family=Anek+Odia:wght@400;600&family=Caveat:wght@600&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
   </head>
   <body>
+    <!-- Applied before first paint. Without this a reader who chose dark sees a
+         flash of the light page while the bundle loads; the same logic lives in
+         src/useTheme.ts, which owns it from then on. -->
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem("measure-theme");
+          if (saved === "light" || saved === "dark") {
+            document.documentElement.setAttribute("data-theme", saved);
+          }
+        } catch (e) {
+          /* private mode: fall through to the system preference */
+        }
+      })();
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
