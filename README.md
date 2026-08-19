@@ -1,14 +1,15 @@
 # The Measure — voice RAG over MS MARCO-XI
 
-Ask a question out loud in **Hindi, Tamil, Bengali or English**. An extractive
-answer comes back in about ten milliseconds and is shown against a 200 ms
-budget. A synthesised spoken answer follows a moment later, checked against the
+Ask a question out loud in **any of eleven Indian languages** — English, Hindi,
+Bengali, Tamil, Telugu, Marathi, Gujarati, Kannada, Malayalam, Punjabi or Odia.
+An extractive answer comes back inside a 200 ms budget and is shown against it.
+A synthesised spoken answer follows a moment later, checked against the
 retrieved passages before it is allowed to speak.
 
 Built on [`ai4bharat/MSMARCO-XI`](https://huggingface.co/datasets/ai4bharat/MSMARCO-XI),
 with Sarvam AI for speech in, speech out, and generation.
 
-* **Live demo:** _deploy pending — see [Deploying](#deploying)_
+* **Live demo:** [peoples-hhgoa.me](https://peoples-hhgoa.me)
 * **Architecture:** [ARCHITECTURE.md](ARCHITECTURE.md)
 * **Latency report:** [reports/latency_report.md](reports/latency_report.md)
 * **Encoder A/B:** [reports/encoder_ab.md](reports/encoder_ab.md)
@@ -375,3 +376,19 @@ blocked until that warning is accepted.
 | `scripts/` | data prep, evaluation, calibration, smoke test |
 | `benchmark.py` | the latency suite |
 | `web/` | Vite + React client |
+
+---
+
+## Built by
+
+| | |
+| --- | --- |
+| **Manas Dedge** | [linkedin.com/in/manas-dedge](https://www.linkedin.com/in/manas-dedge/) |
+| **Rahul Kotyal** | [linkedin.com/in/rahul-kotyal-279996220](https://www.linkedin.com/in/rahul-kotyal-279996220) |
+| **Atharv Bhosale** | [linkedin.com/in/atharvbhosale555](https://www.linkedin.com/in/atharvbhosale555) |
+
+Honourable mention: **Claude**, which wrote a good deal of this and measured
+the rest — including the memory figures in [Deploying](#deploying), the gate
+latency work, and the deployment it is running on.
+
+Built for Hack Hyderabad Goa 2026, Task 2.
