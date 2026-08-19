@@ -404,7 +404,7 @@ export default function App() {
             <button
               aria-pressed={crossEncode}
               onClick={() => setCrossEncode((value) => !value)}
-              title="Re-score the top 10 with a cross-encoder: better ranking, ~70 ms more"
+              title="Re-score the top 10 with a cross-encoder: better ranking, and by far the slowest control here — about 70 ms on Apple silicon, about a second on the deployed instance"
             >
               precision
             </button>

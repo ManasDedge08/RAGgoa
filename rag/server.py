@@ -33,6 +33,7 @@ from .config import (
     RATE_LIMIT_PER_HOUR,
     RATE_LIMIT_PER_MINUTE,
     RATE_LIMIT_TRUST_PROXY,
+    RELEVANCE_GATE_ENABLED,
     TIER1_TARGET_MS,
 )
 from .harness.pipeline import Pipeline
@@ -122,12 +123,22 @@ def pipeline() -> Pipeline:
 
 @app.on_event("startup")
 async def warm_up() -> None:
-    """Load indexes and the encoder before the first request arrives.
+    """Load indexes, the encoder, and the gate's cross-encoder up front.
 
     Cold-loading the encoder inside a user's first query would put seconds into
     a turn the whole demo claims is fast.
+
+    The relevance gate's cross-encoder is loaded here for the same reason, and
+    it is the larger of the two costs: measured on the deployed instance, the
+    first gated question paid 5,506 ms of lazy model load inside a turn that is
+    120 ms warm. Left lazy, that whole penalty lands on whoever opens the link
+    first, which on a demo is precisely the person you least want it to land on.
+    Loading it at startup only moves the cost — the model is 552 MB either way —
+    but it moves it to where nobody is timing it.
     """
     await asyncio.to_thread(lambda: pipeline().retriever.retrieve("warmup"))
+    if RELEVANCE_GATE_ENABLED:
+        await asyncio.to_thread(lambda: get_store().cross_encoder)
 
 
 class AskRequest(BaseModel):
