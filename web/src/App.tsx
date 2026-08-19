@@ -359,7 +359,11 @@ export default function App() {
           {sampleChips.length > 0 && (
             <div className="samples">
               <HibiscusSticker className="sticker sticker--hibiscus" />
-              <span className="samples__label">real questions from the corpus</span>
+              {/* The label instructs and nothing else. What these questions are —
+                  genuine MS MARCO-XI queries rather than demo copy — is already
+                  said in the masthead and the colophon, and "corpus" is our word
+                  for it, not the reader's. */}
+              <span className="samples__label">tap any question to ask it</span>
               {/* One row that scrolls rather than a grid that grows: eleven
                   languages wrap to three rows at this width, and the deck has to
                   stay the height of the pills beside it. */}
@@ -373,6 +377,10 @@ export default function App() {
                       submitText(chip.text);
                     }}
                   >
+                    {/* Which language you are about to ask in. Eleven scripts
+                        run past here unlabelled otherwise, which makes the row
+                        demonstrate the claim while naming none of it. */}
+                    <span className="chip__lang">{langLabel(chip.lang)}</span>
                     {chip.text}
                   </button>
                 ))}

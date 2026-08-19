@@ -806,6 +806,20 @@ button {
 .samples__strip > .chip {
   flex: 0 0 auto;
   scroll-snap-align: start;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45rem;
+}
+
+/* The utility face, as everywhere else data is named on this page. Muted and
+   uppercase so it reads as a tag on the question rather than part of it. */
+.chip__lang {
+  flex: 0 0 auto;
+  font-family: var(--mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--turmeric-ink);
 }
 
 .samples__label {
