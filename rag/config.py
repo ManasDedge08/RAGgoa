@@ -124,7 +124,17 @@ CROSS_ENCODER_DEFAULT = os.getenv("RAG_CROSS_ENCODER", "") == "1"
 # rag/generation/relevance.py for the measurement behind the floor.
 RELEVANCE_GATE_ENABLED = os.getenv("RAG_RELEVANCE_GATE", "1") == "1"
 RELEVANCE_GATE_FLOOR = float(os.getenv("RAG_RELEVANCE_FLOOR", "-2.0"))
-RELEVANCE_GATE_DEPTH = int(os.getenv("RAG_RELEVANCE_DEPTH", "3"))
+# Two, not three. The gate is the dominant cost in a Tier 1 turn — retrieval is
+# a steady ~19 ms and the gate is 115-297 ms — because it scales with the tokens
+# it is fed, at roughly 0.6 ms each. Three candidates at the 500-char cap is
+# ~460 tokens, which alone spends more than the whole 200 ms budget.
+#
+# Measured on 40 corpus queries, deployed hardware, against depth 3:
+#   depth 3   p50 201.0 ms   p95 269.8 ms
+#   depth 2   p50 132.1 ms   p95 178.6 ms   0 of 40 decisions changed
+#
+# The third candidate cost a third of the budget and changed nothing it decided.
+RELEVANCE_GATE_DEPTH = int(os.getenv("RAG_RELEVANCE_DEPTH", "2"))
 
 # ------------------------------------------------------------------ sarvam ---
 SARVAM_API_KEY = os.getenv("SARVAM_API_KEY", "")
