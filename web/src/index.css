@@ -1468,9 +1468,21 @@ button {
     margin-top: 0;
   }
 
+  /* The desktop board is a flex item with basis 0 that takes the first screen's
+     leftover height, and its sections fill that height. Neither idea survives
+     the trip to a phone: there is no reserved first screen to take slack from,
+     so the box collapses toward nothing while the sections still ask for 100%
+     of it, and the answer draws straight over the deck. Both have to be undone
+     here, not just the scrolling. */
+  .board {
+    flex: 0 0 auto;
+    min-height: 0;
+  }
+
   /* A capped panel inside an already-scrolling page is two scrollbars fighting
      over one gesture. On a phone the page scrolls and the panels run full. */
   .board > section {
+    height: auto;
     max-height: none;
     min-height: 0;
     overflow-y: visible;
