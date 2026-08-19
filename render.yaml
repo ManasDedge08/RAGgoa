@@ -3,26 +3,38 @@ services:
     name: measure-rag-api
     runtime: docker
     dockerfilePath: ./Dockerfile
-    # Free tier by explicit choice. Measured, not assumed: eleven languages at
-    # 1,200 query ids sits at 1.29 GB RSS locally, and the free instance caps at
-    # 512 MB. The corpus is therefore cut to 250 query ids here, which scales
-    # the index to roughly a fifth.
+    # This blueprint does not work on Render's free plan, and the corpus size
+    # below is not what decides that. It was tried: the deploy built cleanly and
+    # was OOM-killed twelve seconds into startup, before the index was read.
     #
-    # Whether that fits is genuinely uncertain, because index vectors and the
-    # FAISS graphs are memory-mapped: much of the RSS above is evictable page
-    # cache rather than a hard requirement. What is not evictable is the Python
-    # process, torch, and the two models (encoder + cross-encoder).
+    #   Waiting for application startup.
+    #   ==> Out of memory (used over 512Mi)
     #
-    # If it is OOM-killed, the levers in order of effect:
-    #   1. RAG_N_QUERY_IDS=150   - shrinks every index proportionally again
-    #   2. RAG_RELEVANCE_GATE=0  - drops the cross-encoder, and with it the
-    #                              ability to decline out-of-corpus questions
-    #   3. a 2 GB plan           - comfortable at 800 ids
-    plan: free
+    # Measured since, staged: the interpreter, torch, sentence-transformers, the
+    # encoder and the gate's cross-encoder together need 1,545 MB before a
+    # single passage is loaded. The encoder alone is 471 MB, and it is that size
+    # for one language or eleven — the parameters are mostly a multilingual
+    # vocabulary. So no RAG_N_QUERY_IDS setting fits 512 MB: zero ids still
+    # needs three times the instance.
+    #
+    # The corpus levers that were listed here are therefore void:
+    #   RAG_N_QUERY_IDS=150   - shrinks the one part that is memory-mapped and
+    #                           evictable, i.e. the part that was never binding
+    #   RAG_RELEVANCE_GATE=0  - frees 552 MB, but the cross-encoder is lazy and
+    #                           was not loaded when the kill happened
+    #
+    # What actually works: 4 GB and a real core. Note that Render's Starter plan
+    # ($7) buys 0.5 CPU but is still 512 MB, so it does not help; Standard (2 GB,
+    # 1 CPU) does, at 250 ids. The full eleven-language corpus needs 4 GB — see
+    # the sizing table in README.md. This project is deployed instead on a 4 vCPU
+    # / 16 GiB box in Central India, running the full corpus at 120-132 ms warm.
+    plan: standard
     healthCheckPath: /health
     envVars:
       - key: SARVAM_API_KEY
         sync: false
+      # 250 ids is what fits Standard's 2 GB, at 1,962 MB of 2,048 — a 4% margin,
+      # which is not a margin. Raise the plan before raising this.
       - key: RAG_N_QUERY_IDS
         value: "250"
       # Must match the list baked into the image at build time.

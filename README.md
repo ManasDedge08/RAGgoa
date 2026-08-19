@@ -297,26 +297,53 @@ Every answer endpoint emits the same event vocabulary: `state`, `transcript`,
 
 ## Deploying
 
-**API → Render.** `render.yaml` and the `Dockerfile` build the corpus and index
-into the image, so containers start without downloading anything. Set
-`SARVAM_API_KEY` in the Render dashboard.
+**API → any box with 4 GB and a real core.** The service runs from a checkout
+plus the built index; the `Dockerfile` bakes both into an image if you would
+rather deploy that way. `SARVAM_API_KEY` goes in the environment.
 
 Memory is the binding constraint, so here is the measurement rather than a
-guess. Serving the full 1,200-query corpus sits at **~2.2 GB RSS**; the 800-id
-build scales to roughly 1.4 GB. Index vectors and the HNSW graphs are
-memory-mapped, so a good part of that is evictable page cache rather than a
-hard floor — but the encoder itself is several hundred megabytes and is not.
+guess — staged, peak RSS, taken by loading the process one piece at a time:
 
-`render.yaml` is currently set to the **free plan (512 MB)**, which is expected
-to be killed once the encoder loads. It is configured that way deliberately, to
-find out rather than assume. If it does get OOM-killed, in order of effect:
+| stage | peak RSS | scales with corpus? |
+|---|---|---|
+| bare interpreter | 15 MB | no |
+| + torch imported | 202 MB | no |
+| + sentence-transformers | 494 MB | no |
+| + encoder resident | 1,034 MB | no |
+| + cross-encoder (relevance gate) | 1,545 MB | no |
+| + full 1,200-id index, 11 languages | **3,547 MB** | yes |
 
-1. `RAG_N_QUERY_IDS=250` — shrinks every index proportionally
-2. `plan: standard` — 2 GB, comfortable at 800 ids
+The shape matters more than the total: **1,545 MB is spent before the corpus
+exists at all.** Four fifths of the floor is the ML stack and two models, and
+`multilingual-e5-small` is the same 471 MB whether it serves one language or
+eleven — most of those 117.7M parameters are a 250k-token multilingual
+vocabulary, which is the thing that makes it multilingual. Only the last row
+responds to `RAG_N_QUERY_IDS`, at roughly **1.67 MB per query id**, and it is
+memory-mapped, so it is the most evictable part of the footprint.
 
-**UI → Vercel.** Deploy `web/` with `VITE_API_BASE` pointing at the Render URL.
-Alternatively skip Vercel entirely: the API serves `web/dist` at `/` when it
-exists, which keeps everything on one origin and removes CORS from the picture.
+The practical consequence: no corpus setting fits a 512 MB instance. Zero query
+ids still needs 1,545 MB. Sizing, if you are picking a machine:
+
+| query ids | index | total | needs |
+|---|---|---|---|
+| 1,200 (full) | 2,002 MB | 3,547 MB | 4 GB |
+| 800 | 1,335 MB | 2,880 MB | 4 GB |
+| 400 | 667 MB | 2,212 MB | 3 GB |
+| 250 | 417 MB | 1,962 MB | 2 GB, with a 4% margin — too close |
+
+Deployed, on an Azure `B4as_v2` (4 vCPU, 16 GiB, Central India) running the full
+eleven-language corpus with the gate enabled: **3,659 MB resident**, 25 s from
+service start to a healthy `/health`, and Tier 1 at **120–132 ms** warm against
+the 200 ms budget. `reports/latency_report.md` carries the full run.
+
+CPU is the second constraint and is easy to miss behind the memory one. Tier 1
+is a forward pass plus FAISS and BM25 over half a million vectors; on a tenth of
+a vCPU that is seconds, not milliseconds, whatever the corpus size.
+
+**UI → Vercel, or the same box.** Deploy `web/` with `VITE_API_BASE` pointing at
+the API. Alternatively skip Vercel entirely: the API serves `web/dist` at `/`
+when it exists, which keeps everything on one origin and removes CORS from the
+picture.
 
 ### Using the microphone from another machine
 
