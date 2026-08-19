@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { askAudio, askText, fetchMeta, fetchSamples, runRace } from "./api";
 import { Measure } from "./components/Measure";
 import { Percentiles } from "./components/Percentiles";
@@ -22,9 +22,8 @@ import type {
 const STATES = ["received", "transcribe", "guard", "retrieve", "tier1", "tier2", "speak", "done"];
 /** Button face per theme: what you are on now, and what one click does next. */
 const THEME_LABEL: Record<string, { text: string; title: string }> = {
-  system: { text: "theme · system", title: "Following your system theme — click for light" },
   light: { text: "theme · light", title: "Light theme — click for dark" },
-  dark: { text: "theme · dark", title: "Dark theme — click to follow your system" },
+  dark: { text: "theme · dark", title: "Dark theme — click for light" },
 };
 /** Routing modes, named by what they do rather than by their internal keys. The
  *  count in the "any language" hint comes from /meta, so it tracks whatever
@@ -97,6 +96,11 @@ export default function App() {
   const [tier2Times, setTier2Times] = useState<number[]>([]);
   const recorder = useRecorder();
   const player = useAudioPlayer();
+  // The sample row scrolls sideways. Touch can swipe it; a mouse cannot, and
+  // the fade at its right edge says "there is more" without offering a way to
+  // reach it. These two track whether there is anything left to reach.
+  const stripRef = useRef<HTMLDivElement>(null);
+  const [stripAt, setStripAt] = useState({ start: true, end: true });
 
   // Display names come from /meta so adding a language to the corpus needs no
   // frontend change.
@@ -179,6 +183,31 @@ export default function App() {
       })
       .finally(() => setRacing(false));
   }, [lastQuery]);
+
+  const readStrip = useCallback(() => {
+    const el = stripRef.current;
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    // A pixel of slack: sub-pixel layout leaves scrollLeft a hair short of max
+    // on some zoom levels, which would strand the forward arrow enabled.
+    setStripAt({ start: el.scrollLeft <= 1, end: el.scrollLeft >= max - 1 });
+  }, []);
+
+  useEffect(() => {
+    readStrip();
+    window.addEventListener("resize", readStrip);
+    return () => window.removeEventListener("resize", readStrip);
+  }, [readStrip, samples]);
+
+  const nudgeStrip = useCallback((direction: 1 | -1) => {
+    const el = stripRef.current;
+    if (!el) return;
+    // Most of a screenful, not all of it: a chip left in view is the thread
+    // back to where you were.
+    const step = el.clientWidth * 0.8 * direction;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    el.scrollBy({ left: step, behavior: reduced ? "auto" : "smooth" });
+  }, []);
 
   const { theme, cycle: cycleTheme } = useTheme();
 
@@ -359,15 +388,35 @@ export default function App() {
           {sampleChips.length > 0 && (
             <div className="samples">
               <HibiscusSticker className="sticker sticker--hibiscus" />
-              {/* The label instructs and nothing else. What these questions are —
-                  genuine MS MARCO-XI queries rather than demo copy — is already
-                  said in the masthead and the colophon, and "corpus" is our word
-                  for it, not the reader's. */}
-              <span className="samples__label">tap any question to ask it</span>
+              <div className="samples__head">
+                {/* The label instructs and nothing else. What these questions
+                    are — genuine MS MARCO-XI queries rather than demo copy — is
+                    already said in the masthead and the colophon, and "corpus"
+                    is our word for it, not the reader's. */}
+                <span className="samples__label">tap any question to ask it</span>
+                <div className="samples__nav">
+                  <button
+                    className="samples__arrow"
+                    onClick={() => nudgeStrip(-1)}
+                    disabled={stripAt.start}
+                    aria-label="Earlier questions"
+                  >
+                    <Chevron />
+                  </button>
+                  <button
+                    className="samples__arrow"
+                    onClick={() => nudgeStrip(1)}
+                    disabled={stripAt.end}
+                    aria-label="More questions"
+                  >
+                    <Chevron forward />
+                  </button>
+                </div>
+              </div>
               {/* One row that scrolls rather than a grid that grows: eleven
                   languages wrap to three rows at this width, and the deck has to
                   stay the height of the pills beside it. */}
-              <div className="samples__strip">
+              <div className="samples__strip" ref={stripRef} onScroll={readStrip}>
                 {sampleChips.map((chip) => (
                   <button
                     className="chip"
@@ -533,6 +582,26 @@ export default function App() {
         <span>tier 2: sarvam-105b-conversations</span>
       </footer>
     </div>
+  );
+}
+
+/** One stroke, mirrored for the other direction. Drawn rather than imported,
+ *  like every other mark on this page, so it takes the button's colour. */
+function Chevron({ forward }: { forward?: boolean }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.4"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      focusable="false"
+      style={forward ? undefined : { transform: "scaleX(-1)" }}
+    >
+      <path d="M9 5l7 7-7 7" />
+    </svg>
   );
 }
 

@@ -580,6 +580,13 @@ button {
   font-weight: 600;
   padding-left: 8px;
   white-space: nowrap;
+  /* The number is drawn past the end of its own bar, and the scale's tick
+     labels sit under that space. When a turn runs over budget the scale
+     stretches past 200 and the two land on each other. The page's own
+     background, carried on the number, means it always reads — and it is
+     invisible everywhere it is not needed. */
+  padding-right: 4px;
+  background: var(--paper);
 }
 
 .measure__legend {
@@ -822,13 +829,60 @@ button {
   color: var(--turmeric-ink);
 }
 
+/* Label on the left, the two arrows hard right, on one line above the row they
+   control. Overlaid on the chips they would cover the questions; below them
+   they would read as page navigation rather than as this row's. */
+.samples__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
 .samples__label {
   font-family: var(--mono);
   font-size: 0.64rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--ink-soft);
-  align-self: start;
+}
+
+.samples__nav {
+  display: flex;
+  gap: 0.3rem;
+  flex: 0 0 auto;
+}
+
+.samples__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: var(--hair);
+  border-radius: 3px;
+  background: transparent;
+  color: var(--ink-soft);
+  transition: color 120ms ease, border-color 120ms ease;
+}
+
+.samples__arrow svg {
+  width: 12px;
+  height: 12px;
+}
+
+.samples__arrow:hover:not(:disabled) {
+  color: var(--madder);
+  border-color: var(--madder);
+}
+
+/* Dimmed rather than hidden at the ends: a control that vanishes takes its
+   own affordance with it, and the reader has to rediscover that the row moves
+   at all. */
+.samples__arrow:disabled {
+  opacity: 0.3;
+  cursor: default;
 }
 
 .chip {
@@ -947,6 +1001,16 @@ button {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--ink-soft);
+}
+
+/* The heading, at the weight the row labels under it already use. Left at 400
+   in soft ink, a section title was quieter than its own contents — the reading
+   order said the rows mattered more than the thing they belonged to. The
+   right-hand span stays muted: it is a reading, not a title. */
+.column__head > span:first-child,
+.measure__label > span:first-child {
+  font-weight: 600;
+  color: var(--ink);
 }
 
 /* ---------------------------------------------------------------- answers */
@@ -1313,18 +1377,19 @@ button {
   transform: rotate(-9deg);
 }
 
-/* Top corner, not the bottom one: the bottom-right of this box is now the
-   scroll fade, and a flower parked on it hides the very thing that says the
-   row keeps going. */
+/* Moved again, and for the same reason as before: the bottom-right of this box
+   is the scroll fade, and the top-right is now the scroll arrows. Both corners
+   on that side do work. The flower goes to the left gutter, where the mug used
+   to sit beside the mic and nothing else needs the room. */
 .sticker--hibiscus {
-  width: 58px;
-  right: -14px;
-  top: -20px;
-  transform: rotate(12deg);
+  width: 52px;
+  left: -26px;
+  top: 50%;
+  transform: translateY(-50%) rotate(-8deg);
 }
 
 .samples:hover .sticker--hibiscus {
-  transform: rotate(6deg) scale(1.05);
+  transform: translateY(-50%) rotate(-2deg) scale(1.05);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1589,6 +1654,26 @@ button {
   .samples__label {
     font-size: 0.58rem;
   }
+
+  /* The measure's heading is a two-item row: the title on the left, the reading
+     on the right. At this width the title wraps, and the reading sits beside
+     the wrapped block rather than after it, so the two texts weave together —
+     "the measure — tier 1 against a 200 ms / 230.9 ms / budget". Stacked, each
+     reads as itself. */
+  .measure__label {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.1rem;
+  }
+
+  /* The lane's total is drawn past the end of its bar, which runs off the
+     screen once the bar is nearly full. Inside the track, the number would sit
+     on the segments it is totalling; below it, it is clear of both. */
+  .measure__track {
+    margin-left: 2.6rem;
+    margin-right: 3.2rem;
+  }
+
 
   .measured {
     margin-top: 1.6rem;
