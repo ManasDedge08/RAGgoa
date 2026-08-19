@@ -249,8 +249,10 @@ export default function App() {
     <div className="shell">
       <header className="masthead hero">
         <BeachBand className="hero__band" />
-        {/* The same sky after dark. */}
-        {theme === "dark" ? <Moon className="hero__sun" /> : <Sun className="hero__sun" />}
+        {/* Both hang in the same spot the whole time. One is always the one
+            that is up; the swap is a set and a rise, not a replacement. */}
+        <Sun className="hero__sun hero__sun--day" />
+        <Moon className="hero__sun hero__sun--night" />
         <Palm className="palm palm--left" />
         <Palm className="palm palm--right" flip />
         <DrinkSticker className="sticker sticker--drink" />

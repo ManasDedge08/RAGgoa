@@ -12,15 +12,27 @@
  * before first paint, so a dark reader never sees a flash of the light page.
  */
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export type Theme = "light" | "dark";
 
 const STORAGE_KEY = "measure-theme";
 
 
-function apply(theme: Theme): void {
-  document.documentElement.setAttribute("data-theme", theme);
+/** How long the dusk lasts. Matches the CSS; kept here because the class has to
+ *  come off again once the colours have arrived. */
+const SHIFT_MS = 420;
+
+function apply(theme: Theme, animate: boolean): void {
+  const root = document.documentElement;
+  if (animate) {
+    // Transitions are switched on for the length of the change and no longer.
+    // Left on permanently they would follow every hover and focus around the
+    // page, and the point here is one moment, not a page that is always fading.
+    root.classList.add("theme-shifting");
+    window.setTimeout(() => root.classList.remove("theme-shifting"), SHIFT_MS);
+  }
+  root.setAttribute("data-theme", theme);
 }
 
 function stored(): Theme {
@@ -33,8 +45,13 @@ function stored(): Theme {
 export function useTheme() {
   const [theme, setTheme] = useState<Theme>(stored);
 
+  // First run is the page arriving, not a change: fading in from the wrong
+  // palette on load would be a flash of the other theme with extra steps.
+  const settled = useRef(false);
+
   useEffect(() => {
-    apply(theme);
+    apply(theme, settled.current);
+    settled.current = true;
     localStorage.setItem(STORAGE_KEY, theme);
   }, [theme]);
 

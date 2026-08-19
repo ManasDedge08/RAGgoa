@@ -214,6 +214,37 @@
   box-sizing: border-box;
 }
 
+/* Colour changes are carried by custom properties, which do not transition, so
+   the fade has to sit on the things that read them. Switched on only while the
+   theme is changing — see useTheme — because a page where every colour is
+   permanently 320ms behind the pointer feels slack on hover and focus.
+   
+   Inside a no-preference query rather than relying on the blanket
+   prefers-reduced-motion rule further down: this selector carries a class, so
+   it outranks that rule's bare `*` even though both are !important, and a
+   reader who asked for less motion would have got the one animation on the
+   page anyway. */
+@media (prefers-reduced-motion: no-preference) {
+.theme-shifting,
+.theme-shifting *,
+.theme-shifting *::before,
+.theme-shifting *::after {
+  transition:
+    background-color 320ms ease,
+    border-color 320ms ease,
+    color 320ms ease,
+    fill 320ms ease,
+    stroke 320ms ease,
+    outline-color 320ms ease,
+    /* The sky bodies cross on opacity and transform. Without them named here,
+       this rule's !important overrides the transition on .hero__sun for exactly
+       the window it exists to animate in, and the sun and moon snap while
+       everything around them fades. */
+    opacity 420ms ease,
+    transform 420ms ease !important;
+}
+}
+
 html,
 body {
   margin: 0;
@@ -1560,6 +1591,26 @@ button {
   top: 0.35rem;
   width: clamp(34px, 3.2vw, 46px);
   z-index: 0;
+  /* Both bodies occupy the same square; only one is ever lit. */
+  transition: opacity 420ms ease, transform 420ms ease;
+}
+
+/* Dusk: the sun settles a little as it goes and the moon comes up into its
+   place. Six pixels — enough to read as a set and a rise rather than a
+   dissolve, small enough that nothing else in the banner appears to move. */
+.hero__sun--night {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+
+:root[data-theme="dark"] .hero__sun--day {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+:root[data-theme="dark"] .hero__sun--night {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* The tagline is the one handwritten thing on the page. */
