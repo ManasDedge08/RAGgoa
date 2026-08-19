@@ -20,6 +20,14 @@ import type {
 } from "./types";
 
 const STATES = ["received", "transcribe", "guard", "retrieve", "tier1", "tier2", "speak", "done"];
+/** The people who built it. Profile URLs are kept bare — the share links these
+ *  came from carried utm parameters, which are tracking for whoever generated
+ *  them and no use to a reader. */
+const CREW = [
+  { name: "Manas Dedge", url: "https://www.linkedin.com/in/manas-dedge/" },
+  { name: "Rahul Kotyal", url: "https://www.linkedin.com/in/rahul-kotyal-279996220" },
+  { name: "Atharv Bhosale", url: "https://www.linkedin.com/in/atharvbhosale555" },
+] as const;
 /** Button face per theme: what you are on now, and what one click does next. */
 const THEME_LABEL: Record<string, { text: string; title: string }> = {
   light: { text: "theme · light", title: "Light theme — click for dark" },
@@ -574,6 +582,26 @@ export default function App() {
         error={raceError}
         query={lastQuery}
       />
+
+      {/* Who built it, above the machine facts rather than buried among them:
+          the colophon lists what the system is made of, and people are not a
+          dependency. */}
+      <section className="crew">
+        <h2 className="crew__label">meet the developers</h2>
+        <ul className="crew__list">
+          {CREW.map((person) => (
+            <li key={person.name}>
+              <a href={person.url} target="_blank" rel="noopener noreferrer">
+                {person.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <p className="crew__note">
+          Honourable mention: <strong>Claude</strong>, who wrote a good deal of
+          this and measured the rest.
+        </p>
+      </section>
 
       <footer className="colophon">
         <span>corpus: ai4bharat/MSMARCO-XI</span>

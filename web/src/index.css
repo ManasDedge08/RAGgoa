@@ -1321,6 +1321,77 @@ button {
 
 /* ---------------------------------------------------------------- footer */
 
+/* ------------------------------------------------------------------- crew --- */
+
+.crew {
+  margin-top: 3rem;
+  padding-top: 1.2rem;
+  border-top: var(--rule);
+}
+
+.crew__label {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 0 0 0.7rem;
+}
+
+.crew__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.crew__list a {
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-decoration: none;
+  /* The rule sits under the name rather than through it: the same hairline the
+     rest of the page hangs from, doing one more job. */
+  border-bottom: 2px solid var(--turmeric);
+  padding-bottom: 1px;
+  transition: color 120ms ease, border-color 120ms ease;
+}
+
+.crew__list a:hover {
+  color: var(--turmeric-ink);
+  border-color: var(--madder);
+}
+
+.crew__note {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--ink-soft);
+  margin: 0.8rem 0 0;
+}
+
+.crew__note strong {
+  color: var(--turmeric-ink);
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .crew {
+    margin-top: 2rem;
+  }
+
+  .crew__list {
+    gap: 0.6rem 1.4rem;
+  }
+
+  .crew__list a {
+    font-size: 0.95rem;
+  }
+}
+
 .colophon {
   margin-top: 3rem;
   padding-top: 1rem;
