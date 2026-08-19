@@ -7,7 +7,7 @@ import { TraceStream } from "./components/TraceStream";
 import { useAudioPlayer } from "./useAudioPlayer";
 import { useRecorder } from "./useRecorder";
 import { useTheme } from "./useTheme";
-import { BeachBand, Palm, Sun } from "./components/Scenery";
+import { BeachBand, Moon, Palm, Sun } from "./components/Scenery";
 import { DrinkSticker, HibiscusSticker } from "./components/Stickers";
 import { MicIcon } from "./components/MicIcon";
 import type {
@@ -249,7 +249,8 @@ export default function App() {
     <div className="shell">
       <header className="masthead hero">
         <BeachBand className="hero__band" />
-        <Sun className="hero__sun" />
+        {/* The same sky after dark. */}
+        {theme === "dark" ? <Moon className="hero__sun" /> : <Sun className="hero__sun" />}
         <Palm className="palm palm--left" />
         <Palm className="palm palm--right" flip />
         <DrinkSticker className="sticker sticker--drink" />

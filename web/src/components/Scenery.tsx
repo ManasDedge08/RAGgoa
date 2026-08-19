@@ -138,6 +138,31 @@ export function BeachBand({ className }: { className?: string }) {
   );
 }
 
+/** The moon, for the same sky after dark.
+ *
+ *  A crescent and nothing else. The sun is a disc and twelve strokes, so this
+ *  has to be as plain — craters or a scatter of stars would make the night
+ *  fussier than the day, and this is scenery, not the point of the page.
+ *
+ *  Not amber. In the dark palette --ink is the lime-wash ivory the type is set
+ *  in, which is what moonlight over this beach would be; keeping the sun's
+ *  amber here would read as a sun that had lost its rays. The crescent is cut
+ *  by a second circle rather than drawn as an arc, so the lit limb keeps the
+ *  same radius as the sun's disc and the two swap without the banner shifting.
+ */
+export function Moon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+      <mask id="moon-bite">
+        <rect x="0" y="0" width="100" height="100" fill="black" />
+        <circle cx="50" cy="50" r="23" fill="white" />
+        <circle cx="62" cy="43" r="20" fill="black" />
+      </mask>
+      <rect x="0" y="0" width="100" height="100" fill="var(--ink)" mask="url(#moon-bite)" />
+    </svg>
+  );
+}
+
 /** The sun. Kept out of the band so it can sit at a fixed size, not stretched. */
 export function Sun({ className }: { className?: string }) {
   const rays = Array.from({ length: 12 }, (_, i) => {
