@@ -1,10 +1,13 @@
-# The Measure — voice RAG over MS MARCO-XI
+# Peoples — voice RAG over MS MARCO-XI
 
 Ask a question out loud in **any of eleven Indian languages** — English, Hindi,
 Bengali, Tamil, Telugu, Marathi, Gujarati, Kannada, Malayalam, Punjabi or Odia.
-An extractive answer comes back inside a 200 ms budget and is shown against it.
-A synthesised spoken answer follows a moment later, checked against the
-retrieved passages before it is allowed to speak.
+An extractive answer comes back inside a 200 ms budget and is shown against it
+— 99 ms median on the deployed instance, of which retrieval is about 19 ms, the
+relevance gate most of the rest, and pulling the span out of the passage costs
+under a hundredth of a millisecond. A synthesised spoken answer follows a
+moment later, checked against the retrieved passages before it is allowed to
+speak, and is never folded into that number.
 
 Built on [`ai4bharat/MSMARCO-XI`](https://huggingface.co/datasets/ai4bharat/MSMARCO-XI),
 with Sarvam AI for speech in, speech out, and generation.
@@ -298,9 +301,32 @@ Every answer endpoint emits the same event vocabulary: `state`, `transcript`,
 
 ## Deploying
 
-**API → any box with 4 GB and a real core.** The service runs from a checkout
-plus the built index; the `Dockerfile` bakes both into an image if you would
-rather deploy that way. `SARVAM_API_KEY` goes in the environment.
+This is deployed, and these are the machine and the steps it actually runs on.
+
+**Where it runs.** An Azure `Standard_B4as_v2` — 4 vCPU, 16 GiB — in Central
+India, Ubuntu 24.04, serving the full eleven-language corpus with the relevance
+gate on. `ufw` allows 22, 80 and 443 only. uvicorn binds to loopback and
+systemd keeps it up (`TimeoutStartSec=300`, because startup loads the encoder
+and the gate's cross-encoder before the first request); Caddy terminates TLS in
+front of it and proxies with `flush_interval -1`, without which the
+server-sent-event trace arrives in one lump at the end instead of streaming.
+Region matters more than it looks: the server calls Sarvam for speech and Tier
+2, so hosting outside India adds a round trip to every one of those.
+
+The index is not rebuilt on the server. The 2 GB of `data/index/` is copied up
+and the checkout points at it, which takes the deploy from a two-hour build to a
+file transfer.
+
+`SARVAM_API_KEY` goes in `.env` on the box, mode 600. The demo endpoints are
+rate limited per client IP — 12 a minute, 120 an hour — because the URL is
+public, the API has no authentication, and every answered turn spends speech and
+generation credit. Set `RAG_TRUST_PROXY=1` when something terminates TLS in
+front, or every caller is counted as 127.0.0.1 and one visitor locks out the
+rest.
+
+**A note on `render.yaml`.** It is kept as a documented dead end rather than a
+recommendation: Render's free plan cannot run this at any corpus size, and the
+file says why. See the memory table below.
 
 Memory is the binding constraint, so here is the measurement rather than a
 guess — staged, peak RSS, taken by loading the process one piece at a time:
@@ -341,10 +367,12 @@ CPU is the second constraint and is easy to miss behind the memory one. Tier 1
 is a forward pass plus FAISS and BM25 over half a million vectors; on a tenth of
 a vCPU that is seconds, not milliseconds, whatever the corpus size.
 
-**UI → Vercel, or the same box.** Deploy `web/` with `VITE_API_BASE` pointing at
-the API. Alternatively skip Vercel entirely: the API serves `web/dist` at `/`
-when it exists, which keeps everything on one origin and removes CORS from the
-picture.
+**The UI ships on the same box.** The API serves `web/dist` at `/` when it
+exists, so there is one origin, no CORS, and one thing to keep alive. Deploying
+`web/` separately — to Vercel or anywhere else — still works with
+`VITE_API_BASE` pointed at the API, but then the API needs its own certificate
+regardless: a page served over HTTPS cannot call an `http://` origin, and the
+microphone needs a secure context to exist at all.
 
 ### Using the microphone from another machine
 
