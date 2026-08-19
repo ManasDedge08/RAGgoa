@@ -885,6 +885,16 @@ button {
   cursor: default;
 }
 
+.samples__arrow .is-spinning {
+  animation: spin 700ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .chip {
   font-family: var(--indic);
   font-size: 0.86rem;

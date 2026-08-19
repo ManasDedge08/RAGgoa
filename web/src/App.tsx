@@ -109,6 +109,7 @@ export default function App() {
   // reach it. These two track whether there is anything left to reach.
   const stripRef = useRef<HTMLDivElement>(null);
   const [stripAt, setStripAt] = useState({ start: true, end: true });
+  const [refreshing, setRefreshing] = useState(false);
 
   // Display names come from /meta so adding a language to the corpus needs no
   // frontend change.
@@ -206,6 +207,22 @@ export default function App() {
     window.addEventListener("resize", readStrip);
     return () => window.removeEventListener("resize", readStrip);
   }, [readStrip, samples]);
+
+  const refreshSamples = useCallback(() => {
+    setRefreshing(true);
+    fetchSamples()
+      .then(setSamples)
+      .catch(() => {
+        /* Keep the questions already on screen: a failed refresh should cost
+           the reader nothing they had. */
+      })
+      .finally(() => {
+        setRefreshing(false);
+        // Back to the first question, or the new row starts mid-scroll and
+        // looks like it lost the ones before it.
+        stripRef.current?.scrollTo({ left: 0, behavior: "auto" });
+      });
+  }, []);
 
   const nudgeStrip = useCallback((direction: 1 | -1) => {
     const el = stripRef.current;
@@ -403,6 +420,15 @@ export default function App() {
                     is our word for it, not the reader's. */}
                 <span className="samples__label">tap any question to ask it</span>
                 <div className="samples__nav">
+                  <button
+                    className="samples__arrow"
+                    onClick={refreshSamples}
+                    disabled={refreshing}
+                    aria-label="Draw eleven new questions from the corpus"
+                    title="Draw eleven new questions from the corpus"
+                  >
+                    <Refresh spinning={refreshing} />
+                  </button>
                   <button
                     className="samples__arrow"
                     onClick={() => nudgeStrip(-1)}
@@ -610,6 +636,27 @@ export default function App() {
         <span>tier 2: sarvam-105b-conversations</span>
       </footer>
     </div>
+  );
+}
+
+/** A ring left open where the arrowhead sits, so the shape reads as a cycle
+ *  rather than a circle. Spins only while a draw is in flight. */
+function Refresh({ spinning }: { spinning?: boolean }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      focusable="false"
+      className={spinning ? "is-spinning" : undefined}
+    >
+      <path d="M20 12a8 8 0 1 1-2.3-5.6" />
+      <path d="M20 4v4.6h-4.6" />
+    </svg>
   );
 }
 

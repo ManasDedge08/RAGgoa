@@ -189,10 +189,23 @@ async def meta() -> dict:
     }
 
 
+# Read once. The file cannot change while the process runs, and this endpoint
+# is now a button rather than a page-load, so re-reading and converting 13,200
+# rows per press would be work done to produce the same list of rows every time.
+_sample_rows: list[tuple] | None = None
+
+
+def _query_rows() -> list[tuple]:
+    global _sample_rows
+    if _sample_rows is None:
+        table = pq.read_table(CORPUS_DIR / "queries.parquet").to_pydict()
+        _sample_rows = list(zip(table["query_id"], table["lang"], table["text"]))
+    return _sample_rows
+
+
 @app.get("/sample-queries")
 async def sample_queries(n: int = 4) -> dict:
-    table = pq.read_table(CORPUS_DIR / "queries.parquet").to_pydict()
-    rows = list(zip(table["query_id"], table["lang"], table["text"]))
+    rows = list(_query_rows())
     rng = random.Random()
     by_lang: dict[str, list[dict]] = {}
     rng.shuffle(rows)
