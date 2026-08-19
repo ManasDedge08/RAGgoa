@@ -152,6 +152,26 @@ SARVAM_RETRIES = int(os.getenv("SARVAM_RETRIES", "2"))
 # chat providers, so the retrieval demo is never blocked on credentials.
 MOCK_VOICE = os.getenv("RAG_MOCK_VOICE", "") == "1" or not SARVAM_API_KEY
 
+# ------------------------------------------------------------- rate limits ---
+# The deployed demo answers from a public URL with no authentication, and every
+# answered turn spends Sarvam credit: speech in, speech out, and a Tier 2
+# generation. Anything that finds the host — a scanner, a shared link, a stuck
+# retry loop — could empty the account while nobody is watching. The expensive
+# endpoints are therefore capped per client IP. Health, meta and the sample
+# questions are left uncapped: they cost nothing and the UI needs them on load.
+RATE_LIMIT_ENABLED = os.getenv("RAG_RATE_LIMIT", "1") == "1"
+# Someone demonstrating this asks a handful of questions a minute. Well past
+# that is a script, not a person.
+RATE_LIMIT_PER_MINUTE = int(os.getenv("RAG_RATE_LIMIT_PER_MINUTE", "12"))
+# The hourly cap is the one that protects the bill. A drip that stays under the
+# per-minute limit would still drain the key overnight.
+RATE_LIMIT_PER_HOUR = int(os.getenv("RAG_RATE_LIMIT_PER_HOUR", "120"))
+# With TLS terminated by a reverse proxy on the same host, every socket appears
+# to come from 127.0.0.1 and the real caller is in X-Forwarded-For. Trusting
+# that header is only safe when something in front is actually setting it, so
+# it is a switch rather than an assumption.
+RATE_LIMIT_TRUST_PROXY = os.getenv("RAG_TRUST_PROXY", "1") == "1"
+
 # When retrieval finds nothing, may the model answer from its own knowledge?
 # Off by default: refusing is the behaviour the guardrails are judged on, and an
 # unsourced answer is a different product promise. Callers opt in per request,

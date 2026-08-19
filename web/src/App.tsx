@@ -8,7 +8,8 @@ import { useAudioPlayer } from "./useAudioPlayer";
 import { useRecorder } from "./useRecorder";
 import { useTheme } from "./useTheme";
 import { BeachBand, Palm, Sun } from "./components/Scenery";
-import { DrinkSticker, HibiscusSticker, MugSticker } from "./components/Stickers";
+import { DrinkSticker, HibiscusSticker } from "./components/Stickers";
+import { MicIcon } from "./components/MicIcon";
 import type {
   CandidateDto,
   ConfidenceDto,
@@ -234,7 +235,7 @@ export default function App() {
           {meta
             ? meta.languages.map((l, i) => (
                 <span key={l.code} className="masthead__lang">
-                  {i > 0 && <span aria-hidden="true">·</span>}
+                  {i > 0 && <span aria-hidden="true"> · </span>}
                   {l.name}
                 </span>
               ))
@@ -242,252 +243,271 @@ export default function App() {
         </p>
       </header>
 
-      <Percentiles
-        tier1={tier1Times}
-        tier2={tier2Times}
-        targetMs={meta?.tier1_target_ms ?? 200}
-      />
+      {/* Above the fold: the answer and what retrieval saw, then the
+          controls that produce them. The measurements moved below, where
+          they are read after a question rather than before one. */}
+      <main className="landing">
+        <div className="board">
+          <section>
+            <div className="column__head">
+              <span>the answer</span>
+              <span>{turn.tier1 ? langLabel(turn.queryLang) : ""}</span>
+            </div>
 
-      <Measure
-        stages={turn.stages}
-        tier1Total={turn.tier1?.total ?? null}
-        naiveTotal={race?.naive.total_ms ?? null}
-        targetMs={meta?.tier1_target_ms ?? 200}
-      />
+            <div className="turnstate">
+              {STATES.map((state) => (
+                <span
+                  className="turnstate__step"
+                  key={state}
+                  data-active={activeState === state}
+                  data-terminal={["degraded", "refused", "failed"].includes(activeState) && state === "done" ? activeState : undefined}
+                >
+                  {state}
+                </span>
+              ))}
+            </div>
 
-      {meta?.mock_voice && (
-        <p className="notice">
-          Voice services are stubbed: no Sarvam API key on the server. Retrieval, timing and the
-          trace are real; speech in, speech out and Tier 2 text are placeholders.
-        </p>
-      )}
-      {turn.detection?.ambiguous && (
-        <p className="notice">
-          <strong>{turn.detection.script}</strong> is written by more than one language here, so
-          the script alone cannot say which you meant. Answering as{" "}
-          <strong>{langLabel(turn.queryLang)}</strong>. Ask again as:{" "}
-          {turn.detection.alternatives.map((code) => (
-            <button
-              key={code}
-              className="chip chip--inline"
-              onClick={() =>
-                submitText(
-                  turn.transcript || lastQuery,
-                  meta?.languages.find((l) => l.code === code)?.sarvam,
-                )
-              }
-            >
-              {langLabel(code)}
-            </button>
-          ))}{" "}
-          Speaking the question avoids the guess entirely — Sarvam returns the language.
-        </p>
-      )}
-      {turn.noVoice && (
-        <p className="notice">
-          {langLabel(turn.queryLang)} has speech recognition but no Sarvam voice, so this answer is
-          text only.
-        </p>
-      )}
-      {player.blocked && (
-        <p className="notice">
-          The browser blocked audio that it did not start itself.{" "}
-          <button className="chip chip--inline" onClick={player.playPending}>
-            Play the answer
-          </button>
-        </p>
-      )}
-      {recorder.error && <p className="notice notice--error">{recorder.error}</p>}
-      {turn.errors.map((message) => (
-        <p className="notice notice--error" key={message}>
-          {message}
-        </p>
-      ))}
+            <div className="transcript" data-empty={!turn.transcript}>
+              {turn.transcript || "Transcript appears here as Sarvam returns it."}
+            </div>
 
-      <div className="ask">
-        <MugSticker className="sticker sticker--mug" />
-        <button
-          className="mic"
-          data-recording={recorder.recording}
-          onClick={toggleMic}
-          disabled={busy && !recorder.recording}
-        >
-          <span className="mic__pulse" />
-          {recorder.recording ? "Stop and ask" : "Ask out loud"}
-        </button>
+            {turn.refusal && (
+              <article className="answer">
+                <div className="answer__meta">
+                  <span className="badge badge--refuse">refused</span>
+                  <span>{turn.guardrail?.reason}</span>
+                </div>
+                <p className="answer__body">{turn.refusal}</p>
+              </article>
+            )}
 
-        <form
-          className="ask__field"
-          onSubmit={(event) => {
-            event.preventDefault();
-            submitText(text);
-          }}
-        >
-          <input
-            value={text}
-            onChange={(event) => setText(event.target.value)}
-            placeholder="…or type the question"
-            aria-label="Question"
-          />
-          <button type="submit" disabled={busy}>
-            Ask
-          </button>
-        </form>
+            {turn.tier1 && (
+              <article className="answer">
+                <div className="answer__meta">
+                  <span className="answer__stamp">tier 1 · {turn.tier1.total.toFixed(1)} ms</span>
+                  <span>extractive, grounded by construction</span>
+                  <span className={`badge badge--${turn.tier1.tier}`}>{turn.tier1.tier} confidence</span>
+                  {turn.tier1.crossLingual && (
+                    <span className="badge badge--cross">
+                      source: {langLabel(turn.tier1.sourceLang)}
+                    </span>
+                  )}
+                </div>
+                <p className="answer__body">{turn.tier1.text}</p>
+              </article>
+            )}
 
-        <div className="modes" role="group" aria-label="Language routing">
-          {langModes(meta?.languages.length ?? 0).map(({ mode, label, hint }) => (
-            <button
-              key={mode}
-              aria-pressed={langMode === mode}
-              onClick={() => setLangMode(mode)}
-              title={hint}
-            >
-              {label}
-            </button>
-          ))}
-          <button aria-pressed={speak} onClick={() => setSpeak((value) => !value)}>
-            {speak ? "voice on" : "voice off"}
-          </button>
-          <button
-            aria-pressed={allowUnsourced}
-            onClick={() => setAllowUnsourced((value) => !value)}
-            title="If the corpus has no answer, let the model answer from its own knowledge — clearly marked as unsourced"
-          >
-            general knowledge
-          </button>
-          <button
-            aria-pressed={crossEncode}
-            onClick={() => setCrossEncode((value) => !value)}
-            title="Re-score the top 10 with a cross-encoder: better ranking, ~70 ms more"
-          >
-            precision
-          </button>
+            {(turn.unsourced || turn.unsourcedDone) && (
+              <article className="answer answer--unsourced">
+                <div className="answer__meta">
+                  <span className="badge badge--unsourced">not from the corpus</span>
+                  <span>the model's own knowledge — nothing was retrieved to check it against</span>
+                </div>
+                <p className="answer__body">{turn.unsourced}</p>
+              </article>
+            )}
+
+            {(turn.tier2 || turn.tier2Done) && (
+              <article className={`answer answer--tier2 ${busy && !turn.tier2Done ? "answer--streaming" : ""}`}>
+                <div className="answer__meta">
+                  <span>tier 2 · synthesised</span>
+                  <span>
+                    {turn.tier2Done?.latency
+                      ? `${(turn.tier2Done.latency / 1000).toFixed(2)} s — outside the budget by design`
+                      : "streaming…"}
+                  </span>
+                  {turn.tier2Done?.grounding && (
+                    <span
+                      className={`badge badge--${turn.tier2Done.grounding.supported ? "high" : "refuse"}`}
+                    >
+                      {turn.tier2Done.grounding.supported ? "grounded" : "unsupported"} · lex{" "}
+                      {turn.tier2Done.grounding.lexical.toFixed(2)} · sem{" "}
+                      {turn.tier2Done.grounding.semantic.toFixed(2)}
+                    </span>
+                  )}
+                  {turn.tier2Done?.usedFallback && (
+                    <span className="badge badge--low">fell back to tier 1</span>
+                  )}
+                </div>
+                <p className="answer__body">{turn.tier2 || turn.tier2Done?.error}</p>
+              </article>
+            )}
+          </section>
+
+          <section>
+            <div className="column__head">
+              <span>what retrieval saw</span>
+              <span>
+                {turn.confidence
+                  ? `confidence ${turn.confidence.score.toFixed(2)} · agreement ${(turn.confidence.agreement * 5).toFixed(0)}/5`
+                  : ""}
+              </span>
+            </div>
+            <TraceStream
+              candidates={turn.candidates}
+              queryLang={turn.queryLang}
+              live={busy}
+              langLabel={langLabel}
+            />
+          </section>
         </div>
-      </div>
 
-      {sampleChips.length > 0 && (
-        <div className="samples">
-          <HibiscusSticker className="sticker sticker--hibiscus" />
-          <span className="samples__label">real questions from the corpus</span>
-          {sampleChips.map((chip) => (
+        {/* One deck. The corpus samples and the routing pills ride the top
+            row, the two ways to ask sit under them. Source order is the phone's
+            order; the desktop's two columns are grid areas over the top of it. */}
+        <div className="ask">
+          {sampleChips.length > 0 && (
+            <div className="samples">
+              <HibiscusSticker className="sticker sticker--hibiscus" />
+              <span className="samples__label">real questions from the corpus</span>
+              {/* One row that scrolls rather than a grid that grows: eleven
+                  languages wrap to three rows at this width, and the deck has to
+                  stay the height of the pills beside it. */}
+              <div className="samples__strip">
+                {sampleChips.map((chip) => (
+                  <button
+                    className="chip"
+                    key={`${chip.lang}-${chip.query_id}`}
+                    onClick={() => {
+                      setText(chip.text);
+                      submitText(chip.text);
+                    }}
+                  >
+                    {chip.text}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="modes" role="group" aria-label="Language routing">
+            {langModes(meta?.languages.length ?? 0).map(({ mode, label, hint }) => (
+              <button
+                key={mode}
+                aria-pressed={langMode === mode}
+                onClick={() => setLangMode(mode)}
+                title={hint}
+              >
+                {label}
+              </button>
+            ))}
+            <button aria-pressed={speak} onClick={() => setSpeak((value) => !value)}>
+              {speak ? "voice on" : "voice off"}
+            </button>
             <button
-              className="chip"
-              key={`${chip.lang}-${chip.query_id}`}
-              onClick={() => {
-                setText(chip.text);
-                submitText(chip.text);
+              aria-pressed={allowUnsourced}
+              onClick={() => setAllowUnsourced((value) => !value)}
+              title="If the corpus has no answer, let the model answer from its own knowledge — clearly marked as unsourced"
+            >
+              general knowledge
+            </button>
+            <button
+              aria-pressed={crossEncode}
+              onClick={() => setCrossEncode((value) => !value)}
+              title="Re-score the top 10 with a cross-encoder: better ranking, ~70 ms more"
+            >
+              precision
+            </button>
+          </div>
+
+        {/* Both ways of asking share one row so the field can take every
+            pixel the mic does not, rather than stopping at the column
+            above it. */}
+        <div className="asker">
+            <button
+              className="mic"
+              data-recording={recorder.recording}
+              onClick={toggleMic}
+              disabled={busy && !recorder.recording}
+            >
+              <MicIcon className="mic__icon" />
+              {recorder.recording ? "Stop and ask" : "Ask out loud"}
+            </button>
+
+            <form
+              className="ask__field"
+              onSubmit={(event) => {
+                event.preventDefault();
+                submitText(text);
               }}
             >
-              {chip.text}
-            </button>
-          ))}
+              <input
+                value={text}
+                onChange={(event) => setText(event.target.value)}
+                placeholder="…or type the question"
+                aria-label="Question"
+              />
+              <button type="submit" disabled={busy}>
+                Ask
+              </button>
+            </form>
         </div>
-      )}
+        </div>
 
-      <div className="board">
-        <section>
-          <div className="column__head">
-            <span>the answer</span>
-            <span>{turn.tier1 ? langLabel(turn.queryLang) : ""}</span>
-          </div>
-
-          <div className="turnstate">
-            {STATES.map((state) => (
-              <span
-                className="turnstate__step"
-                key={state}
-                data-active={activeState === state}
-                data-terminal={["degraded", "refused", "failed"].includes(activeState) && state === "done" ? activeState : undefined}
+        {meta?.mock_voice && (
+          <p className="notice">
+            Voice services are stubbed: no Sarvam API key on the server. Retrieval, timing and the
+            trace are real; speech in, speech out and Tier 2 text are placeholders.
+          </p>
+        )}
+        {turn.detection?.ambiguous && (
+          <p className="notice">
+            <strong>{turn.detection.script}</strong> is written by more than one language here, so
+            the script alone cannot say which you meant. Answering as{" "}
+            <strong>{langLabel(turn.queryLang)}</strong>. Ask again as:{" "}
+            {turn.detection.alternatives.map((code) => (
+              <button
+                key={code}
+                className="chip chip--inline"
+                onClick={() =>
+                  submitText(
+                    turn.transcript || lastQuery,
+                    meta?.languages.find((l) => l.code === code)?.sarvam,
+                  )
+                }
               >
-                {state}
-              </span>
-            ))}
-          </div>
+                {langLabel(code)}
+              </button>
+            ))}{" "}
+            Speaking the question avoids the guess entirely — Sarvam returns the language.
+          </p>
+        )}
+        {turn.noVoice && (
+          <p className="notice">
+            {langLabel(turn.queryLang)} has speech recognition but no Sarvam voice, so this answer is
+            text only.
+          </p>
+        )}
+        {player.blocked && (
+          <p className="notice">
+            The browser blocked audio that it did not start itself.{" "}
+            <button className="chip chip--inline" onClick={player.playPending}>
+              Play the answer
+            </button>
+          </p>
+        )}
+        {recorder.error && <p className="notice notice--error">{recorder.error}</p>}
+        {turn.errors.map((message) => (
+          <p className="notice notice--error" key={message}>
+            {message}
+          </p>
+        ))}
+      </main>
 
-          <div className="transcript" data-empty={!turn.transcript}>
-            {turn.transcript || "Transcript appears here as Sarvam returns it."}
-          </div>
+      <section className="measured">
+        <Percentiles
+          tier1={tier1Times}
+          tier2={tier2Times}
+          targetMs={meta?.tier1_target_ms ?? 200}
+        />
 
-          {turn.refusal && (
-            <article className="answer">
-              <div className="answer__meta">
-                <span className="badge badge--refuse">refused</span>
-                <span>{turn.guardrail?.reason}</span>
-              </div>
-              <p className="answer__body">{turn.refusal}</p>
-            </article>
-          )}
-
-          {turn.tier1 && (
-            <article className="answer">
-              <div className="answer__meta">
-                <span className="answer__stamp">tier 1 · {turn.tier1.total.toFixed(1)} ms</span>
-                <span>extractive, grounded by construction</span>
-                <span className={`badge badge--${turn.tier1.tier}`}>{turn.tier1.tier} confidence</span>
-                {turn.tier1.crossLingual && (
-                  <span className="badge badge--cross">
-                    source: {langLabel(turn.tier1.sourceLang)}
-                  </span>
-                )}
-              </div>
-              <p className="answer__body">{turn.tier1.text}</p>
-            </article>
-          )}
-
-          {(turn.unsourced || turn.unsourcedDone) && (
-            <article className="answer answer--unsourced">
-              <div className="answer__meta">
-                <span className="badge badge--unsourced">not from the corpus</span>
-                <span>the model's own knowledge — nothing was retrieved to check it against</span>
-              </div>
-              <p className="answer__body">{turn.unsourced}</p>
-            </article>
-          )}
-
-          {(turn.tier2 || turn.tier2Done) && (
-            <article className={`answer answer--tier2 ${busy && !turn.tier2Done ? "answer--streaming" : ""}`}>
-              <div className="answer__meta">
-                <span>tier 2 · synthesised</span>
-                <span>
-                  {turn.tier2Done?.latency
-                    ? `${(turn.tier2Done.latency / 1000).toFixed(2)} s — outside the budget by design`
-                    : "streaming…"}
-                </span>
-                {turn.tier2Done?.grounding && (
-                  <span
-                    className={`badge badge--${turn.tier2Done.grounding.supported ? "high" : "refuse"}`}
-                  >
-                    {turn.tier2Done.grounding.supported ? "grounded" : "unsupported"} · lex{" "}
-                    {turn.tier2Done.grounding.lexical.toFixed(2)} · sem{" "}
-                    {turn.tier2Done.grounding.semantic.toFixed(2)}
-                  </span>
-                )}
-                {turn.tier2Done?.usedFallback && (
-                  <span className="badge badge--low">fell back to tier 1</span>
-                )}
-              </div>
-              <p className="answer__body">{turn.tier2 || turn.tier2Done?.error}</p>
-            </article>
-          )}
-        </section>
-
-        <section>
-          <div className="column__head">
-            <span>what retrieval saw</span>
-            <span>
-              {turn.confidence
-                ? `confidence ${turn.confidence.score.toFixed(2)} · agreement ${(turn.confidence.agreement * 5).toFixed(0)}/5`
-                : ""}
-            </span>
-          </div>
-          <TraceStream
-            candidates={turn.candidates}
-            queryLang={turn.queryLang}
-            live={busy}
-            langLabel={langLabel}
-          />
-        </section>
-      </div>
+        <Measure
+          stages={turn.stages}
+          tier1Total={turn.tier1?.total ?? null}
+          naiveTotal={race?.naive.total_ms ?? null}
+          targetMs={meta?.tier1_target_ms ?? 200}
+        />
+      </section>
 
       <Race
         result={race}

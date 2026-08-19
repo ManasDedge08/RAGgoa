@@ -72,6 +72,11 @@
   --mono: "IBM Plex Mono", ui-monospace, monospace;
 
   --gap: clamp(1rem, 2.2vw, 2rem);
+  /* Distance from the window edge to the content column. The shell is a
+     centred 1320px column with --gap gutters; anything absolutely positioned
+     in the full-bleed banner needs this to line up with it, because a
+     percentage there resolves against the viewport, not the column. */
+  --edge: max(var(--gap), calc((100vw - 1320px) / 2 + var(--gap)));
   --measure-h: 64px;
 }
 
@@ -255,7 +260,7 @@ button {
 /* ---------------------------------------------------------------- masthead */
 
 .masthead {
-  padding-top: clamp(1.5rem, 4vw, 3rem);
+  padding-top: clamp(0.7rem, 1.6vw, 1.2rem);
 }
 
 .masthead__eyebrow {
@@ -266,8 +271,11 @@ button {
   color: var(--ink-soft);
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem 1.25rem;
-  margin-bottom: 0.75rem;
+  gap: 0.3rem 1.25rem;
+  margin-bottom: 0.4rem;
+  /* Clearance for the sun, which owns the corner above the figures. The
+     control is metadata and sits inside that column; the sun is not. */
+  padding-right: clamp(2.75rem, 4vw, 3.75rem);
 }
 
 /* The theme control sits in the eyebrow rather than floating over a corner:
@@ -292,28 +300,36 @@ button {
   border-color: var(--indigo);
 }
 
-/* Wordmark and figures hang off one baseline, so the right half of the
-   masthead carries data instead of air. */
+/* Wordmark, tagline and figures sit on one baseline rather than on one bottom
+   edge: `flex-end` lined up the boxes, which left three different type sizes
+   floating at three different heights. */
 .masthead__lockup {
   display: flex;
-  align-items: flex-end;
+  align-items: baseline;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 0.5rem 2rem;
+  gap: 0.4rem 2rem;
 }
 
 .masthead__title {
-  font-size: clamp(2.6rem, 7.5vw, 5.6rem);
+  /* Down from 5.6rem at the top end. The banner has to leave the answer and
+     the controls inside one laptop viewport, and the wordmark was the largest
+     single claim on that space. */
+  font-size: clamp(1.9rem, 5vw, 3.5rem);
   font-weight: 800;
   line-height: 0.92;
   letter-spacing: -0.035em;
   margin: 0;
 }
 
+/* Flush to the same right edge as the sun above it and the theme control, so
+   the banner has one right-hand column instead of three loose objects. */
 .masthead__figures {
   display: flex;
   gap: 1.75rem;
   margin: 0;
+  margin-left: auto;
+  text-align: right;
 }
 
 .masthead__figures dt {
@@ -322,11 +338,12 @@ button {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--ink-soft);
+  line-height: 1.2;
 }
 
 .masthead__figures dd {
-  margin: 0.1rem 0 0;
-  font-size: 1.5rem;
+  margin: 0.05rem 0 0;
+  font-size: clamp(1rem, 1.6vw, 1.25rem);
   font-weight: 600;
   letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
@@ -336,15 +353,17 @@ button {
   position: relative;
   z-index: 1;
   font-family: var(--indic);
-  font-size: 0.9rem;
+  font-size: clamp(0.7rem, 1.05vw, 0.82rem);
   color: var(--ink-soft);
-  margin: 0.9rem 0 1.5rem;
+  margin: 0.5rem 0 0.55rem;
   max-width: 74ch;
 }
 
+/* The separator holds the only break opportunity in the row, so it keeps its
+   spaces: padding alone gives the line nowhere to wrap. */
 .masthead__lang span {
   color: var(--turmeric-ink);
-  padding: 0 0.4rem;
+  padding: 0 0.15rem;
 }
 
 /* The full stop is the whole logo. Amber rather than tile blue: it is the one
@@ -584,14 +603,48 @@ button {
 
 /* --------------------------------------------------------------- ask panel */
 
+/* The deck: two rows, two columns. Corpus questions and routing pills on top,
+   the two ways to ask underneath — the mic under the questions it answers, the
+   field under the pills that route it. Grid areas rather than source order, so
+   the phone restacks without moving a line of JSX. */
 .ask {
   position: relative;
   display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 0.75rem;
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+  grid-template-areas:
+    "samples modes"
+    "asker   asker";
+  gap: 0.7rem var(--gap);
   align-items: stretch;
-  padding: 1.1rem 0;
+  padding: 0.9rem 0 1.1rem;
   border-bottom: var(--rule);
+}
+
+.samples {
+  grid-area: samples;
+}
+
+.modes {
+  grid-area: modes;
+}
+
+/* The mic takes what it needs and the field takes the rest: at the old width
+   it stopped under the pills, leaving the space beside the mic empty. */
+.asker {
+  grid-area: asker;
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: var(--gap);
+}
+
+.mic {
+  flex: 0 0 auto;
+}
+
+.ask__field {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .mic {
@@ -622,21 +675,18 @@ button {
   cursor: not-allowed;
 }
 
-/* Amber at rest — the same drop as the wordmark's full stop, and the only
-   warm point in the control row. It gives way to the button's own colour once
+/* Amber at rest — the same drop as the wordmark's full stop, and the only warm
+   point in the control row. It gives way to the button's own colour once
    recording, where amber on laterite would go muddy. */
-.mic__pulse {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--turmeric);
+.mic__icon {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+  color: var(--turmeric);
 }
 
-.mic[data-recording="true"] .mic__pulse {
-  background: currentColor;
-}
-
-.mic[data-recording="true"] .mic__pulse {
+.mic[data-recording="true"] .mic__icon {
+  color: currentColor;
   animation: pulse 1s ease-in-out infinite;
 }
 
@@ -688,24 +738,37 @@ button {
   background: var(--indigo-wash);
 }
 
+/* Six pills as three columns by two rows. Hairlines are drawn per cell rather
+   than with `button + button`, which in a grid would rule the start of every
+   row instead of the gaps between columns. */
 .modes {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* 44px is the floor for a thumb, and it is the floor here even on a mouse:
+     the row has to match the samples box beside it either way. */
+  grid-auto-rows: minmax(44px, 1fr);
   border: var(--rule);
 }
 
 .modes button {
   border: 0;
   background: transparent;
-  padding: 0 0.85rem;
+  padding: 0.45rem 0.6rem;
   font-family: var(--mono);
-  font-size: 0.68rem;
+  font-size: clamp(0.58rem, 1.05vw, 0.68rem);
+  line-height: 1.25;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ink-soft);
+  text-wrap: balance;
 }
 
-.modes button + button {
+.modes button:not(:nth-child(3n + 1)) {
   border-left: var(--hair);
+}
+
+.modes button:nth-child(n + 4) {
+  border-top: var(--hair);
 }
 
 .modes button[aria-pressed="true"] {
@@ -716,10 +779,33 @@ button {
 .samples {
   position: relative;
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
+  flex-direction: column;
+  gap: 0.45rem;
+  min-width: 0;
   padding: 0.8rem 0;
-  border-bottom: var(--rule);
+}
+
+/* One row that scrolls, not a grid that grows. Eleven languages wrapped to
+   three rows here, which is what pushed the answer off the first screen. */
+.samples__strip {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.4rem;
+  min-width: 0;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  padding-bottom: 0.35rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--tile) transparent;
+  /* The row fades out at its right edge instead of ending flush against the
+     frame: the half-seen chip is what says it keeps going. */
+  mask-image: linear-gradient(to right, #000 calc(100% - 2.75rem), transparent);
+}
+
+.samples__strip > .chip {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
 }
 
 .samples__label {
@@ -728,8 +814,7 @@ button {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--ink-soft);
-  align-self: center;
-  margin-right: 0.4rem;
+  align-self: start;
 }
 
 .chip {
@@ -755,13 +840,80 @@ button {
   border-color: var(--indigo);
 }
 
+/* Above the fold. The banner, the two panels, and the deck have to fit one
+   laptop screen between them; everything measured moved below the fold, where
+   it is read after a question rather than before one. */
+/* The landing owns the first screen: tall enough to reach the fold, with the
+   banner's height taken off the top. The measurements then begin exactly where
+   the screen ends, instead of peeking over the edge on load. */
+.landing {
+  display: flex;
+  flex-direction: column;
+  /* 15rem is the banner at its tallest — measured 234px at 1280 and wider,
+     less as the clamps come down. Subtracting the largest keeps the deck
+     inside the fold at every width rather than only at the one it was tuned
+     on; where the banner is shorter the page simply ends a little above the
+     fold, which is harmless. */
+  min-height: calc(100svh - 15rem);
+}
+
+/* The deck sits at the foot of the first screen. The slack above it belongs to
+   the panels, not to a gap: empty space between the answer and the controls
+   reads as a hole, the same space given to the answer reads as a page. */
+.ask {
+  margin-top: auto;
+}
+
+.measured {
+  margin-top: 2.6rem;
+}
+
 /* ------------------------------------------------------------------- board */
 
+/* Both panels are capped and scroll inside themselves. Left to grow, the
+   trace pushed the deck off the screen the moment an answer arrived — the
+   controls have to stay where the reader last saw them, so the answer scrolls
+   rather than the page. */
 .board {
+  /* Smaller than the room available on purpose: the slack it gives back is
+     what becomes breathing space above the deck. */
+  --panel-h: clamp(160px, 30vh, 340px);
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
   gap: 0 var(--gap);
-  align-items: start;
+  align-items: stretch;
+  /* Takes the first screen's leftover height rather than leaving it blank.
+     Basis 0 with an explicit min-height is what bounds it: on `auto` the grid
+     rows size to their content, and a long answer pushed the deck off the
+     screen again. The floor keeps it readable on short windows. */
+  flex: 1 1 0;
+  min-height: var(--panel-h);
+}
+
+.board > section {
+  height: 100%;
+  /* Not auto: a flex/grid child defaults to refusing to shrink below its
+     content, which is exactly what has to happen for the panel to scroll. */
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--tile) transparent;
+  /* Clearance so the scrollbar never sits on the text. */
+  padding-right: 0.4rem;
+  /* Bottom edge fades, the same signal the samples row uses: a hard cut reads
+     as clipped text, a fade reads as more of it. Top stays opaque so the
+     sticky heading is not dimmed. */
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 1.75rem), transparent);
+}
+
+/* The column heading is the label for what is scrolling under it, so it stays
+   put while the content moves. */
+.board > section > .column__head {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: var(--paper);
 }
 
 @media (max-width: 900px) {
@@ -1137,31 +1289,24 @@ button {
 }
 
 /* Stands on the sand strip at the foot of the banner, which is the one part of
-   the hero with no type in it. Anchored higher up it landed on the corpus
-   figures. */
+   the hero with no type in it. That strip is much shallower since the banner
+   was cut, so the sticker moved out past the corpus figures to the corner
+   rather than shrinking until it read as a smudge. */
 .sticker--drink {
-  width: clamp(58px, 6vw, 88px);
-  right: clamp(2rem, 14vw, 14rem);
-  bottom: 2px;
+  width: clamp(42px, 3.6vw, 54px);
+  right: clamp(0.75rem, 1.6vw, 1.5rem);
+  bottom: 0;
   transform: rotate(-9deg);
 }
 
-.sticker--mug {
-  width: 56px;
-  left: -16px;
-  top: -22px;
-  transform: rotate(-13deg);
-}
-
+/* Top corner, not the bottom one: the bottom-right of this box is now the
+   scroll fade, and a flower parked on it hides the very thing that says the
+   row keeps going. */
 .sticker--hibiscus {
-  width: 66px;
-  right: -20px;
-  bottom: -22px;
+  width: 58px;
+  right: -14px;
+  top: -20px;
   transform: rotate(12deg);
-}
-
-.ask:hover .sticker--mug {
-  transform: rotate(-5deg) scale(1.05);
 }
 
 .samples:hover .sticker--hibiscus {
@@ -1215,16 +1360,27 @@ button {
   position: relative;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
-  /* The bottom padding is the sea-and-sand strip: content stops above it. */
-  padding: clamp(1.4rem, 3.2vw, 2.6rem) calc(50vw - 50%) clamp(2.6rem, 5vw, 4.2rem);
+  /* The band's sky is a fixed 71.5% of whatever box it is stretched into, so
+     the waterline rose into the type whenever the banner got short — which it
+     did at every narrower width, because the padding scales with vw and the
+     text does not. Anchoring the drawing to the bottom at its own height makes
+     the sea-and-sand strip a constant 74px, and the sky above it is simply the
+     hero's own background. The bottom padding is that strip plus a little. */
+  background: var(--sky);
+  padding: clamp(0.7rem, 1.6vw, 1.2rem) calc(50vw - 50%) 4.9rem;
   overflow: hidden;
 }
 
 .hero__band {
   position: absolute;
-  inset: 0;
+  top: auto;
+  bottom: 0;
+  left: 0;
+  right: 0;
   width: 100%;
-  height: 100%;
+  /* Its own height, not the hero's: the drawing keeps its proportions and the
+     sky runs off the top, where the hero's background continues it. */
+  height: 260px;
   z-index: 0;
 }
 
@@ -1238,33 +1394,186 @@ button {
 
 .hero__sun {
   position: absolute;
-  right: clamp(9rem, 22vw, 20rem);
-  top: 8%;
-  width: clamp(56px, 6vw, 88px);
+  /* Same right edge as the figures beneath it. Parked mid-banner it read as a
+     third column between the tagline and the numbers. */
+  right: var(--edge);
+  top: 0.35rem;
+  width: clamp(34px, 3.2vw, 46px);
   z-index: 0;
 }
 
 /* The tagline is the one handwritten thing on the page. */
 .masthead__tagline {
   font-family: "Caveat", cursive;
-  font-size: clamp(1.25rem, 2.4vw, 1.9rem);
+  font-size: clamp(1rem, 1.9vw, 1.45rem);
   color: var(--madder);
   margin-left: 0.9rem;
   white-space: nowrap;
 }
 
-/* A shack frame around the sample questions: double rule, cut corners. */
+/* A shack frame around the sample questions: double rule, cut corners. The
+   outline sits 3px outside the border, so the box needs that much clearance
+   from the grid gap rather than a margin of its own. */
 .samples {
   border: 2px solid var(--madder);
   border-radius: 10px;
   outline: 1px solid var(--madder);
   outline-offset: 3px;
-  padding: 0.9rem 1rem;
-  margin: 0.9rem 0 1.2rem;
+  padding: 0.75rem 0.85rem;
+  margin: 3px;
 }
 
 @media (max-width: 900px) {
   .palm {
     display: none;
+  }
+}
+
+
+/* ------------------------------------------------------------------ phone ---
+   Below 768px the deck has no second column to give: samples, pills, field and
+   mic become one stack, in that order. The field goes above the mic because a
+   thumb reaching up from the bottom of a phone lands on the mic first, and the
+   mic is the one that starts recording. */
+@media (max-width: 768px) {
+  .ask {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "samples"
+      "modes"
+      "asker";
+    gap: 0.55rem;
+  }
+
+  /* Reversed: the DOM keeps the mic first for the desktop row, the phone wants
+     the field above it — a thumb comes up from the bottom of the screen and
+     should meet the mic before the keyboard. */
+  .asker {
+    flex-direction: column-reverse;
+    gap: 0.55rem;
+  }
+
+  .mic,
+  .ask__field {
+    width: 100%;
+  }
+
+  /* No reserved first screen on a phone: the page scrolls, so holding the deck
+     at a fold that does not exist would only add dead space. */
+  .landing {
+    min-height: 0;
+  }
+
+  .ask {
+    margin-top: 0;
+  }
+
+  /* A capped panel inside an already-scrolling page is two scrollbars fighting
+     over one gesture. On a phone the page scrolls and the panels run full. */
+  .board > section {
+    max-height: none;
+    min-height: 0;
+    overflow-y: visible;
+    padding-right: 0;
+    mask-image: none;
+  }
+
+  .board > section > .column__head {
+    position: static;
+  }
+
+  .mic {
+    justify-content: center;
+    padding: 0.75rem 1rem;
+  }
+
+  /* Two columns by three rows: three columns of uppercase mono at 360px wide
+     breaks "general knowledge" onto four lines. The hairline rules restate for
+     the new column count — the desktop ones would rule mid-row. */
+  .modes {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .modes button:not(:nth-child(3n + 1)),
+  .modes button:nth-child(n + 4) {
+    border-left: 0;
+    border-top: 0;
+  }
+
+  .modes button:not(:nth-child(2n + 1)) {
+    border-left: var(--hair);
+  }
+
+  .modes button:nth-child(n + 3) {
+    border-top: var(--hair);
+  }
+
+  /* The lockup stops being a row: the wordmark, the tagline and the two
+     figures each take the full width rather than competing for one line. */
+  .masthead__lockup {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+    /* Clearance for the sun, which is pinned to the same corner. */
+    padding-right: 3.5rem;
+  }
+
+  .masthead__tagline {
+    /* Nowrap is right on a desktop line and wrong here: at 360px it is what
+       pushes the banner sideways. */
+    white-space: normal;
+    margin-left: 0;
+    line-height: 1.15;
+  }
+
+  .masthead__figures {
+    gap: 1.25rem;
+  }
+
+  /* Pinned to the corner in absolute units: a percentage of a banner this
+     short put the sun through the eyebrow. */
+  .hero__sun {
+    right: 0.6rem;
+    top: 0.4rem;
+    width: 34px;
+  }
+
+  .masthead__eyebrow {
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    /* Clearance for the sun, so the theme button never sits under it. */
+    padding-right: 3rem;
+  }
+
+  .hero {
+    padding-bottom: 4.7rem;
+  }
+
+  .masthead__langs {
+    margin-bottom: 0.35rem;
+  }
+
+  /* Long-script chips — Gujarati, Malayalam, Tamil — run past a phone's width
+     at 30ch, so the ellipsis has to arrive sooner. */
+  .chip {
+    max-width: 20ch;
+    font-size: 0.8rem;
+  }
+
+  .samples__label {
+    font-size: 0.58rem;
+  }
+
+  .measured {
+    margin-top: 1.6rem;
+  }
+}
+
+/* Between the phone stack and the full deck the pills still need two rows of
+   three, but the type has to come down to hold them. */
+@media (min-width: 769px) and (max-width: 1080px) {
+  .modes button {
+    letter-spacing: 0.06em;
+    padding: 0.4rem 0.35rem;
   }
 }

@@ -11,13 +11,15 @@ from __future__ import annotations
 import asyncio
 import json
 import random
+import time
+from collections import deque
 from typing import AsyncIterator
 
 import pyarrow.parquet as pq
-from fastapi import FastAPI, File, Form, UploadFile
+from fastapi import FastAPI, File, Form, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import StreamingResponse
+from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import BaseModel
 
 from pathlib import Path
@@ -27,6 +29,10 @@ from .config import (
     CORPUS_DIR,
     CROSS_ENCODER_DEFAULT,
     LANGUAGES,
+    RATE_LIMIT_ENABLED,
+    RATE_LIMIT_PER_HOUR,
+    RATE_LIMIT_PER_MINUTE,
+    RATE_LIMIT_TRUST_PROXY,
     TIER1_TARGET_MS,
 )
 from .harness.pipeline import Pipeline
@@ -40,6 +46,69 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Endpoints that cost money or CPU. Everything else — health, meta, the sample
+# questions, the built UI — is free to hammer and is deliberately not counted.
+_METERED_PATHS = ("/ask", "/ask-audio", "/race")
+# One deque of request timestamps per caller, newest last. Bounded below.
+_rate_history: dict[str, deque[float]] = {}
+
+
+def _client_ip(request: Request) -> str:
+    """The caller as best we can tell, honouring a front proxy when trusted."""
+    if RATE_LIMIT_TRUST_PROXY:
+        forwarded = request.headers.get("x-forwarded-for", "")
+        if forwarded:
+            # Left-most entry is the original client; everything after it is a
+            # proxy that appended itself.
+            return forwarded.split(",")[0].strip()
+    return request.client.host if request.client else "unknown"
+
+
+@app.middleware("http")
+async def rate_limit(request: Request, call_next):
+    """Per-IP ceiling on the endpoints that spend the Sarvam key.
+
+    A sliding hour rather than a fixed bucket: a fixed window lets a caller
+    spend the whole allowance in the last second of one window and again in the
+    first second of the next, which is exactly the burst worth stopping.
+    """
+    if not RATE_LIMIT_ENABLED or not request.url.path.startswith(_METERED_PATHS):
+        return await call_next(request)
+
+    now = time.monotonic()
+    ip = _client_ip(request)
+    history = _rate_history.setdefault(ip, deque())
+    while history and now - history[0] > 3600:
+        history.popleft()
+
+    in_last_minute = sum(1 for stamp in history if now - stamp <= 60)
+    over_minute = in_last_minute >= RATE_LIMIT_PER_MINUTE
+    if over_minute or len(history) >= RATE_LIMIT_PER_HOUR:
+        window = "minute" if over_minute else "hour"
+        retry_after = 60 if over_minute else 3600
+        return JSONResponse(
+            status_code=429,
+            headers={"Retry-After": str(retry_after)},
+            content={
+                "error": "rate_limited",
+                "detail": (
+                    f"Too many questions from this address in the last {window}. "
+                    "This is a demo instance and each answer costs speech and "
+                    "generation credit; try again shortly."
+                ),
+            },
+        )
+
+    history.append(now)
+    # Bound the table. Without this, a scan across many source addresses turns
+    # the limiter itself into the leak it was added to prevent.
+    if len(_rate_history) > 4096:
+        for addr in [a for a, h in _rate_history.items() if not h or now - h[-1] > 3600]:
+            del _rate_history[addr]
+
+    return await call_next(request)
+
 
 _pipeline: Pipeline | None = None
 
