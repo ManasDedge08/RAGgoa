@@ -86,7 +86,6 @@ export function Percentiles({ tier1, tier2, targetMs }: Props) {
     <section className="pct">
       <div className="column__head">
         <span>this session, measured live</span>
-        <span>never averaged across tiers</span>
       </div>
       <Row
         label="Tier 1 · extractive"
